@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Navigation from "./components/Navigation";
 import Connect from "./components/Connect";
+import * as eva from "@eva-design/eva";
+import { ApplicationProvider, Layout, Text } from "@ui-kitten/components";
 
 export default class App extends Component {
   state = {
@@ -28,15 +30,19 @@ export default class App extends Component {
 
   render() {
     const { token, user_id, user_name } = this.state;
-    return token ? (
-      <Navigation
-        token={token}
-        user_id={user_id}
-        user_name={user_name}
-        entriesPerScroll={this.entriesPerScroll}
-      />
-    ) : (
-      <Connect handlerConnect={this.handlerConnect} />
+    return (
+      <ApplicationProvider {...eva} theme={eva.light}>
+        {token ? (
+          <Navigation
+            token={token}
+            user_id={user_id}
+            user_name={user_name}
+            entriesPerScroll={this.entriesPerScroll}
+          />
+        ) : (
+          <Connect handlerConnect={this.handlerConnect} />
+        )}
+      </ApplicationProvider>
     );
   }
 }
