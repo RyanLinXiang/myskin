@@ -1,9 +1,3 @@
-import React from "react";
-import { Text, View } from "react-native";
-
-const UVIndex = (props) => <Text>UV Index</Text>;
-
-export default UVIndex;
 import React, { Component } from "react";
 import { StyleSheet, Text, View, StatusBar } from "react-native";
 import * as Location from "expo-location";
@@ -40,8 +34,6 @@ export default class UVIndex extends Component {
 
   render() {
     const { location, geocode, errorMessage } = this.state;
-
-    console.log(location, geocode, errorMessage);
 
     return (
       <View style={styles.container}>
