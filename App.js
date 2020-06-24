@@ -26,6 +26,27 @@ export default class App extends Component {
     } else this.setState({ error: error });
   };
 
+  handlerNavigation = (view) => {
+    switch (view) {
+      case "predict":
+        this.setState({ view: "predict" });
+
+        break;
+      case "home":
+        this.setState({ view: "home" });
+
+        break;
+      case "talk":
+        this.setState({ view: "talk" });
+
+        break;
+
+      default:
+        this.setState({ view: "talk" });
+        break;
+    }
+  };
+
   render() {
     const { token, user_id, user_name } = this.state;
     return token ? (
