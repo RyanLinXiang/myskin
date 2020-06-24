@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, StatusBar} from 'react-native';
+import GeoLocation from './location';
 
 export default class UVIndex extends Component {
   state = {
@@ -13,6 +14,10 @@ export default class UVIndex extends Component {
           position => {
               this._getUVI(position.coords.latitude, position.coords.longitude);
           },
+
+
+
+
           error => {
               this.setState({
                   error
@@ -22,6 +27,9 @@ export default class UVIndex extends Component {
   }
   
   _getUVI = (lat, lon) => {
+
+    console.log(lat,lon)
+
       fetch(
           `http://api.openuv.io/api/v1/uv?lat=${lat}&lng=${lon}`,
           {
@@ -42,12 +50,14 @@ export default class UVIndex extends Component {
 
       const { uvLoaded, error, uvi, } = this.state;
 
+      console.log(this.state)
       console.log(uvi)
-      
+
       return (
           <View style={styles.container}>
               <StatusBar hidden={true} />
           <Text>{uvi}</Text>
+          <GeoLocation />
           </View>
       );
   }

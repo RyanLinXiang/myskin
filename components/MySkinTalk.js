@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import * as globalcss from "../styles/globalcss";
-import UVIndex from "./Home-components/UVIndex";
+
+// import Search from "../components/MySkinTalk-components/search";
 
 
 const MySkinTalk = (props) => {
@@ -9,7 +10,6 @@ const MySkinTalk = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-    <UVIndex />
     </SafeAreaView>
   );
 };
