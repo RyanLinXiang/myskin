@@ -1,21 +1,76 @@
-import React from "react";
-import { Stylesheet,Text, View, ActivityIndicator } from "react-native";
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, StatusBar} from 'react-native';
 
-var request = require("request");
+export default class UVIndex extends Component {
+  state = {
+      uvLoaded: false,
+      error: null,
+      uvi: null,
+  };
 
-var options = { method: 'GET',
- url: 'https://api.openuv.io/api/v1/uv',
- qs: { lat: '-33.34', lng: '115.342', dt: '2018-01-24T10:50:52.283Z' },
- headers: 
-  { 'content-type': 'application/json',
-    'x-access-token': '5e344565bfffc560eaea3c26d3e5e3d3'} };
+  componentDidMount(){
+      navigator.geolocation.getCurrentPosition(
+          position => {
+              this._getUVI(position.coords.latitude, position.coords.longitude);
+          },
+          error => {
+              this.setState({
+                  error
+              });
+          },
+      );
+  }
+  
+  _getUVI = (lat, lon) => {
+      fetch(
+          `http://api.openuv.io/api/v1/uv?lat=${lat}&lng=${lon}`,
+          {
+              headers: {
+                  "x-access-token": "5e344565bfffc560eaea3c26d3e5e3d3"
+              },
+          })
+      .then(response => response.json())
+      .then(json => {
+          this.setState({
+              uvi: json.result.uv,
+              uvLoaded: true,
+          })
+      });
+  };
 
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
+  render() {
 
-  console.log(body);
+      const { uvLoaded, error, uvi, } = this.state;
+
+      console.log(uvi)
+      
+      return (
+          <View style={styles.container}>
+              <StatusBar hidden={true} />
+          <Text>{uvi}</Text>
+          </View>
+      );
+  }
+}
+
+const styles = StyleSheet.create({
+container: {
+  flex: 1,
+  backgroundColor: '#fff',
+},
+errorText: {
+  color: 'red',
+  backgroundColor: 'transparent',
+  marginBottom: 40,
+},
+loading: {
+  flex: 1,
+  backgroundColor: '#FDF6AA',
+  justifyContent: 'flex-end',
+  paddingLeft: 25,
+},
+loadingText: {
+  fontSize: 38,
+  marginBottom: 90,
+},
 });
-
-// const UVIndex = (props) => <Text>UV Index</Text>;
-
-export default UVIndex;
