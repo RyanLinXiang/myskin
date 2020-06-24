@@ -40,7 +40,6 @@ export default class App extends Component {
     } else this.setState({ error: error });
   };
 
-<<<<<<< HEAD
   handlerNavigation = (view) => {
     switch (view) {
       case "predict":
@@ -59,23 +58,6 @@ export default class App extends Component {
       default:
         this.setState({ view: "talk" });
         break;
-=======
-  componentDidMount = async () => {
-    try {
-      const token = await AsyncStorage.getItem("@storage_token");
-      if (token !== null) {
-        const { user_id, user_name } = require("jwt-decode")(token);
-        this.setState({
-          token: token,
-          user_id: user_id,
-          user_name: user_name,
-          items: false,
-          error: false,
-        });
-      }
-    } catch (e) {
-      console.log(e);
->>>>>>> master
     }
   };
 
