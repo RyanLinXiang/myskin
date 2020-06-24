@@ -9,6 +9,7 @@ import {
   Text,
 } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default class App extends Component {
   state = {
@@ -22,16 +23,39 @@ export default class App extends Component {
 
   entriesPerScroll = 10;
 
-  handlerConnect = (token, user_id, user_name, error = false) => {
+  handlerConnect = async (token, user_id, user_name, error = false) => {
     if (!error) {
-      this.setState({
-        token: token,
-        user_id: user_id,
-        user_name: user_name,
-        items: false,
-        error: false,
-      });
+      try {
+        await AsyncStorage.setItem("@storage_token", token);
+        this.setState({
+          token: token,
+          user_id: user_id,
+          user_name: user_name,
+          items: false,
+          error: false,
+        });
+      } catch (e) {
+        console.log(e);
+      }
     } else this.setState({ error: error });
+  };
+
+  componentDidMount = async () => {
+    try {
+      const token = await AsyncStorage.getItem("@storage_token");
+      if (token !== null) {
+        const { user_id, user_name } = require("jwt-decode")(token);
+        this.setState({
+          token: token,
+          user_id: user_id,
+          user_name: user_name,
+          items: false,
+          error: false,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   render() {
