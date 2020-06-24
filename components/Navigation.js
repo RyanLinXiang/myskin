@@ -5,46 +5,31 @@ import MySkinPredict from "./MySkinPredict";
 import MySkinTalk from "./MySkinTalk";
 import Home from "./Home";
 import { ModalWithBackdropShowcase as Playground } from "./Playground";
-import {
-  Icon,
-  Text,
-  TopNavigation,
-  TopNavigationAction,
-  Avatar,
-} from "@ui-kitten/components";
-import { SafeAreaView, StyleSheet, View } from "react-native";
-import * as globalcss from "../styles/globalcss";
+
+import ViewBuilder from "./ViewBuilder";
 
 const Navigation = (props) => {
-  function predict() {
-    return <MySkinPredict {...props} />;
+  function predict({ navigation }) {
+    return (
+      <ViewBuilder navigation={navigation}>
+        <MySkinPredict {...props} />
+      </ViewBuilder>
+    );
   }
 
-  function talk() {
-    return <MySkinTalk {...props} />;
+  function talk({ navigation }) {
+    return (
+      <ViewBuilder navigation={navigation}>
+        <MySkinTalk {...props} />
+      </ViewBuilder>
+    );
   }
 
   function home({ navigation }) {
     return (
-      <View style={styles.container}>
-        <SafeAreaView
-          style={{
-            backgroundColor: "transparent",
-            position: "absolute",
-            zIndex: "200",
-            width: "100%",
-          }}
-        >
-          <TopNavigation
-            accessoryLeft={() =>
-              toggleAction(navigation.toggleDrawer, navigation.navigate)
-            }
-            title={renderTitle}
-            alignment="center"
-          />
-        </SafeAreaView>
+      <ViewBuilder navigation={navigation}>
         <Home />
-      </View>
+      </ViewBuilder>
     );
   }
 
@@ -53,35 +38,6 @@ const Navigation = (props) => {
   }
 
   const Drawer = createDrawerNavigator();
-  const MenuIcon = (props) => <Icon {...props} name="menu-outline" />;
-  const HomeIcon = (props) => <Icon {...props} name="home-outline" />;
-
-  const toggleAction = (handlerToggleDrawer, handlerNavigate) => {
-    return (
-      <React.Fragment>
-        <TopNavigationAction
-          icon={MenuIcon}
-          onPress={() => handlerToggleDrawer()}
-        />
-        <TopNavigationAction
-          icon={HomeIcon}
-          onPress={() => handlerNavigate("mySkin: Home")}
-        />
-      </React.Fragment>
-    );
-  };
-
-  const renderTitle = (props) => {
-    return (
-      <View style={styles.titleContainer}>
-        <Avatar
-          style={styles.avatar}
-          source={require("../assets/logoavatar.png")}
-          size="giant"
-        />
-      </View>
-    );
-  };
 
   return (
     <React.Fragment>
@@ -112,16 +68,5 @@ const Navigation = (props) => {
     </React.Fragment>
   );
 };
-
-const styles = StyleSheet.create({
-  container: { backgroundColor: globalcss.container.backgroundColor },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  avatar: {
-    marginHorizontal: 16,
-  },
-});
 
 export default Navigation;

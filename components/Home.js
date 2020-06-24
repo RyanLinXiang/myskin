@@ -2,7 +2,6 @@ import React from "react";
 import {
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   Dimensions,
   ImageBackground,
 } from "react-native";
@@ -18,6 +17,7 @@ const Home = (props) => {
     <ScrollView
       contentContainerStyle={{
         alignItems: "center",
+        backgroundColor: globalcss.container.backgroundColor,
       }}
     >
       <Card style={styles.cards}>
@@ -66,10 +66,6 @@ const Home = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    backgroundColor: globalcss.container.backgroundColor,
-  },
   cards: {
     borderWidth: 0,
     backgroundColor: "transparent",
