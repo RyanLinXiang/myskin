@@ -8,11 +8,23 @@
     "eject": "expo eject"
   },
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "@eva-design/eva": "^2.0.0",
+    "@react-native-community/async-storage": "^1.11.0",
+>>>>>>> master
     "@react-native-community/masked-view": "0.1.6",
     "@react-navigation/drawer": "^5.8.2",
     "@react-navigation/native": "^5.5.1",
+    "@types/jwt-decode": "^2.2.1",
+    "@ui-kitten/components": "^5.0.0",
+    "@ui-kitten/eva-icons": "^5.0.0",
     "expo": "~37.0.3",
+<<<<<<< HEAD
     "native-base": "^2.13.12",
+=======
+    "jwt-decode": "^2.2.0",
+>>>>>>> master
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
@@ -21,9 +33,15 @@
     "react-native-reanimated": "~1.7.0",
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
+<<<<<<< HEAD
     "react-native-vector-icons": "^6.6.0",
     "react-native-web": "~0.11.7",
     "expo-font": "~8.1.0"
+=======
+    "react-native-svg": "^11.0.1",
+    "react-native-ui-kitten": "^4.4.1",
+    "react-native-web": "~0.11.7"
+>>>>>>> master
   },
   "devDependencies": {
     "babel-preset-expo": "~8.1.0",

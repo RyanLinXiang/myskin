@@ -3,7 +3,6 @@ const container = {
   justifyContent: "center",
   alignItems: "center",
   backgroundColor: "#FDF7EC",
-  width: "100%",
 };
 
 export { container };
