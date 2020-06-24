@@ -16,7 +16,6 @@ export default class UVIndex extends Component {
   };
 
   componentDidMount = async () => {
-    console.log("Hello");
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       this.setState({
@@ -35,12 +34,21 @@ export default class UVIndex extends Component {
   render() {
     const { location, geocode, errorMessage } = this.state;
 
-    console.log(location, geocode, errorMessage);
-
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />
-        <Text>{(location, geocode, errorMessage)}</Text>
+        {location && geocode ? (
+          <Text>
+            {"Latitude: " +
+              location.latitude +
+              ", Longitude: " +
+              location.longitude +
+              " Geocode: " +
+              geocode[0].city}
+          </Text>
+        ) : (
+          <Text>UV Index</Text>
+        )}
       </View>
     );
   }
@@ -67,3 +75,4 @@ const styles = StyleSheet.create({
     marginBottom: 90,
   },
 });
+
