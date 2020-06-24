@@ -32,9 +32,16 @@
     "react-native-reanimated": "~1.7.0",
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
+<<<<<<< HEAD
     "react-native-svg": "^12.1.0",
     "expo-location": "~8.1.0",
     "expo-permissions": "~8.1.0"
+||||||| merged common ancestors
+    "react-native-svg": "^12.1.0"
+=======
+    "react-native-svg": "^12.1.0",
+    "expo-location": "~8.1.0"
+>>>>>>> c6d28ce26ffec8285d03e855d30a5fdc63120ccb
   },
   "devDependencies": {
     "babel-preset-expo": "~8.1.0",
