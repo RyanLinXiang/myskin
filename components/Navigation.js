@@ -5,7 +5,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import MySkinPredict from "./MySkinPredict";
 import MySkinTalk from "./MySkinTalk";
 import Home from "./Home";
-import { ModalWithBackdropShowcase } from "./Playground";
+import { ModalWithBackdropShowcase as Playground } from "./Playground";
 
 const Navigation = (props) => {
   function predict() {
@@ -21,7 +21,7 @@ const Navigation = (props) => {
   }
 
   function playground() {
-    return <ModalWithBackdropShowcase />;
+    return <Playground {...props} />;
   }
 
   const Drawer = createDrawerNavigator();

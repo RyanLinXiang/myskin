@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import Navigation from "./components/Navigation";
 import Connect from "./components/Connect";
 import * as eva from "@eva-design/eva";
-import { ApplicationProvider, Layout, Text } from "@ui-kitten/components";
+import {
+  ApplicationProvider,
+  IconRegistry,
+  Layout,
+  Text,
+} from "@ui-kitten/components";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
 
 export default class App extends Component {
   state = {
@@ -31,18 +37,21 @@ export default class App extends Component {
   render() {
     const { token, user_id, user_name } = this.state;
     return (
-      <ApplicationProvider {...eva} theme={eva.light}>
-        {token ? (
-          <Navigation
-            token={token}
-            user_id={user_id}
-            user_name={user_name}
-            entriesPerScroll={this.entriesPerScroll}
-          />
-        ) : (
-          <Connect handlerConnect={this.handlerConnect} />
-        )}
-      </ApplicationProvider>
+      <React.Fragment>
+        <IconRegistry icons={EvaIconsPack} />
+        <ApplicationProvider {...eva} theme={eva.light}>
+          {token ? (
+            <Navigation
+              token={token}
+              user_id={user_id}
+              user_name={user_name}
+              entriesPerScroll={this.entriesPerScroll}
+            />
+          ) : (
+            <Connect handlerConnect={this.handlerConnect} />
+          )}
+        </ApplicationProvider>
+      </React.Fragment>
     );
   }
 }
