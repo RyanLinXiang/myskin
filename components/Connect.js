@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Button, Image, TextInput } from "react-native";
+import {
+  StyleSheet,
+  KeyboardAvoidingView,
+  Button,
+  Image,
+  TextInput,
+} from "react-native";
 import Form from "react-native-form";
 import * as globalcss from "../styles/globalcss";
 import connectAPI from "../helpers/api";
@@ -26,7 +32,7 @@ const Connect = (props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Image source={require("../assets/logo.png")} style={styles.logoImage} />
       <Form ref={FormRef}>
         <TextInput
@@ -71,7 +77,7 @@ const Connect = (props) => {
           </React.Fragment>
         )}
       </Form>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
