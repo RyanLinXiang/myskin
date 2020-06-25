@@ -1,30 +1,35 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import { Button, Card, Modal, Text, Calendar } from "@ui-kitten/components";
 import * as globalcss from "../../styles/globalcss";
 
 const Reminder = (props) => {
-  const { token, user_id, user_name, entriesPerScroll } = props;
-  const [date, setDate] = React.useState(new Date());
+
+  const [date, setDate] = useState(new Date());
   const [visible, setVisible] = useState(false);
-  const [items, setItems] = useState([]);
 
-  const [timerDays, setTimerDays] = useState("00");
+   const setTime = (nextDate) => {
 
-  let interval = useRef();
+  console.log('nextDate:'+ nextDate.getTime());
+  console.log('Date:'+ date.getDate());
+  console.log('remain:'+ daysRemaining)
 
-  const setTime = (nextDate) => {
-    console.log(nextDate);
-    //Calender Auswahl in new Date einfügen????
-    //const countDownDate = new Date(nextDate).getTime();
+   const oneDay = 24*60*60*1000; 
 
-    //const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+   const chosenDay = date;
+   const currentDay = nextDate.getDate();
+
+   let  daysRemaining = Math.abs((chosenDay - currentDay) / (oneDay));
+        daysRemaining = daysRemaining.toString();
+  
   };
 
   return (
+
     <SafeAreaView style={styles.container}>
-      <Text>253 Tage</Text>
-      <Text>Ihr nächster Termin ist am xxx</Text>
+
+        <Text>253 Tage</Text>
+        <Text>Ihr nächster Termin ist am </Text>
 
       <Button size="tiny" onPress={() => setVisible(true)}>
         Show
@@ -37,9 +42,9 @@ const Reminder = (props) => {
         style={styles.modal}
       >
         <Card disabled={true}>
-          <Text category="h6">Selected date: {date.toLocaleDateString()}</Text>
+          <Text category="h6">Ausgewähltes Datum: {date.toLocaleDateString()}</Text>
 
-          <Calendar date={date} onSelect={(nextDate) => setTime(nextDate)} />
+          <Calendar date={date} onSelect={nextDate => setDate(nextDate)} />
 
           <Button
             size="tiny"
