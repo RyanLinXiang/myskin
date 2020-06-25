@@ -32,7 +32,7 @@ const AddQuestion = (props) => {
     );
     return (
         <View>
-            <Button style={styles.button} status='warning' accessoryRight={PlusIcon} onPress={() => setVisible(true)}>ASK A QUESTION</Button>
+            <Button style={styles.button} status='warning' accessoryRight={PlusIcon} onPress={() => setVisible(true)}>FRAGE STELLEN</Button>
             <Modal
                 visible={visible}
                 backdropStyle={styles.backdrop}

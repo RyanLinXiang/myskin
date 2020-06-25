@@ -17,6 +17,7 @@ import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
 import { ScrollView } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
+import AddAnswer from "./MySkinTalk-components/AddAnswer";
 import Qcard from './MySkinTalk-components/Qcard';
 import AnswerCard from './MySkinTalk-components/AnswerCard';
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
@@ -57,8 +58,6 @@ const MySkinTalk = (props) => {
       false,
       token
     ).then((data) => {
-      // set_db_answers([]);
-
       for (const answerArray of data) {
         if (answerArray.length < 1) {
           setAnswer([])
@@ -68,7 +67,10 @@ const MySkinTalk = (props) => {
           if (answer.question) {
             setQuestion(answer)
           } else if (answer.answer) {
-            setAnswer(prev => [...prev, answer])
+            setAnswer(prev => {
+              let sorted = [...prev, answer].filter((item, i, self) => i === self.findIndex((replyObj) => (replyObj.id === item.id)));
+              return [...sorted]
+            })
           }
         }
       }
@@ -85,7 +87,7 @@ const MySkinTalk = (props) => {
     const QUESTION = {
       "subject": subject,
       "question": question
-  }
+    }
     connectAPI(
       "questions",
       "POST",
@@ -94,7 +96,24 @@ const MySkinTalk = (props) => {
     ).then((data) => {
       getQuestions();
       console.log(data);
-      alert ('Ihre Frage wurde erfolgreich gespeichert!');
+      alert('Ihre Frage wurde erfolgreich gespeichert!');
+    });
+  }
+  const submitAnswer = (answer) => {
+    const ANSWER = {
+      "answer": answer,
+      "question_id": question.id
+    }
+    connectAPI(
+      "answers",
+      "POST",
+      ANSWER,
+      token
+    ).then((data) => {
+      getQuestions();
+      getAnswers(question.id)
+      console.log(data);
+      alert('Ihre Antwort wurde erfolgreich gespeichert!');
     });
   }
 
@@ -113,7 +132,7 @@ const MySkinTalk = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text>{Math.random()}</Text>
-      <AddQuestion onSubmit={(subject, question)=> submitQuestion(subject, question)} />
+      <AddQuestion onSubmit={(subject, question) => submitQuestion(subject, question)} />
       <QuestionsList style={styles.list} data={db_questions} findQuestion={findQuestion} getAnswers={getAnswers} visible={visible} setVisible={setVisible} />
 
       <Modal
@@ -127,13 +146,13 @@ const MySkinTalk = (props) => {
             <Qcard query={question} />
             {answer.map(reply => <AnswerCard key={reply.id} reply={reply} />)}
           </ScrollView>
-
+          <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
           <Button
             size="tiny"
             onPress={() => setVisible(false)}
             style={{ alignSelf: "center" }}
           >
-            Close
+            SCHLIESSEN
           </Button>
         </Card>
 
