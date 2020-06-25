@@ -24,7 +24,6 @@ const Home = (props) => {
     >
       <Card style={styles.cards}>
         <UVIndex />
-        <UserCalender />
         
       </Card>
 
