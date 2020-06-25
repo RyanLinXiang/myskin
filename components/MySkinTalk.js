@@ -15,6 +15,7 @@ import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
 import FavButoon from "./MySkinTalk-components/FavButton";
 import { ScrollView } from "react-native-gesture-handler";
+import AddQuestion from "./MySkinTalk-components/AddQuestion";
 
 const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -25,11 +26,11 @@ const MySkinTalk = (props) => {
   const [fav, setFav] = useState(false)
   let favCol = fav ? '#e6e600' : 'grey'
   const [question, setQuestion] = useState('question')
-  const [answer, setAnswer] = useState('There are no replies so far')
+  const [answer, setAnswer] = useState([])
 
   const getQuestions = () => {
     connectAPI(
-      "questions?start=0&numbers=" + 15,//entriesPerScroll,
+      "questions?start=0&numbers=" + 50,//entriesPerScroll,
       "GET",
       false,
       token
@@ -49,20 +50,17 @@ const MySkinTalk = (props) => {
       // console.log(data, 'data')
       for (const answerArray of data) {
         if(answerArray.length<1){
-          setAnswer({answer: 'There are no replies so far'})
+          setAnswer([])
           continue
         }
-        console.log(answerArray.length, 'all answers')
+        console.log(answerArray.length, 'total answers')
         for (const answer of answerArray) {
           if (answer.question) {
             setQuestion(answer)
           } else if (answer.answer) {
             console.log(answer.answer);
-            setAnswer(answer)
-          } else {
-            console.log('no answers')
-            // setAnswer({answer: 'There are no replies so far'})
-          } 
+            setAnswer(prev => [...prev, answer])
+          }
         }
         
       }
@@ -121,6 +119,7 @@ const MySkinTalk = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text>{Math.random()}</Text>
+      <AddQuestion />
       <List style={styles.list} data={db_questions} renderItem={renderItem} />
 
       <Modal
@@ -134,8 +133,10 @@ const MySkinTalk = (props) => {
           <ScrollView>
             <Text>Q: {question.question}</Text>
             <Text></Text>
+          
+          {answer.map(reply => <Text>R: {reply.answer}</Text>)}
           </ScrollView>
-          <Text>R: {answer.answer}</Text>
+
           <Button
             size="tiny"
             onPress={() => setVisible(false)}
