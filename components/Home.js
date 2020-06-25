@@ -10,6 +10,8 @@ import { Card, Text } from "@ui-kitten/components";
 const screenWidth = Dimensions.get("window").width;
 import UVIndex from "./Home-components/UVIndex";
 
+import UserCalender from "./Home-components/Calender";
+
 const Home = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
 
@@ -22,6 +24,8 @@ const Home = (props) => {
     >
       <Card style={styles.cards}>
         <UVIndex />
+        <UserCalender />
+        
       </Card>
 
       <ImageBackground
