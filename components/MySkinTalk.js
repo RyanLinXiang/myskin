@@ -16,8 +16,10 @@ import * as globalcss from "../styles/globalcss";
 import FavButoon from "./MySkinTalk-components/FavButton";
 import { ScrollView } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
+import Qcard from './MySkinTalk-components/Qcard';
+import AnswerCard from './MySkinTalk-components/AnswerCard';
 
-const MySkinPredict = (props) => {
+const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
 
   const [visible, setVisible] = useState(false);
@@ -47,22 +49,18 @@ const MySkinPredict = (props) => {
     ).then((data) => {
       set_db_answers([]);
       
-      // console.log(data, 'data')
       for (const answerArray of data) {
         if(answerArray.length<1){
           setAnswer([])
           continue
         }
-        console.log(answerArray.length, 'total answers')
         for (const answer of answerArray) {
           if (answer.question) {
             setQuestion(answer)
           } else if (answer.answer) {
-            console.log(answer.answer);
             setAnswer(prev => [...prev, answer])
           }
         }
-        
       }
     });
   }
@@ -103,7 +101,7 @@ const MySkinPredict = (props) => {
         onPress={function (me) {
           const questionText = this.children.props.children[1].props.children[0].props.component;
           const queryID = findQuestion(questionText)
-          findAnswer(queryID)
+          getAnswers(queryID)
           setVisible(true)
         }
         }
@@ -128,13 +126,10 @@ const MySkinPredict = (props) => {
         onBackdropPress={() => setVisible(false)}
         style={styles.modal}
       >
-
         <Card disabled={true}>
           <ScrollView>
-            <Text>Q: {question.question}</Text>
-            <Text></Text>
-          
-          {answer.map(reply => <Text>R: {reply.answer}</Text>)}
+            <Qcard query={question} />
+            {answer.map(reply => <AnswerCard key={reply.id} reply={reply} />)}
           </ScrollView>
 
           <Button
@@ -165,4 +160,4 @@ const styles = StyleSheet.create({
   star: { color: 'red' }
 });
 
-export default MySkinPredict;
+export default MySkinTalk;
