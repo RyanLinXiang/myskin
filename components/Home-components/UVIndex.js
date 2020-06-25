@@ -63,9 +63,9 @@ export default class UVIndex extends Component {
         {location && geocode && uvLoaded ? (
           <Text>
             {"Latitude: " +
-              location.latitude +
+              location.latitude.toFixed(2) +
               ", Longitude: " +
-              location.longitude +
+              location.longitude.toFixed(2) +
               " Geocode: " +
               geocode[0].city +
               " UV-Index: " + 
