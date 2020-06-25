@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, StatusBar } from "react-native";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
+import UVTableData from "./UVTableData";
 
 export default class UVIndex extends Component {
   state = {
@@ -73,6 +74,9 @@ export default class UVIndex extends Component {
         ) : (
           <Text>UV Index</Text>
         )}
+        <View >
+          <UVTableData/>
+        </View>
       </View>
     );
   }
