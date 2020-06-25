@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, StatusBar } from "react-native";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
-import UVTableData from "./UVTableData";
 
 export default class UVIndex extends Component {
   state = {
     location: null,
     geocode: null,
     uvi: null,
-    uvLoaded:false,
+    uvLoaded: false,
     errorMessage: "",
   };
 
@@ -33,24 +32,21 @@ export default class UVIndex extends Component {
     this.getGeocodeAsync({ latitude, longitude });
     this.setState({ location: { latitude, longitude } });
     this._getUVI(latitude, longitude);
-
   };
 
-    _getUVI = (latitude, longitude) => {
-      fetch(
-          `http://api.openuv.io/api/v1/uv?lat=${latitude}&lng=${longitude}`,
-          {
-              headers: {
-                  "content-type": "application/json",
-                  "x-access-token": "5e344565bfffc560eaea3c26d3e5e3d3"
-              },
-          })
-      .then(response => response.json())
-      .then(json => {
-          this.setState({
-              uvi: json.result.uv,
-              uvLoaded: true,
-          })
+  _getUVI = (latitude, longitude) => {
+    fetch(`http://api.openuv.io/api/v1/uv?lat=${latitude}&lng=${longitude}`, {
+      headers: {
+        "content-type": "application/json",
+        "x-access-token": "5e344565bfffc560eaea3c26d3e5e3d3",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({
+          uvi: json.result.uv,
+          uvLoaded: true,
+        });
       });
   };
 
@@ -68,15 +64,12 @@ export default class UVIndex extends Component {
               location.longitude.toFixed(2) +
               " Geocode: " +
               geocode[0].city +
-              " UV-Index: " + 
-              uvi.toFixed(1) }
+              " UV-Index: " +
+              uvi.toFixed(1)}
           </Text>
         ) : (
           <Text>UV Index</Text>
         )}
-        <View >
-          <UVTableData/>
-        </View>
       </View>
     );
   }
@@ -103,9 +96,3 @@ const styles = StyleSheet.create({
     marginBottom: 90,
   },
 });
-
-
-
-
-
-

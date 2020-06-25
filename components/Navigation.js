@@ -5,6 +5,7 @@ import MySkinPredict from "./MySkinPredict";
 import MySkinTalk from "./MySkinTalk";
 import Home from "./Home";
 import { ModalWithBackdropShowcase as Playground } from "./Playground";
+import Reminder from "./Home-components/Reminder";
 
 import ViewBuilder from "./ViewBuilder";
 
@@ -37,6 +38,10 @@ const Navigation = (props) => {
     return <Playground {...props} />;
   }
 
+  function reminder() {
+    return <Reminder {...props} />;
+  }
+
   const Drawer = createDrawerNavigator();
 
   return (
@@ -62,6 +67,11 @@ const Navigation = (props) => {
             name="Playground"
             component={playground}
             options={{ title: "Playground" }}
+          />
+          <Drawer.Screen
+            name="Reminder"
+            component={reminder}
+            options={{ title: "Reminder" }}
           />
         </Drawer.Navigator>
       </NavigationContainer>

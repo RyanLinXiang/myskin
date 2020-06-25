@@ -14,7 +14,7 @@ import {
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
 
-export const calender = (props) => {
+export default Calender = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
   const [date, setDate] = React.useState(new Date());
   const [visible, setVisible] = useState(false);
