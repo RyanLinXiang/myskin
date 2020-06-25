@@ -20,6 +20,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
 import Qcard from './MySkinTalk-components/Qcard';
 import AnswerCard from './MySkinTalk-components/AnswerCard';
+import QuestionsList from "./MySkinTalk-components/QuestionsList";
 
 const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -92,34 +93,34 @@ const MySkinTalk = (props) => {
 
 
 
-  //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
+  // //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
 
-  const renderItemAccessory = (props) => (
-    <React.Fragment>
-      <FavButoon />
-    </React.Fragment>
-  );
+  // const renderItemAccessory = (props) => (
+  //   <React.Fragment>
+  //     <FavButoon />
+  //   </React.Fragment>
+  // );
 
-  const renderItemIcon = (props) => <KittenIcon {...props} name="person" />;
+  // const renderItemIcon = (props) => <KittenIcon {...props} name="person" />;
 
-  const renderItem = ({ item, index }) => (
-    <React.Fragment>
-      <ListItem
-        onPress={function (me) {
-          const questionText = this.children.props.children[1].props.children[0].props.component;
-          const queryID = findQuestion(questionText)
-          getAnswers(queryID)
-          setVisible(true)
-        }
-        }
-        title={item.subject}
-        accessoryLeft={renderItemIcon}
-        accessoryRight={renderItemAccessory}
-        style={styles.listitem}
-      />
-      <Divider />
-    </React.Fragment>
-  );
+  // const renderItem = ({ item, index }) => (
+  //   <React.Fragment>
+  //     <ListItem
+  //       onPress={function (me) {
+  //         const questionText = this.children.props.children[1].props.children[0].props.component;
+  //         const queryID = findQuestion(questionText)
+  //         getAnswers(queryID)
+  //         setVisible(true)
+  //       }
+  //       }
+  //       title={item.subject}
+  //       accessoryLeft={renderItemIcon}
+  //       accessoryRight={renderItemAccessory}
+  //       style={styles.listitem}
+  //     />
+  //     <Divider />
+  //   </React.Fragment>
+  // );
 
 
 
@@ -129,7 +130,8 @@ const MySkinTalk = (props) => {
     <SafeAreaView style={styles.container}>
       <Text>{Math.random()}</Text>
       <AddQuestion />
-      <List style={styles.list} data={db_questions} renderItem={renderItem} />
+      <QuestionsList style={styles.list} data={db_questions} findQuestion={findQuestion} getAnswers={getAnswers} visible={visible} setVisible={setVisible} />
+      {/* <List style={styles.list} data={db_questions} renderItem={renderItem} /> */}
 
       <Modal
         visible={visible}
