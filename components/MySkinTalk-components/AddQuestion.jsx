@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, View } from "react-native";
+import { StyleSheet, SafeAreaView, View, TextInput } from "react-native";
 import {
     Button,
     //   Card,
-    //   Modal,
-    //   Text,
+    Modal,
+    Text,
     //   List,
     //   ListItem,
     Icon as KittenIcon,
@@ -19,7 +19,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const AddQuestion = (props) => {
     const [value, setValue] = useState('');
+    const [visible, setVisible] = useState(false);
     const InputQuestion = (props) => <Input
+        multiline={true}
+        numberOfLines={10}
         placeholder='Place your Text'
         value={value}
         style={styles.input}
@@ -31,13 +34,24 @@ const AddQuestion = (props) => {
     );
     return (
         <View>
-            <Input
-                placeholder='Place your Text'
-                value={value}
-                style={styles.input}
-                onChangeText={nextValue => setValue(nextValue)}
-            />
-            <Button style={styles.button} status='warning' accessoryRight={PlusIcon} />
+            <Button style={styles.button} status='warning' accessoryRight={PlusIcon} onPress={() => setVisible(true)}>ASK A QUESTION</Button>
+            <Modal
+                visible={visible}
+                backdropStyle={styles.backdrop}
+                onBackdropPress={() => setVisible(false)}>
+                <TextInput
+                    editable
+                    maxLength={400}
+                    multiline
+                    numberOfLines={10}
+                    placeholder='Place your Text'
+                    style={styles.input}
+                    onChangeText={nextValue => setValue(nextValue)}
+                    value={value}
+                />
+
+                <Button onPress={()=> props.submit(value)} style={styles.button} status='warning' accessoryRight={PlusIcon} />
+            </Modal>
         </View>
     );
 }
@@ -56,14 +70,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     input: {
-        width: '80%',
-        alignSelf: 'flex-start',
-        fontSize: 9
+        width: 300,
+        margin: 10,
+        padding: 10,
+        alignSelf: 'stretch',
+        fontSize: 20,
+        height: 200,
+        borderColor: 'gray',
+        borderWidth: 1,
+        backgroundColor: '#FFF',
+        borderRadius: 10,
     },
-    view :{
+    view: {
         flexWrap: 'wrap',
         width: '100%',
     },
+    backdrop: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      },
 });
 
 export default AddQuestion

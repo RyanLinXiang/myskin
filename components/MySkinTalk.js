@@ -1,3 +1,5 @@
+//* #### IMPORTS #### *//
+
 import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import {
@@ -22,13 +24,21 @@ import AnswerCard from './MySkinTalk-components/AnswerCard';
 const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
 
+
+
+  //* #### STATES #### *//
+
   const [visible, setVisible] = useState(false);
   const [db_questions, set_db_questions] = useState([]);
-  const [db_answers, set_db_answers] = useState([]);
+  // const [db_answers, set_db_answers] = useState([]);
   const [fav, setFav] = useState(false)
   let favCol = fav ? '#e6e600' : 'grey'
   const [question, setQuestion] = useState('question')
   const [answer, setAnswer] = useState([])
+
+
+
+  //* #### FUNCTIONS/METHODS #### *//
 
   const getQuestions = () => {
     connectAPI(
@@ -47,10 +57,10 @@ const MySkinTalk = (props) => {
       false,
       token
     ).then((data) => {
-      set_db_answers([]);
-      
+      // set_db_answers([]);
+
       for (const answerArray of data) {
-        if(answerArray.length<1){
+        if (answerArray.length < 1) {
           setAnswer([])
           continue
         }
@@ -72,20 +82,17 @@ const MySkinTalk = (props) => {
     }
   }
 
-  const findAnswer = (questionID) => {
-    getAnswers(questionID)
-    // console.log(db_answers, 'all answers******************************************************************')
-    // for (const answerArray of db_answers) {
-    //   for (const answerObj of answerArray) {
-    //     console.log(answerObj, 'single answer---------------------------')
-    //   }
-    // }
-  }
 
+
+  //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
 
   useEffect(() => {
     getQuestions();
   }, []);
+
+
+
+  //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
 
   const renderItemAccessory = (props) => (
     <React.Fragment>
@@ -113,6 +120,10 @@ const MySkinTalk = (props) => {
       <Divider />
     </React.Fragment>
   );
+
+
+
+  //* #### FINAL RENDER #### *//
 
   return (
     <SafeAreaView style={styles.container}>
@@ -146,6 +157,10 @@ const MySkinTalk = (props) => {
   );
 };
 
+
+
+//* #### STYLESHEET #### *//
+
 const styles = StyleSheet.create({
   container: globalcss.container,
   backdrop: {
@@ -159,5 +174,9 @@ const styles = StyleSheet.create({
   modal: { width: "90%" },
   star: { color: 'red' }
 });
+
+
+
+//* #### EXPORT #### *//
 
 export default MySkinTalk;
