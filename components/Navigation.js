@@ -1,5 +1,4 @@
 import React from "react";
-import { StyleSheet, SafeAreaView, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import MySkinPredict from "./MySkinPredict";
@@ -7,17 +6,31 @@ import MySkinTalk from "./MySkinTalk";
 import Home from "./Home";
 import { ModalWithBackdropShowcase as Playground } from "./Playground";
 
+import ViewBuilder from "./ViewBuilder";
+
 const Navigation = (props) => {
-  function predict() {
-    return <MySkinPredict {...props} />;
+  function predict({ navigation }) {
+    return (
+      <ViewBuilder navigation={navigation}>
+        <MySkinPredict {...props} />
+      </ViewBuilder>
+    );
   }
 
-  function talk() {
-    return <MySkinTalk {...props} />;
+  function talk({ navigation }) {
+    return (
+      <ViewBuilder navigation={navigation}>
+        <MySkinTalk {...props} />
+      </ViewBuilder>
+    );
   }
 
-  function home() {
-    return <Home />;
+  function home({ navigation }) {
+    return (
+      <ViewBuilder navigation={navigation}>
+        <Home />
+      </ViewBuilder>
+    );
   }
 
   function playground() {
@@ -26,21 +39,33 @@ const Navigation = (props) => {
 
   const Drawer = createDrawerNavigator();
 
-  function MyDrawer() {
-    return (
-      <Drawer.Navigator>
-        <Drawer.Screen name="mySkin: Home" component={home} />
-        <Drawer.Screen name="mySkin: Predict" component={predict} />
-        <Drawer.Screen name="mySkin: Talk" component={talk} />
-        <Drawer.Screen name="Playground" component={playground} />
-      </Drawer.Navigator>
-    );
-  }
-
   return (
-    <NavigationContainer>
-      <MyDrawer />
-    </NavigationContainer>
+    <React.Fragment>
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen
+            name="mySkin: Home"
+            component={home}
+            options={{ title: "Home" }}
+          />
+          <Drawer.Screen
+            name="mySkin: Predict"
+            component={predict}
+            options={{ title: "MySkin: Predict" }}
+          />
+          <Drawer.Screen
+            name="mySkin: Talk"
+            component={talk}
+            options={{ title: "MySkin: Talk" }}
+          />
+          <Drawer.Screen
+            name="Playground"
+            component={playground}
+            options={{ title: "Playground" }}
+          />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </React.Fragment>
   );
 };
 

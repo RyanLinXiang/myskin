@@ -17,7 +17,7 @@ import FavButoon from "./MySkinTalk-components/FavButton";
 import { ScrollView } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
 
-const MySkinTalk = (props) => {
+const MySkinPredict = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
 
   const [visible, setVisible] = useState(false);
@@ -165,4 +165,4 @@ const styles = StyleSheet.create({
   star: { color: 'red' }
 });
 
-export default MySkinTalk;
+export default MySkinPredict;
