@@ -35,7 +35,7 @@ export default class UVIndex extends Component {
     const { location, geocode, errorMessage } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View>
         <StatusBar hidden={true} />
         {location && geocode ? (
           <Text>
@@ -55,10 +55,6 @@ export default class UVIndex extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
   errorText: {
     color: "red",
     backgroundColor: "transparent",
