@@ -24,7 +24,7 @@ export const calender = (props) => {
 
   let interval = useRef();
 
-  const startTimer = () => {
+  const startTimer = (nextDate) => {
       //Calender Auswahl in new Date einfügen????
       const countDownDate = new Date ('Jun 26, 2020 00:00:00').getTime();
 
@@ -35,7 +35,7 @@ export const calender = (props) => {
           const days = Math.floor(distance / (1000 * 60 * 60 * 24));
 
           if (distance < 0) {
-              //stop  timer 
+              //stop timer 
               clearInterval(interval.current)
           } else {
               //update timer
@@ -51,16 +51,7 @@ export const calender = (props) => {
       }
   })
 
-//   useEffect(() => {
-//     connectAPI(
-//       "questions?start=0&numbers=" + entriesPerScroll,
-//       "GET",
-//       false,
-//       token
-//     ).then((data) => {
-//       setItems(data);
-//     });
-//   }, []);
+
 
   const renderItemAccessory = (props) => (
     <React.Fragment>
@@ -103,7 +94,7 @@ export const calender = (props) => {
 
                 <Calendar
                 date={date}
-                onSelect={nextDate => setDate(nextDate)}
+                onSelect={nextDate => startTimer(nextDate)}
                 />
             </React.Fragment>
           <Button
