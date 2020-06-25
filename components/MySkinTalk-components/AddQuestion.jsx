@@ -18,16 +18,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 // import { ScrollView } from "react-native-gesture-handler";
 
 const AddQuestion = (props) => {
-    const [value, setValue] = useState('');
+    const [subject, setSubject] = useState('');
+    const [question, setQuestion] = useState('');
     const [visible, setVisible] = useState(false);
-    const InputQuestion = (props) => <Input
-        multiline={true}
-        numberOfLines={10}
-        placeholder='Place your Text'
-        value={value}
-        style={styles.input}
-        onChangeText={nextValue => setValue(nextValue)}
-    />
+    const [subjAlert, setSubjAlert] = useState(false);
+    const [questAlert, setQuestAlert] = useState(false);
+
+    const subjAlertMsg = () => (<Text style={styles.alerts}>Es fehlt ein Titel</Text>);
+    const questAlertMsg = () => (<Text style={styles.alerts}>Bitte schreiben Sie eine Beschreibung</Text>);
 
     const PlusIcon = (props) => (
         <KittenIcon {...props} name='plus' />
@@ -41,22 +39,59 @@ const AddQuestion = (props) => {
                 onBackdropPress={() => setVisible(false)}>
                 <TextInput
                     editable
-                    maxLength={400}
+                    multiline
+                    maxLength={100}
+                    numberOfLines={10}
+                    placeholder='Frage...'
+                    style={styles.inputSubject}
+                    onChangeText={nextValue => setSubject(nextValue)}
+                    value={subject}
+                />
+                {subjAlert ? subjAlertMsg(): false}
+                <TextInput
+                    editable
+                    maxLength={1000}
                     multiline
                     numberOfLines={10}
-                    placeholder='Place your Text'
-                    style={styles.input}
-                    onChangeText={nextValue => setValue(nextValue)}
-                    value={value}
+                    placeholder='Beschreibung...'
+                    style={styles.inputQuestion}
+                    onChangeText={nextValue => setQuestion(nextValue)}
+                    value={question}
                 />
+                {questAlert ? questAlertMsg(): false}
 
-                <Button onPress={()=> props.submit(value)} style={styles.button} status='warning' accessoryRight={PlusIcon} />
+                <Button onPress={() => {
+                    if (subject.length < 2) {
+                        setSubjAlert(true)
+                        setQuestAlert(false)
+                    } else if (question.length < 2 && subject.length > 2) {
+                        setQuestAlert(true)
+                    } else {
+                        props.onSubmit(subject, question)
+                        setVisible(false)
+                        setQuestion('')
+                        setSubject('')
+                        setQuestAlert(false)
+                        setSubjAlert(false)
+                    }
+                }} style={styles.button} status='warning' accessoryRight={PlusIcon} />
             </Modal>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    alerts: {
+        color: 'red',
+        fontSize: 20,
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+        shadowColor: 'black',
+        shadowOpacity: 1,
+        shadowOffset: {width: 1, height: 2},
+        alignSelf:'center',
+        padding: 10,
+    },
     container: {
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -69,13 +104,25 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    input: {
+    inputSubject: {
         width: 300,
         margin: 10,
         padding: 10,
         alignSelf: 'stretch',
         fontSize: 20,
-        height: 200,
+        height: 100,
+        borderColor: 'gray',
+        borderWidth: 1,
+        backgroundColor: '#FFF',
+        borderRadius: 10,
+    },
+    inputQuestion: {
+        width: 300,
+        margin: 10,
+        padding: 10,
+        alignSelf: 'stretch',
+        fontSize: 20,
+        height: 400,
         borderColor: 'gray',
         borderWidth: 1,
         backgroundColor: '#FFF',
@@ -87,7 +134,7 @@ const styles = StyleSheet.create({
     },
     backdrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      },
+    },
 });
 
 export default AddQuestion

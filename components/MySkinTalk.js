@@ -15,7 +15,6 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
-import FavButoon from "./MySkinTalk-components/FavButton";
 import { ScrollView } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
 import Qcard from './MySkinTalk-components/Qcard';
@@ -32,8 +31,8 @@ const MySkinTalk = (props) => {
   const [visible, setVisible] = useState(false);
   const [db_questions, set_db_questions] = useState([]);
   // const [db_answers, set_db_answers] = useState([]);
-  const [fav, setFav] = useState(false)
-  let favCol = fav ? '#e6e600' : 'grey'
+  // const [fav, setFav] = useState(false)
+  // let favCol = fav ? '#e6e600' : 'grey'
   const [question, setQuestion] = useState('question')
   const [answer, setAnswer] = useState([])
 
@@ -82,6 +81,22 @@ const MySkinTalk = (props) => {
       }
     }
   }
+  const submitQuestion = (subject, question) => {
+    const QUESTION = {
+      "subject": subject,
+      "question": question
+  }
+    connectAPI(
+      "questions",
+      "POST",
+      QUESTION,
+      token
+    ).then((data) => {
+      getQuestions();
+      console.log(data);
+      alert ('Ihre Frage wurde erfolgreich gespeichert!');
+    });
+  }
 
 
 
@@ -93,45 +108,13 @@ const MySkinTalk = (props) => {
 
 
 
-  // //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-
-  // const renderItemAccessory = (props) => (
-  //   <React.Fragment>
-  //     <FavButoon />
-  //   </React.Fragment>
-  // );
-
-  // const renderItemIcon = (props) => <KittenIcon {...props} name="person" />;
-
-  // const renderItem = ({ item, index }) => (
-  //   <React.Fragment>
-  //     <ListItem
-  //       onPress={function (me) {
-  //         const questionText = this.children.props.children[1].props.children[0].props.component;
-  //         const queryID = findQuestion(questionText)
-  //         getAnswers(queryID)
-  //         setVisible(true)
-  //       }
-  //       }
-  //       title={item.subject}
-  //       accessoryLeft={renderItemIcon}
-  //       accessoryRight={renderItemAccessory}
-  //       style={styles.listitem}
-  //     />
-  //     <Divider />
-  //   </React.Fragment>
-  // );
-
-
-
   //* #### FINAL RENDER #### *//
 
   return (
     <SafeAreaView style={styles.container}>
       <Text>{Math.random()}</Text>
-      <AddQuestion />
+      <AddQuestion onSubmit={(subject, question)=> submitQuestion(subject, question)} />
       <QuestionsList style={styles.list} data={db_questions} findQuestion={findQuestion} getAnswers={getAnswers} visible={visible} setVisible={setVisible} />
-      {/* <List style={styles.list} data={db_questions} renderItem={renderItem} /> */}
 
       <Modal
         visible={visible}

@@ -3,30 +3,20 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import {
-//   Button,
-//   Card,
-//   Modal,
-//   Text,
   List,
   ListItem,
   Icon as KittenIcon,
   Divider,
 } from "@ui-kitten/components";
-// import Icon from 'react-native-vector-icons/FontAwesome';
-// import connectAPI from "../helpers/api";
 import * as globalcss from "../../styles/globalcss";
 import FavButton from "./FavButton";
-// import { ScrollView } from "react-native-gesture-handler";
-// import AddQuestion from "./MySkinTalk-components/AddQuestion";
-// import Qcard from './MySkinTalk-components/Qcard';
-// import AnswerCard from './MySkinTalk-components/AnswerCard';
 
 const QuestionsList = (props) => {
 //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
 
 const renderItemAccessory = (props) => (
     <React.Fragment>
-      <FavButton />
+      <FavButton setFav={props.setFav} />
     </React.Fragment>
   );
 
