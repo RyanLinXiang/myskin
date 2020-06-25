@@ -3,6 +3,8 @@ import { StyleSheet, SafeAreaView } from "react-native";
 import { Button, Card, Modal, Text, Calendar } from "@ui-kitten/components";
 import * as globalcss from "../../styles/globalcss";
 
+import CountDown from './CountDown';
+
 const Reminder = (props) => {
 
   const [date, setDate] = useState(new Date());
@@ -28,6 +30,7 @@ const Reminder = (props) => {
 
     <SafeAreaView style={styles.container}>
 
+        <CountDown />
         <Text>253 Tage</Text>
         <Text>Ihr nächster Termin ist am </Text>
 
