@@ -7,7 +7,7 @@ export default class CountDown extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            skinScreening: '3 Juli, 2020',
+            skinScreening: '3 Juli, 2020 15:30',
             newSkinScreening: '',
         }
     }
