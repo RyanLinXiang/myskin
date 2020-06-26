@@ -74,6 +74,7 @@ const MySkinTalk = (props) => {
     ).then((data) => {
       getQuestions();
       // console.log(data);
+      toggleFav(data.insertId)
       alert('Ihre Frage wurde erfolgreich gespeichert!');
     });
   }
@@ -138,10 +139,10 @@ const MySkinTalk = (props) => {
     for (const favQuestion of favQuestionsList) {
       if (favQuestion.id == targetID) {
         console.log('listed')
-        return true
+        setFav(true)
       } else {
         console.log('not listed')
-        return false
+        setFav(false)
       }
     }
 
@@ -149,10 +150,10 @@ const MySkinTalk = (props) => {
   const FavIcon = (toggleMe) => {
     return <Icon onPress={toggleMe} size={20} color={favCol} name="star" />
   }
-  const toggleFav = () => {
+  const toggleFav = (targetID) => {
     //toggle fav
     connectAPI(
-      "favorites/" + question.id,//entriesPerScroll,
+      "favorites/" + targetID,//entriesPerScroll,
       "POST",
       false,
       token
@@ -160,14 +161,14 @@ const MySkinTalk = (props) => {
       // console.log(data)
       let msg_log = (data.insertId == 0) ? 'UN-favorited' : 'favorited'
       console.log(msg_log)
-      let msg = fav ? 'Die Frage wurde von Ihre Favoriten gelöscht' : 'Die Frage wurde erfolgreich als Favorit gespeichert!'
+      let msg = (data.insertId == 0) ? 'Die Frage wurde von Ihre Favoriten gelöscht' : 'Die Frage wurde erfolgreich als Favorit gespeichert!'
       alert(msg);
     });
   }
   const toggleStarCol = () => {
     //set favIcon color
-    const isFav = isFavorite()
-    console.log(isFav, 'isFav?')
+    // const isFav = isFavorite()
+    // console.log(isFav, 'isFav?')
 
     // setFav(prev => !prev)
   }
@@ -207,7 +208,7 @@ const MySkinTalk = (props) => {
           <ScrollView>
             <Qcard
               query={question}
-              favIcon={() => FavIcon(toggleFav)} />
+              favIcon={() => FavIcon(()=>toggleFav(question.id))} />
             {answer.map(reply => <AnswerCard key={reply.id}
               reply={reply} />)}
           </ScrollView>

@@ -7,6 +7,7 @@ import Home from "./Home";
 import { ModalWithBackdropShowcase as Playground } from "./Playground";
 
 import ViewBuilder from "./ViewBuilder";
+import MySkinFavorites from "./MySkinFavorites";
 
 const Navigation = (props) => {
   function predict({ navigation }) {
@@ -29,6 +30,13 @@ const Navigation = (props) => {
     return (
       <ViewBuilder navigation={navigation}>
         <Home />
+      </ViewBuilder>
+    );
+  }
+  function favorites({ navigation }) {
+    return (
+      <ViewBuilder navigation={navigation}>
+        <MySkinFavorites {...props} />
       </ViewBuilder>
     );
   }
@@ -57,6 +65,11 @@ const Navigation = (props) => {
             name="mySkin: Talk"
             component={talk}
             options={{ title: "MySkin: Talk" }}
+          />
+          <Drawer.Screen
+            name="mySkin: Favorites"
+            component={favorites}
+            options={{ title: "MySkin: Favorites" }}
           />
           <Drawer.Screen
             name="Playground"
