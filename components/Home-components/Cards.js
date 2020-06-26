@@ -4,13 +4,14 @@ import {
   View,
   TouchableWithoutFeedback,
   ImageBackground,
-  Dimensions,
+ Dimensions ,
 } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import cardsData from "./cardsData";
 import UVIndex from "./UVIndex";
 import { Card, Text, Modal, Button, Divider } from "@ui-kitten/components";
 const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get('window').height;
 
 class Cards extends Component {
   state = {
@@ -97,15 +98,17 @@ class Cards extends Component {
               onBackdropPress={this.handlerShowFullArticle}
               style={styles.modal}
             >
-              <Card disabled={true}>
+              <Card style={styles.modalCard} disabled={true}>
                 {this.state.showFullArticle}
-                <Button
-                  size="tiny"
-                  onPress={this.handlerShowFullArticle}
-                  style={{ alignSelf: "center" }}
-                >
-                  Close
-                </Button>
+                <View style={styles.closeButtomArt}>
+                  <Button
+                    size="tiny"
+                    onPress={this.handlerShowFullArticle}
+                    style={{ paddingVertical:10, alignSelf: "stretch" }} status='warning'
+                  >
+                    Close
+                  </Button>
+                </View>
               </Card>
             </Modal>
           ) : null}
@@ -117,7 +120,7 @@ class Cards extends Component {
 
 const styles = StyleSheet.create({
   cards: {
-    borderWidth: 0,
+     borderWidth: 0,
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
@@ -126,6 +129,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.75,
     shadowRadius: 5,
     shadowColor: "black",
+    paddingVertical: 30
   },
   bgimagesStd: {
     width: screenWidth * 0.8,
@@ -135,6 +139,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowColor: "darkgrey",
     shadowOffset: { height: 10, width: 10 },
+    elevation: 5,
   },
   bgimages: { borderRadius: 20, opacity: 0.7 },
   text: {
@@ -144,6 +149,16 @@ const styles = StyleSheet.create({
   },
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
+  },
+  modal:{
+    backgroundColor: 'white',
+    height: screenHeight * 0.75,
+  },
+  modalCard:{
+    paddingBottom:40,
+  },
+  closeButtomArt:{
+    paddingVertical:10,
   },
   specialcard: {
     width: screenWidth * 0.8,
@@ -155,7 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
   },
-  titleItem: { marginBottom: 20, marginTop: 20 },
+  titleItem: { marginBottom: 15, marginTop: 15 },
 });
 
 export default Cards;
