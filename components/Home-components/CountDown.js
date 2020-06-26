@@ -21,14 +21,13 @@ export default class CountDown extends Component {
         return (
             <View>
                 <View>
-                    <Text> Nächster HautScreening Termin ist am {this.state.skinScreening} </Text>
+                    <Text> Nächster HautScreening Termin ist am {this.state.skinScreening} Uhr </Text>
                 </View>
                 <Clock skinScreening={this.state.skinScreening}/>
                 <View>
                     <TextInput 
-                    placeholder='Neuer Termin'
+                    placeholder='Beispiel: 3 Juli 2020 15:30'
                     onChange={event => this.setState({newSkinScreening: event.nativeEvent.text})}
-                    
                     ></TextInput>
                     <Button title="Submit" onPress={() => this.changeScreeningDate()}></Button>
                 </View>
