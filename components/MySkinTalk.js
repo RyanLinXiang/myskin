@@ -37,7 +37,7 @@ const MySkinTalk = (props) => {
   const [favQuestionsList, setFavQuestionsList] = useState([])
   const [fav, setFav] = useState(false)
   let favCol = fav ? 'yellow' : 'grey'
-  
+
 
 
 
@@ -136,18 +136,18 @@ const MySkinTalk = (props) => {
   const isFavorite = (targetID = question.id) => {
     getFavorites();
     for (const favQuestion of favQuestionsList) {
-      if (favQuestion.id==targetID) { 
+      if (favQuestion.id == targetID) {
         console.log('listed')
-        return true 
-      } else { 
+        return true
+      } else {
         console.log('not listed')
-        return false 
+        return false
       }
     }
-    
+
   }
   const FavIcon = (toggleMe) => {
-    return  <Icon onPress={toggleMe} size={20} color={favCol} name="star" />
+    return <Icon onPress={toggleMe} size={20} color={favCol} name="star" />
   }
   const toggleFav = () => {
     //toggle fav
@@ -158,18 +158,18 @@ const MySkinTalk = (props) => {
       token
     ).then((data) => {
       // console.log(data)
-      let msg = (data.insertId==0) ? 'UN-favorited':'favorited'
-      console.log(msg)
+      let msg_log = (data.insertId == 0) ? 'UN-favorited' : 'favorited'
+      console.log(msg_log)
+      let msg = fav ? 'Die Frage wurde von Ihre Favoriten gelöscht' : 'Die Frage wurde erfolgreich als Favorit gespeichert!'
+      alert(msg);
     });
   }
   const toggleStarCol = () => {
     //set favIcon color
     const isFav = isFavorite()
     console.log(isFav, 'isFav?')
-    return
-    let msg = fav ? 'Die Frage wurde von Ihre Favoriten gelöscht':'Die Frage wurde erfolgreich als Favorit gespeichert!'
-    alert(msg);
-    setFav(prev => !prev)
+
+    // setFav(prev => !prev)
   }
 
 
@@ -188,14 +188,14 @@ const MySkinTalk = (props) => {
     <SafeAreaView style={styles.container}>
       <Text>{Math.random()}</Text>
       <AddQuestion onSubmit={(subject, question) => submitQuestion(subject, question)} />
-      <QuestionsList 
-      style={styles.list} 
-      data={db_questions} 
-      findQuestion={findQuestion} 
-      getAnswers={getAnswers} 
-      visible={visible} 
-      setVisible={setVisible}
-      favIcon={() => FavIcon(console.log(''))} />
+      <QuestionsList
+        style={styles.list}
+        data={db_questions}
+        findQuestion={findQuestion}
+        getAnswers={getAnswers}
+        visible={visible}
+        setVisible={setVisible}
+        favIcon={() => FavIcon(console.log(''))} />
 
       <Modal
         visible={visible}
@@ -205,11 +205,11 @@ const MySkinTalk = (props) => {
       >
         <Card disabled={true}>
           <ScrollView>
-            <Qcard 
-            query={question} 
-            favIcon={() => FavIcon(toggleFav)} />
-            {answer.map(reply => <AnswerCard key={reply.id} 
-            reply={reply} />)}
+            <Qcard
+              query={question}
+              favIcon={() => FavIcon(toggleFav)} />
+            {answer.map(reply => <AnswerCard key={reply.id}
+              reply={reply} />)}
           </ScrollView>
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
           <Button
