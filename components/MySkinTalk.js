@@ -34,8 +34,10 @@ const MySkinTalk = (props) => {
   // const [db_answers, set_db_answers] = useState([]);
   const [question, setQuestion] = useState('question')
   const [answer, setAnswer] = useState([])
+  const [favQuestionsList, setFavQuestionsList] = useState([])
   const [fav, setFav] = useState(false)
   let favCol = fav ? 'yellow' : 'grey'
+  
 
 
 
@@ -71,7 +73,7 @@ const MySkinTalk = (props) => {
       token
     ).then((data) => {
       getQuestions();
-      console.log(data);
+      // console.log(data);
       alert('Ihre Frage wurde erfolgreich gespeichert!');
     });
   }
@@ -94,8 +96,8 @@ const MySkinTalk = (props) => {
             setQuestion(answer)
           } else if (answer.answer) {
             setAnswer(prev => {
-              let sorted = [...prev, answer].filter((item, i, self) => i === self.findIndex((replyObj) => (replyObj.id === item.id)));
-              return [...sorted]
+              let noDuplicates = [...prev, answer].filter((item, i, self) => i === self.findIndex((replyObj) => (replyObj.id === item.id)));
+              return [...noDuplicates]
             })
           }
         }
@@ -115,18 +117,59 @@ const MySkinTalk = (props) => {
     ).then((data) => {
       getQuestions();
       getAnswers(question.id)
-      console.log(data);
+      // console.log(data);
       alert('Ihre Antwort wurde erfolgreich gespeichert!');
     });
   }
 
   //### Favorite Functions ###//
-  const FavIcon = () => {
-    return  <Icon onPress={toggleFav} size={20} color={favCol} name="star" />
+  const getFavorites = () => {
+    connectAPI(
+      "favorites?start=0&numbers=" + 50,//entriesPerScroll,
+      "GET",
+      false,
+      token
+    ).then((data) => {
+      setFavQuestionsList(data)
+    });
+  }
+  const isFavorite = (targetID = question.id) => {
+    getFavorites();
+    for (const favQuestion of favQuestionsList) {
+      if (favQuestion.id==targetID) { 
+        console.log('listed')
+        return true 
+      } else { 
+        console.log('not listed')
+        return false 
+      }
+    }
+    
+  }
+  const FavIcon = (toggleMe) => {
+    return  <Icon onPress={toggleMe} size={20} color={favCol} name="star" />
   }
   const toggleFav = () => {
+    //toggle fav
+    connectAPI(
+      "favorites/" + question.id,//entriesPerScroll,
+      "POST",
+      false,
+      token
+    ).then((data) => {
+      // console.log(data)
+      let msg = (data.insertId==0) ? 'UN-favorited':'favorited'
+      console.log(msg)
+    });
+  }
+  const toggleStarCol = () => {
+    //set favIcon color
+    const isFav = isFavorite()
+    console.log(isFav, 'isFav?')
+    return
+    let msg = fav ? 'Die Frage wurde von Ihre Favoriten gelöscht':'Die Frage wurde erfolgreich als Favorit gespeichert!'
+    alert(msg);
     setFav(prev => !prev)
-    
   }
 
 
@@ -134,6 +177,7 @@ const MySkinTalk = (props) => {
 
   useEffect(() => {
     getQuestions();
+    getFavorites();
   }, []);
 
 
@@ -151,7 +195,7 @@ const MySkinTalk = (props) => {
       getAnswers={getAnswers} 
       visible={visible} 
       setVisible={setVisible}
-      favIcon={FavIcon} />
+      favIcon={() => FavIcon(console.log(''))} />
 
       <Modal
         visible={visible}
@@ -163,7 +207,7 @@ const MySkinTalk = (props) => {
           <ScrollView>
             <Qcard 
             query={question} 
-            favIcon={FavIcon} />
+            favIcon={() => FavIcon(toggleFav)} />
             {answer.map(reply => <AnswerCard key={reply.id} 
             reply={reply} />)}
           </ScrollView>
