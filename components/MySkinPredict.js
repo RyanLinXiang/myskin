@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Image,
+  ImageBackground,
 } from "react-native";
 import * as tf from "@tensorflow/tfjs";
 import { fetch, bundleResourceIO } from "@tensorflow/tfjs-react-native";
@@ -14,6 +15,7 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as jpeg from "jpeg-js";
+import * as globalcss from "../styles/globalcss";
 
 class MySkinPredict extends React.Component {
   state = {
@@ -49,7 +51,9 @@ class MySkinPredict extends React.Component {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+        alert(
+          "Ohne die Erlaubnis zur Kameranutzung kann leider keine Analyse gestartet werden. Die Daten verbleiben komplett auf diesem Mobilgerät."
+        );
       }
     }
   };
@@ -130,49 +134,65 @@ class MySkinPredict extends React.Component {
   render() {
     const { isTfReady, isModelReady, predictions, image } = this.state;
 
+    let status;
+
+    if (isTfReady && isModelReady && !image && !predictions)
+      status = (
+        <Text style={styles.statusText}>mySkin: Predict ist bereit.</Text>
+      );
+    else if (isModelReady && image && predictions)
+      status = <Text style={styles.statusText}>Analyse abgeschlossen</Text>;
+    else if (isModelReady && image && !predictions)
+      status = (
+        <Text style={styles.statusText}>Analyse läuft ... bitte warten</Text>
+      );
+    else
+      status = (
+        <React.Fragment>
+          <Text>Modell wird geladen ... bitte kurz warten.</Text>
+          <ActivityIndicator size="small" />
+        </React.Fragment>
+      );
+
+    let output;
+
+    if (image && !predictions)
+      output = <Image source={image} style={styles.uploadedImage} />;
+    else if (image && predictions)
+      output = (
+        <React.Fragment>
+          <ImageBackground
+            source={image}
+            blurRadius={50}
+            style={styles.predictedImage}
+          >
+            <Text style={styles.predictedNumberHeader}>
+              Wahrscheinlichkeit für Melanom:
+            </Text>
+            <Text style={styles.predictedNumber}>
+              {Math.round(predictions.dataSync()[0] * 100)}
+              <Text style={styles.predictedNumberPercentage}> %</Text>
+            </Text>
+          </ImageBackground>
+        </React.Fragment>
+      );
+    else if (isModelReady && !image)
+      output = <Text>Bitte ein Bild auswählen</Text>;
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <View style={styles.loadingContainer}>
-          <Text style={styles.commonTextStyles}>
-            TFJS ready? {isTfReady ? <Text>✅</Text> : ""}
-          </Text>
-
-          <View style={styles.loadingModelContainer}>
-            <Text style={styles.text}>Model ready? </Text>
-            {isModelReady ? (
-              <Text style={styles.text}>✅</Text>
-            ) : (
-              <ActivityIndicator size="small" />
-            )}
-          </View>
-        </View>
+        <Text style={styles.status}>{status}</Text>
         <TouchableOpacity
-          style={styles.imageWrapper}
+          style={styles.imageContainer}
           onPress={
             isModelReady && this.state.tfjsmodel.predict
               ? this.handlerSelectImage
               : undefined
           }
         >
-          {image && <Image source={image} style={styles.imageContainer} />}
-
-          {isModelReady && !image && (
-            <Text style={styles.transparentText}>Tap to choose image</Text>
-          )}
+          {output}
         </TouchableOpacity>
-        <View style={styles.predictionWrapper}>
-          {isModelReady && image && (
-            <Text style={styles.text}>
-              Predictions: {predictions ? "" : "Predicting..."}
-            </Text>
-          )}
-          {isModelReady && predictions ? (
-            <Text style={{ color: "white" }}>
-              {"Probability melanoma: " + predictions.dataSync()[0]}
-            </Text>
-          ) : null}
-        </View>
       </View>
     );
   }
@@ -180,65 +200,49 @@ class MySkinPredict extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#171f24",
+    backgroundColor: globalcss.container.backgroundColor,
     alignItems: "center",
-  },
-  loadingContainer: {
-    marginTop: 80,
     justifyContent: "center",
+    flex: 1,
   },
-  text: {
-    color: "#ffffff",
+  statusText: {
     fontSize: 16,
   },
-  loadingModelContainer: {
-    flexDirection: "row",
-    marginTop: 10,
-  },
-  imageWrapper: {
-    width: 280,
-    height: 280,
-    padding: 10,
-    borderColor: "#cf667f",
-    borderWidth: 5,
-    borderStyle: "dashed",
-    marginTop: 40,
-    marginBottom: 10,
-    position: "relative",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  status: { marginBottom: 20 },
   imageContainer: {
-    width: 250,
-    height: 250,
-    position: "absolute",
-    top: 10,
-    left: 10,
-    bottom: 10,
-    right: 10,
-  },
-  predictionWrapper: {
-    height: 100,
-    width: "100%",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  transparentText: {
-    color: "#ffffff",
+    width: 300,
+    height: 300,
+    padding: 5,
+    backgroundColor: "lightgrey",
+    borderRadius: 5,
+    borderColor: "darkgrey",
+    borderWidth: 1,
+    borderStyle: "solid",
     opacity: 0.7,
+    alignItems: "center",
+    justifyContent: "center",
   },
+
   footer: {
     marginTop: 40,
   },
-  poweredBy: {
-    fontSize: 20,
-    color: "#e69e34",
-    marginBottom: 6,
+
+  predictedImage: {
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  tfLogo: {
-    width: 125,
-    height: 70,
+  predictedNumberHeader: { fontSize: 12, color: "white" },
+  predictedNumberPercentage: { fontSize: 22, color: "white" },
+  predictedNumber: {
+    fontSize: 58,
+    fontWeight: "bold",
+    color: "white",
+    shadowOpacity: 0.75,
+    shadowRadius: 5,
+    shadowColor: "darkgrey",
+    shadowOffset: { height: 10, width: 10 },
   },
 });
 
