@@ -9,6 +9,7 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
+import { Button } from "@ui-kitten/components";
 import * as tf from "@tensorflow/tfjs";
 import { fetch, bundleResourceIO } from "@tensorflow/tfjs-react-native";
 import Constants from "expo-constants";
@@ -131,6 +132,13 @@ class MySkinPredict extends React.Component {
     }
   };
 
+  handlerReset = () => {
+    this.setState({
+      predictions: null,
+      image: null,
+    });
+  };
+
   render() {
     const { isTfReady, isModelReady, predictions, image } = this.state;
 
@@ -141,15 +149,20 @@ class MySkinPredict extends React.Component {
         <Text style={styles.statusText}>mySkin: Predict ist bereit.</Text>
       );
     else if (isModelReady && image && predictions)
-      status = <Text style={styles.statusText}>Analyse abgeschlossen</Text>;
+      status = <Text style={styles.statusText}>Analyse abgeschlossen.</Text>;
     else if (isModelReady && image && !predictions)
       status = (
-        <Text style={styles.statusText}>Analyse läuft ... bitte warten</Text>
+        <React.Fragment>
+          <Text style={styles.statusText}>Analyse läuft ... bitte warten.</Text>
+          <ActivityIndicator size="small" />
+        </React.Fragment>
       );
     else
       status = (
         <React.Fragment>
-          <Text>Modell wird geladen ... bitte kurz warten.</Text>
+          <Text style={styles.statusText}>
+            Modell wird geladen ... bitte kurz warten.
+          </Text>
           <ActivityIndicator size="small" />
         </React.Fragment>
       );
@@ -186,13 +199,30 @@ class MySkinPredict extends React.Component {
         <TouchableOpacity
           style={styles.imageContainer}
           onPress={
-            isModelReady && this.state.tfjsmodel.predict
+            isModelReady && this.state.tfjsmodel.predict && !predictions
               ? this.handlerSelectImage
               : undefined
           }
         >
           {output}
         </TouchableOpacity>
+        {isModelReady && image && predictions ? (
+          <React.Fragment>
+            <Button onPress={this.handlerReset} size="tiny" status="warning">
+              Neu starten
+            </Button>
+            <Text style={styles.warning}>
+              Die oben dargestellte Zahl ist die Wahrscheinlichkeit, dass Ihr
+              Muttermal ein Melanom sein könnte. Dabei beruht die Berechnung auf
+              einem Modell der Künstlichen Intelligenz. Dieses Modell basiert
+              auf 10.000 Bildern von Melanomen und von Nicht-Melanomen. Je
+              kleiner die Wahrscheinlichkeit, desto unwahrscheinlicher ist es,
+              dass Ihr Muttermal ein Melanom ist. Die Berechnung ist ohne
+              Gewähr. Bitte konsultieren Sie auf jeden Fall Ihren Hautarzt für
+              eine gesicherte Diagnose.
+            </Text>
+          </React.Fragment>
+        ) : null}
       </View>
     );
   }
@@ -223,8 +253,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  footer: {
-    marginTop: 40,
+  warning: {
+    marginTop: 20,
+    fontSize: 10,
+    width: "90%",
   },
 
   predictedImage: {
