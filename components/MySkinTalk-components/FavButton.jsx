@@ -6,7 +6,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
-const FavButoon = () => {
+const FavButton = () => {
     const [fav, setFav] = useState(false)
     let favCol = fav ? 'yellow':'grey'
     return (
@@ -17,4 +17,4 @@ const FavButoon = () => {
         </React.Fragment>
     )
 }
-export default FavButoon
+export default FavButton

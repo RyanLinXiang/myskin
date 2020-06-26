@@ -3,13 +3,15 @@ import { Dimensions, StyleSheet, View } from "react-native";
 // import * as globalcss from "../../styles/globalcss";
 import { Card, Text, Divider } from "@ui-kitten/components";
 const screenWidth = Dimensions.get("window").width;
-import { Icon } from '@ui-kitten/components';
-// import Icon from 'react-native-vector-icons/FontAwesome';
+import { Icon as KittenIcon } from '@ui-kitten/components';
+import FavButton from "./FavButton";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 export default function Question(props) {
 
-    //   const [count, setCount]=useState('');
+    const [fav, setFav] = useState(false)
+    let favCol = fav ? 'yellow':'grey'
 
     return (
         <View style={styles.questionContainer}>
@@ -17,13 +19,16 @@ export default function Question(props) {
                 <Divider />
                 <View style={styles.cardText}>
                     <View style={styles.cardButtom}>
-                        <Icon style={styles.icon} fill='#8F9BB3' name='person' />
+                        <KittenIcon style={styles.icon} fill='#8F9BB3' name='person' />
                         <Text> {props.query.user_name}</Text>
                     </View>
                     <View style={styles.cardButtom}>
-                        <Icon style={styles.icon} fill='#8F9BB3' name='clock' />
+                        <KittenIcon style={styles.icon} fill='#8F9BB3' name='clock' />
                         <Text> {props.query.dayspast>1 ? `${props.query.dayspast} days ago`:`${props.query.dayspast} day ago`}</Text>
                     </View>
+                    {props.favIcon()}
+                    {/* <Icon onPress={() => setFav(prev => !prev)} size={20} color={favCol} name="star" /> */}
+                    {/* <FavButton /> */}
                 </View>
         </View>
     );

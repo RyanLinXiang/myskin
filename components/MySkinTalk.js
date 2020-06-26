@@ -32,15 +32,16 @@ const MySkinTalk = (props) => {
   const [visible, setVisible] = useState(false);
   const [db_questions, set_db_questions] = useState([]);
   // const [db_answers, set_db_answers] = useState([]);
-  // const [fav, setFav] = useState(false)
-  // let favCol = fav ? '#e6e600' : 'grey'
   const [question, setQuestion] = useState('question')
   const [answer, setAnswer] = useState([])
+  const [fav, setFav] = useState(false)
+  let favCol = fav ? 'yellow' : 'grey'
 
 
 
   //* #### FUNCTIONS/METHODS #### *//
 
+  //### Question Functions ###//
   const getQuestions = () => {
     connectAPI(
       "questions?start=0&numbers=" + 50,//entriesPerScroll,
@@ -49,31 +50,6 @@ const MySkinTalk = (props) => {
       token
     ).then((data) => {
       set_db_questions(data);
-    });
-  }
-  const getAnswers = (id) => {
-    connectAPI(
-      "questions/" + id + "?start=0&numbers=" + entriesPerScroll,
-      "GET",
-      false,
-      token
-    ).then((data) => {
-      for (const answerArray of data) {
-        if (answerArray.length < 1) {
-          setAnswer([])
-          continue
-        }
-        for (const answer of answerArray) {
-          if (answer.question) {
-            setQuestion(answer)
-          } else if (answer.answer) {
-            setAnswer(prev => {
-              let sorted = [...prev, answer].filter((item, i, self) => i === self.findIndex((replyObj) => (replyObj.id === item.id)));
-              return [...sorted]
-            })
-          }
-        }
-      }
     });
   }
   const findQuestion = (question) => {
@@ -99,6 +75,33 @@ const MySkinTalk = (props) => {
       alert('Ihre Frage wurde erfolgreich gespeichert!');
     });
   }
+
+  //### Answer Functions ###//
+  const getAnswers = (id) => {
+    connectAPI(
+      "questions/" + id + "?start=0&numbers=" + entriesPerScroll,
+      "GET",
+      false,
+      token
+    ).then((data) => {
+      for (const answerArray of data) {
+        if (answerArray.length < 1) {
+          setAnswer([])
+          continue
+        }
+        for (const answer of answerArray) {
+          if (answer.question) {
+            setQuestion(answer)
+          } else if (answer.answer) {
+            setAnswer(prev => {
+              let sorted = [...prev, answer].filter((item, i, self) => i === self.findIndex((replyObj) => (replyObj.id === item.id)));
+              return [...sorted]
+            })
+          }
+        }
+      }
+    });
+  }
   const submitAnswer = (answer) => {
     const ANSWER = {
       "answer": answer,
@@ -117,6 +120,14 @@ const MySkinTalk = (props) => {
     });
   }
 
+  //### Favorite Functions ###//
+  const FavIcon = () => {
+    return  <Icon onPress={toggleFav} size={20} color={favCol} name="star" />
+  }
+  const toggleFav = () => {
+    setFav(prev => !prev)
+    
+  }
 
 
   //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
@@ -133,7 +144,14 @@ const MySkinTalk = (props) => {
     <SafeAreaView style={styles.container}>
       <Text>{Math.random()}</Text>
       <AddQuestion onSubmit={(subject, question) => submitQuestion(subject, question)} />
-      <QuestionsList style={styles.list} data={db_questions} findQuestion={findQuestion} getAnswers={getAnswers} visible={visible} setVisible={setVisible} />
+      <QuestionsList 
+      style={styles.list} 
+      data={db_questions} 
+      findQuestion={findQuestion} 
+      getAnswers={getAnswers} 
+      visible={visible} 
+      setVisible={setVisible}
+      favIcon={FavIcon} />
 
       <Modal
         visible={visible}
@@ -143,8 +161,11 @@ const MySkinTalk = (props) => {
       >
         <Card disabled={true}>
           <ScrollView>
-            <Qcard query={question} />
-            {answer.map(reply => <AnswerCard key={reply.id} reply={reply} />)}
+            <Qcard 
+            query={question} 
+            favIcon={FavIcon} />
+            {answer.map(reply => <AnswerCard key={reply.id} 
+            reply={reply} />)}
           </ScrollView>
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
           <Button

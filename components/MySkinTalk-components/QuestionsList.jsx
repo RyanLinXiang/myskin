@@ -14,11 +14,13 @@ import FavButton from "./FavButton";
 const QuestionsList = (props) => {
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
 
-  const renderItemAccessory = (props) => (
-    <React.Fragment>
-      <FavButton setFav={props.setFav} />
-    </React.Fragment>
-  );
+  // const renderItemAccessory = (props) => {
+  //   return (
+  //     <React.Fragment>
+  //       <FavButton setFav={props.setFav} />
+  //     </React.Fragment>
+  //   )
+  // };
 
   const renderItemIcon = (props) => <KittenIcon {...props} name="person" />;
   const renderItem = ({ item, index }) => {
@@ -40,7 +42,7 @@ const QuestionsList = (props) => {
           }
           title={item.subject}
           accessoryLeft={renderItemIcon}
-          accessoryRight={renderItemAccessory}
+          accessoryRight={props.favIcon}
           style={styles.listitem}
         />
         <Divider />

@@ -21,7 +21,7 @@ const AddAnswer = (props) => {
     const [answer, setAnswer] = useState('')
     const [buttonText, setButtonText] = useState('ANTWORTEN')
     const buttonHandler = () => {
-        if (buttonText == 'ANTWORT') {
+        if (buttonText == 'ANTWORTEN') {
             setShowInput(true)
             setButtonText('ABSENDEN')
         } else {
