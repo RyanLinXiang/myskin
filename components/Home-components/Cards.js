@@ -73,9 +73,8 @@ class Cards extends Component {
 
             if (e.chapter === this.state.pressedCard) {
               cardContent = e.articles.map((e, i, a) => (
-                <React.Fragment>
+                <React.Fragment key={e.title}>
                   <TouchableHighlight
-                    key={e.title}
                     onPress={() => {
                       this.handlerShowFullArticle(e.component);
                       this.setState({ pressedCard: false });
@@ -101,7 +100,6 @@ class Cards extends Component {
                   style={styles.bgimagesStd}
                   imageStyle={styles.bgimages}
                   blurRadius={blurRadius}
-                  key={e.img}
                 >
                   <Card
                     style={styles.cards}
