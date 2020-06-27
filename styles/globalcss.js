@@ -5,4 +5,10 @@ const container = {
   backgroundColor: "#FDF7EC",
 };
 
-export { container };
+const talkStyle = {
+  fontSize: 10,
+  favOn: 'yellow',
+  favOff: 'grey'
+}
+
+export { container, talkStyle };

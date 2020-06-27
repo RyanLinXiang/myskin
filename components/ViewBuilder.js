@@ -12,6 +12,7 @@ const ViewBuilder = (props) => {
 
   const MenuIcon = (props) => <Icon {...props} name="menu-outline" />;
   const HomeIcon = (props) => <Icon {...props} name="home-outline" />;
+  const FavoritesIcon = (props) => <Icon {...props} name="star-outline" />;//Dan added this
 
   const toggleAction = (handlerToggleDrawer, handlerNavigate) => {
     return (
@@ -23,6 +24,10 @@ const ViewBuilder = (props) => {
         <TopNavigationAction
           icon={HomeIcon}
           onPress={() => navigation.navigate("mySkin: Home")}
+        />
+        <TopNavigationAction
+          icon={FavoritesIcon}
+          onPress={() => navigation.navigate("mySkin: Favorites")}
         />
       </React.Fragment>
     );
