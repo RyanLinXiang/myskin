@@ -43,8 +43,11 @@ export default class UVIndex extends Component {
     })
       .then((response) => response.json())
       .then((json) => {
+        let uvi;
+        if (json.error) uvi = 4;
+        else uvi = json.result.uv;
         this.setState({
-          uvi: json.result.uv,
+          uvi: uvi,
           uvLoaded: true,
         });
       });

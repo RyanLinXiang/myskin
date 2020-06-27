@@ -4,14 +4,14 @@ import {
   View,
   TouchableWithoutFeedback,
   ImageBackground,
- Dimensions ,
+  Dimensions,
 } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import cardsData from "./cardsData";
 import UVIndex from "./UVIndex";
 import { Card, Text, Modal, Button, Divider } from "@ui-kitten/components";
 const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get('window').height;
+const screenHeight = Dimensions.get("window").height;
 
 class Cards extends Component {
   state = {
@@ -77,6 +77,7 @@ class Cards extends Component {
                   style={styles.bgimagesStd}
                   imageStyle={styles.bgimages}
                   blurRadius={blurRadius}
+                  key={e.img}
                 >
                   <Card
                     style={styles.cards}
@@ -104,7 +105,8 @@ class Cards extends Component {
                   <Button
                     size="tiny"
                     onPress={this.handlerShowFullArticle}
-                    style={{ paddingVertical:10, alignSelf: "stretch" }} status='warning'
+                    style={{ paddingVertical: 10, alignSelf: "stretch" }}
+                    status="warning"
                   >
                     Close
                   </Button>
@@ -120,7 +122,7 @@ class Cards extends Component {
 
 const styles = StyleSheet.create({
   cards: {
-     borderWidth: 0,
+    borderWidth: 0,
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.75,
     shadowRadius: 5,
     shadowColor: "black",
-    paddingVertical: 30
+    paddingVertical: 30,
   },
   bgimagesStd: {
     width: screenWidth * 0.8,
@@ -150,15 +152,15 @@ const styles = StyleSheet.create({
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
-  modal:{
-    backgroundColor: 'white',
+  modal: {
+    backgroundColor: "white",
     height: screenHeight * 0.75,
   },
-  modalCard:{
-    paddingBottom:40,
+  modalCard: {
+    paddingBottom: 40,
   },
-  closeButtomArt:{
-    paddingVertical:10,
+  closeButtomArt: {
+    paddingVertical: 10,
   },
   specialcard: {
     width: screenWidth * 0.8,
