@@ -28,7 +28,8 @@
     "expo-image-picker": "~8.1.0",
     "fs": "0.0.1-security",
     "jpeg-js": "^0.4.0",
-    "json-circular-stringify": "^1.0.1",
+    "expo-location": "~8.1.0",
+    "expo-permissions": "~8.1.0",
     "jwt-decode": "^2.2.0",
     "main": "^1000.0.1",
     "path": "^0.12.7",
@@ -42,6 +43,7 @@
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
     "react-native-svg": "^11.0.1",
+    "react-native-table-component": "^1.2.1",
     "react-native-ui-kitten": "^4.4.1",
     "react-native-unordered-list": "^1.0.4",
     "react-native-web": "~0.11.7"
