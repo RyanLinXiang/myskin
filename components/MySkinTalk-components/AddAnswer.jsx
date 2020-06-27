@@ -1,18 +1,8 @@
 //* #### IMPORTS #### *//
 
-import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, View } from "react-native";
-import {
-    Button,
-    Card,
-    Modal,
-    Text,
-    List,
-    ListItem,
-    Icon as KittenIcon,
-    Divider,
-} from "@ui-kitten/components";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { useState } from "react";
+import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import { Button } from "@ui-kitten/components";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 
 const AddAnswer = (props) => {
@@ -30,28 +20,29 @@ const AddAnswer = (props) => {
             setButtonText('ANTWORTEN')
             setAnswer('')
         }
-
     }
 
     return (
-        <View style={styles.questionContainer}>
-            {showInput ? <TextInput
-                editable
-                multiline
-                maxLength={1000}
-                numberOfLines={10}
-                placeholder='Antwort...'
-                style={styles.inputSubject}
-                onChangeText={nextValue => setAnswer(nextValue)}
-                value={answer}
-            /> : false}
-            <Button
-                size="tiny"
-                onPress={buttonHandler}
-            >
-                {buttonText}
-            </Button>
-        </View>
+        <KeyboardAvoidingView style={styles.outercontainer} behavior="padding">
+            <View style={styles.questionContainer}>
+                {showInput ? <TextInput
+                    editable
+                    multiline
+                    maxLength={1000}
+                    numberOfLines={10}
+                    placeholder='Antwort...'
+                    style={styles.inputSubject}
+                    onChangeText={nextValue => setAnswer(nextValue)}
+                    value={answer}
+                /> : false}
+                <Button
+                    size="tiny"
+                    onPress={buttonHandler}
+                >
+                    {buttonText}
+                </Button>
+            </View>
+        </KeyboardAvoidingView>
     )
 }
 

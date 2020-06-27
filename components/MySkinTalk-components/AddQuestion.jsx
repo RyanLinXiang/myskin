@@ -1,82 +1,65 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, View, TextInput } from "react-native";
-import {
-    Button,
-    //   Card,
-    Modal,
-    Text,
-    //   List,
-    //   ListItem,
-    Icon as KittenIcon,
-    Input,
-    //   Divider,
-} from "@ui-kitten/components";
-import Icon from 'react-native-vector-icons/FontAwesome';
-// import connectAPI from "../helpers/api";
-// import * as globalcss from "../styles/globalcss";
-// import FavButoon from "./MySkinTalk-components/FavButton";
-// import { ScrollView } from "react-native-gesture-handler";
+import React, { useRef } from "react";
+import { StyleSheet, View, TextInput, KeyboardAvoidingView } from "react-native";
+import { Button, Modal, Icon as KittenIcon } from "@ui-kitten/components";
+import Form from "react-native-form";
+
+
 
 const AddQuestion = (props) => {
-    const [subject, setSubject] = useState('');
-    const [question, setQuestion] = useState('');
-    const [visible, setVisible] = useState(false);
-    const [subjAlert, setSubjAlert] = useState(false);
-    const [questAlert, setQuestAlert] = useState(false);
 
-    const subjAlertMsg = () => (<Text style={styles.alerts}>Es fehlt ein Titel</Text>);
-    const questAlertMsg = () => (<Text style={styles.alerts}>Bitte schreiben Sie eine Beschreibung</Text>);
+    const FormRef = useRef(null);
+
+    const addQuestionHandler = () => {
+        const { QuestionInput, SubjectInput } = FormRef.current.getValues()
+        // console.log(QuestionInput, SubjectInput)
+        if (SubjectInput.length < 2) {
+            alert('Es fehlt ein Titel')
+        } else if (QuestionInput.length < 2 && SubjectInput.length > 2) {
+            alert('Bitte schreiben Sie eine Beschreibung')
+        } else {
+            props.onSubmit(SubjectInput, QuestionInput)
+            props.setVisible(false)
+        }
+    }
 
     const PlusIcon = (props) => (
         <KittenIcon {...props} name='plus' />
     );
     return (
-        <View>
-            <Button style={styles.button} status='warning' accessoryRight={PlusIcon} onPress={() => setVisible(true)}>FRAGE STELLEN</Button>
-            <Modal
-                visible={visible}
-                backdropStyle={styles.backdrop}
-                onBackdropPress={() => setVisible(false)}>
-                <TextInput
-                    editable
-                    multiline
-                    maxLength={100}
-                    numberOfLines={10}
-                    placeholder='Frage...'
-                    style={styles.inputSubject}
-                    onChangeText={nextValue => setSubject(nextValue)}
-                    value={subject}
-                />
-                {subjAlert ? subjAlertMsg(): false}
-                <TextInput
-                    editable
-                    maxLength={1000}
-                    multiline
-                    numberOfLines={10}
-                    placeholder='Beschreibung...'
-                    style={styles.inputQuestion}
-                    onChangeText={nextValue => setQuestion(nextValue)}
-                    value={question}
-                />
-                {questAlert ? questAlertMsg(): false}
+        <KeyboardAvoidingView style={styles.outercontainer} behavior="padding">
+            <View>
+                <Modal
+                    visible={props.visible}
+                    backdropStyle={styles.backdrop}
+                    onBackdropPress={() => props.setVisible(false)}
+                >
+                    <Form ref={FormRef}>
+                        <TextInput
+                            editable
+                            multiline
+                            maxLength={100}
+                            numberOfLines={10}
+                            placeholder='Frage...'
+                            style={styles.inputSubject}
+                            name='SubjectInput'
+                            type="TextInput"
+                        />
+                        <TextInput
+                            editable
+                            maxLength={1000}
+                            multiline
+                            numberOfLines={10}
+                            placeholder='Beschreibung...'
+                            style={styles.inputQuestion}
+                            name='QuestionInput'
+                            type="TextInput"
+                        />
 
-                <Button onPress={() => {
-                    if (subject.length < 2) {
-                        setSubjAlert(true)
-                        setQuestAlert(false)
-                    } else if (question.length < 2 && subject.length > 2) {
-                        setQuestAlert(true)
-                    } else {
-                        props.onSubmit(subject, question)
-                        setVisible(false)
-                        setQuestion('')
-                        setSubject('')
-                        setQuestAlert(false)
-                        setSubjAlert(false)
-                    }
-                }} style={styles.button} status='warning' accessoryRight={PlusIcon} />
-            </Modal>
-        </View>
+                        <Button onPress={addQuestionHandler} type='Submit' style={styles.button} status='warning' accessoryRight={PlusIcon} />
+                    </Form>
+                </Modal>
+            </View>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -88,17 +71,20 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         shadowColor: 'black',
         shadowOpacity: 1,
-        shadowOffset: {width: 1, height: 2},
-        alignSelf:'center',
+        shadowOffset: { width: 1, height: 2 },
+        alignSelf: 'center',
         padding: 10,
     },
-    container: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+    backdrop: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     button: {
         margin: 2,
         alignSelf: 'stretch'
+    },
+    container: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
     },
     indicator: {
         justifyContent: 'center',
@@ -128,12 +114,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         borderRadius: 10,
     },
+    outercontainer: {
+        // flex: 1,
+        // width: "100%",
+        // alignItems: "center",
+        // justifyContent: "center",
+        // marginBottom: 0,
+      },
     view: {
         flexWrap: 'wrap',
         width: '100%',
-    },
-    backdrop: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
 });
 
