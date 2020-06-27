@@ -21,6 +21,7 @@ import AddAnswer from "./MySkinTalk-components/AddAnswer";
 import Qcard from './MySkinTalk-components/Qcard';
 import AnswerCard from './MySkinTalk-components/AnswerCard';
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
+import SearchField from "./MySkinTalk-components/SearchField";
 
 const MySkinFavorites = (props) => {
     const { token, user_id, user_name, entriesPerScroll } = props;
@@ -33,6 +34,7 @@ const MySkinFavorites = (props) => {
     const [question, setQuestion] = useState('question')
     const [answer, setAnswer] = useState([])
     const [favQuestionsList, setFavQuestionsList] = useState([])
+    const [searchWord, setSearchWord] = useState('')
     const [fav, setFav] = useState(false)
     const [inputVisible, setInputVisible] = useState(false);
     const alertMessages = {
@@ -126,9 +128,6 @@ const MySkinFavorites = (props) => {
             setFavQuestionsList(data)
         });
     }
-    const FavIcon = (toggleMe) => {
-        return <Icon onPress={toggleMe} size={20} color={'yellow'} name="star" />
-    }
     const toggleFav = (targetID, message) => {
         connectAPI(
             "favorites/" + targetID,
@@ -145,16 +144,35 @@ const MySkinFavorites = (props) => {
             setVisible(false)
         });
     }
-    const PlusIcon = (props) => (
-        <KittenIcon {...props} name='plus' />
-    );
+
+    const searchKeyword = (keyword) => {
+        const encoded = encodeURIComponent(keyword)
+        console.log(typeof keyword, 'keyword')
+        console.log(encoded, 'encoded')
+        connectAPI(
+            "questions/search/" + encoded + "?start=0&numbers=" + entriesPerScroll,
+            "GET",
+            false,
+            token
+          ).then((data) => {
+            console.log(data, 'response')
+          });
+    }
+    
 
 
     //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-    const InputField = React.memo(() => <>
+    const FavIcon = (toggleMe) => {
+        return <Icon onPress={toggleMe} size={20} color={'yellow'} name="star" />
+    }
+    const PlusIcon = (props) => (
+        <KittenIcon {...props} name='plus' />
+    );
+    const InputField = React.memo(() => <SafeAreaView style={styles.inputField}>
+        <SearchField placeholder={'Favoriten-Suche...'} onSubmit={searchKeyword} />
         <Button style={styles.button} status='warning' accessoryRight={PlusIcon} onPress={() => setInputVisible(true)}>FRAGE STELLEN</Button>
         <AddQuestion visible={inputVisible} setVisible={setInputVisible} onSubmit={(subject, question) => submitQuestion(subject, question)} />
-    </>)
+    </SafeAreaView>)
     const CardPopup = React.memo(() => <Modal
         visible={visible}
         backdropStyle={styles.backdrop}
@@ -217,6 +235,10 @@ const styles = StyleSheet.create({
     container: globalcss.container,
     backdrop: {
         backgroundColor: "rgba(0, 0, 0, 0.8)",
+    },
+    inputField: {
+        height: 120,
+        marginBottom: 10,
     },
     list: {
         width: "100%",

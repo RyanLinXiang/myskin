@@ -24,12 +24,8 @@ const QuestionsList = (props) => {
 
   const renderItemIcon = (props) => <KittenIcon {...props} name="person" />;
   const renderItem = ({ item, index }) => {
-    // let queryText = (props) => {
-    //   let text = (item.num > 0) ? `${item.subject} (${item.num})` : `${item.subject}`
-    //   return (
-    //     <Text {...props}>{text}</Text>
-    //   )
-    // }
+    let queryText = (item.num > 0) ? `${item.subject} (${item.num})` :item.subject;
+    
     return (
       <React.Fragment>
         <ListItem
@@ -40,7 +36,7 @@ const QuestionsList = (props) => {
             props.setVisible(true)
           }
           }
-          title={item.subject}
+          title={queryText}
           accessoryLeft={renderItemIcon}
           accessoryRight={props.favIcon}
           style={styles.listitem}
