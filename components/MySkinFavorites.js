@@ -30,32 +30,17 @@ const MySkinFavorites = (props) => {
     //* #### STATES #### *//
 
     const [visible, setVisible] = useState(false);
-    // const [db_questions, set_db_questions] = useState([]);
-    // const [db_answers, set_db_answers] = useState([]);
     const [question, setQuestion] = useState('question')
     const [answer, setAnswer] = useState([])
     const [favQuestionsList, setFavQuestionsList] = useState([])
     const [fav, setFav] = useState(false)
-    // let favCol = fav ? 'yellow' : 'grey'
-
 
 
 
     //* #### FUNCTIONS/METHODS #### *//
 
     //### Question Functions ###//
-    // const getQuestions = () => {
-    //     connectAPI(
-    //         "questions?start=0&numbers=" + entriesPerScroll,
-    //         "GET",
-    //         false,
-    //         token
-    //     ).then((data) => {
-    //         set_db_questions(data);
-    //     });
-    // }
     const findQuestion = (question) => {
-        // for (const query of db_questions) {
         for (const query of favQuestionsList) {
             if (question === query.subject) {
                 return query.id
@@ -73,7 +58,6 @@ const MySkinFavorites = (props) => {
             QUESTION,
             token
         ).then((data) => {
-            // getQuestions();
             getFavorites();
             console.log(data);
             toggleFav(data.insertId)
@@ -128,7 +112,7 @@ const MySkinFavorites = (props) => {
     //### Favorite Functions ###//
     const getFavorites = () => {
         connectAPI(
-            "favorites?start=0&numbers=" + 50,//entriesPerScroll,
+            "favorites?start=0&numbers=" + entriesPerScroll,
             "GET",
             false,
             token
@@ -136,26 +120,12 @@ const MySkinFavorites = (props) => {
             setFavQuestionsList(data)
         });
     }
-    const isFavorite = (targetID = question.id) => {
-        getFavorites();
-        for (const favQuestion of favQuestionsList) {
-            if (favQuestion.id == targetID) {
-                console.log('listed')
-                setFav(true)
-            } else {
-                console.log('not listed')
-                setFav(false)
-            }
-        }
-
-    }
     const FavIcon = (toggleMe) => {
         return <Icon onPress={toggleMe} size={20} color={'yellow'} name="star" />
     }
     const toggleFav = (targetID) => {
-        //toggle fav
         connectAPI(
-            "favorites/" + targetID,//entriesPerScroll,
+            "favorites/" + targetID,
             "POST",
             false,
             token
@@ -169,14 +139,8 @@ const MySkinFavorites = (props) => {
             setVisible(false)
         });
     }
-    const toggleStarCol = () => {
-        //set favIcon color
-        // const isFav = isFavorite()
-        // console.log(isFav, 'isFav?')
-
-        // setFav(prev => !prev)
-    }
-
+    
+    
 
     //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
 
@@ -212,7 +176,7 @@ const MySkinFavorites = (props) => {
                     <ScrollView>
                         <Qcard
                             query={question}
-                            favIcon={() => FavIcon(()=>toggleFav(question.id))} />
+                            favIcon={() => FavIcon(() => toggleFav(question.id))} />
                         {answer.map(reply => <AnswerCard key={reply.id}
                             reply={reply} />)}
                     </ScrollView>
