@@ -7,6 +7,8 @@ export default class UVIndex extends Component {
   state = {
     location: null,
     geocode: null,
+    uvi: null,
+    uvLoaded: false,
     errorMessage: "",
   };
 
@@ -29,22 +31,41 @@ export default class UVIndex extends Component {
     const { latitude, longitude } = location.coords;
     this.getGeocodeAsync({ latitude, longitude });
     this.setState({ location: { latitude, longitude } });
+    this._getUVI(latitude, longitude);
+  };
+
+  _getUVI = (latitude, longitude) => {
+    fetch(`http://api.openuv.io/api/v1/uv?lat=${latitude}&lng=${longitude}`, {
+      headers: {
+        "content-type": "application/json",
+        "x-access-token": "5e344565bfffc560eaea3c26d3e5e3d3",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({
+          uvi: json.result.uv,
+          uvLoaded: true,
+        });
+      });
   };
 
   render() {
-    const { location, geocode, errorMessage } = this.state;
+    const { location, geocode, uvi, uvLoaded, errorMessage } = this.state;
 
     return (
       <View>
         <StatusBar hidden={true} />
-        {location && geocode ? (
+        {location && geocode && uvLoaded ? (
           <Text>
             {"Latitude: " +
-              location.latitude +
+              location.latitude.toFixed(2) +
               ", Longitude: " +
-              location.longitude +
+              location.longitude.toFixed(2) +
               " Geocode: " +
-              geocode[0].city}
+              geocode[0].city +
+              " UV-Index: " +
+              uvi.toFixed(1)}
           </Text>
         ) : (
           <Text>UV Index</Text>
