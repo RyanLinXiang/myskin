@@ -101,6 +101,7 @@ class Cards extends Component {
                   style={styles.bgimagesStd}
                   imageStyle={styles.bgimages}
                   blurRadius={blurRadius}
+                  key={e.img}
                 >
                   <Card
                     style={styles.cards}
