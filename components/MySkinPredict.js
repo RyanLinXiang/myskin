@@ -63,9 +63,8 @@ class MySkinPredict extends React.Component {
     const TO_UINT8ARRAY = true;
     const { width, height, data } = jpeg.decode(rawImageData, TO_UINT8ARRAY);
 
-    // Drop the alpha channel info for mobilenet
     const buffer = new Uint8Array(width * height * 3);
-    let offset = 0; // offset into original data
+    let offset = 0;
     for (let i = 0; i < buffer.length; i += 3) {
       buffer[i] = data[offset];
       buffer[i + 1] = data[offset + 1];
@@ -76,16 +75,13 @@ class MySkinPredict extends React.Component {
 
     const img = tf.tensor3d(buffer, [width, height, 3]);
 
-    // use the shorter side as the size to which we will crop
     const shorterSide = Math.min(width, height);
 
-    // calculate beginning and ending crop points
     const startingHeight = (height - shorterSide) / 2;
     const startingWidth = (width - shorterSide) / 2;
     const endingHeight = startingHeight + shorterSide;
     const endingWidth = startingWidth + shorterSide;
 
-    // return image data cropped to those points
     const sliced_img = img.slice(
       [startingWidth, startingHeight, 0],
       [endingWidth, endingHeight, 3]
