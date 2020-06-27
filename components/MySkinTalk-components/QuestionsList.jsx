@@ -52,9 +52,7 @@ const QuestionsList = (props) => {
 
 
 
-  //* #### FINAL RENDER #### *//
-
-  return <List style={styles.list} data={props.data} renderItem={renderItem} />
+  return (<List style={styles.list} data={props.data} renderItem={renderItem} />)
 }
 
 

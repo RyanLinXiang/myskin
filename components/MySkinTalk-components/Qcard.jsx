@@ -10,8 +10,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Question(props) {
 
-    const [fav, setFav] = useState(false)
-    let favCol = fav ? 'yellow':'grey'
 
     return (
         <View style={styles.questionContainer}>
@@ -24,7 +22,7 @@ export default function Question(props) {
                     </View>
                     <View style={styles.cardButtom}>
                         <KittenIcon style={styles.icon} fill='#8F9BB3' name='clock' />
-                        <Text> {props.query.dayspast>1 ? `${props.query.dayspast} days ago`:`${props.query.dayspast} day ago`}</Text>
+                        <Text> {props.query.dayspast>1 ? `vor ${props.query.dayspast} Tagen`:`vor ${props.query.dayspast} Tag`}</Text>
                     </View>
                     {props.favIcon()}
                     {/* <Icon onPress={() => setFav(prev => !prev)} size={20} color={favCol} name="star" /> */}
