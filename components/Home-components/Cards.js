@@ -4,14 +4,14 @@ import {
   View,
   TouchableWithoutFeedback,
   ImageBackground,
- Dimensions ,
+  Dimensions,
 } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import cardsData from "./cardsData";
 import UVIndex from "./UVIndex";
 import { Card, Text, Modal, Button, Divider } from "@ui-kitten/components";
 const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get('window').height;
+const screenHeight = Dimensions.get("window").height;
 
 class Cards extends Component {
   state = {
@@ -39,9 +39,33 @@ class Cards extends Component {
     return (
       <TouchableWithoutFeedback onPressIn={this.handlerResetView}>
         <View>
-          <Card style={styles.specialcard}>
-            <UVIndex />
-          </Card>
+          {/* <UVIndex /> */}
+          <ImageBackground
+            source={require("../../assets/cards-background-images/UVindex.jpg")}
+            style={styles.bgimagesStd}
+            imageStyle={styles.bgimages}
+          >
+            <Card style={styles.cards}>
+              <Text style={styles.textUVIndex}> UVIndex </Text>
+              <Text style={styles.UVIndex}>5</Text>
+              <Text style={styles.textUVIndex}> Hamburg </Text>
+              <Text style={styles.dateUVIndex}> 27.06.2020 </Text>
+            </Card>
+          </ImageBackground>
+
+          {/* <Remainder /> */}
+          <ImageBackground
+            source={require("../../assets/cards-background-images/remainder1.jpg")}
+            style={styles.bgimagesStd}
+            imageStyle={styles.bgimages}
+          >
+            <Card style={styles.cards}>
+              <Text style={styles.textRemainder}>
+                bis zur nächsten Hautuntersuchung
+              </Text>
+              <Text style={styles.remainder}>130 Tage</Text>
+            </Card>
+          </ImageBackground>
 
           {this.state.cards.map((e, i) => {
             let cardContent;
@@ -102,11 +126,12 @@ class Cards extends Component {
                 {this.state.showFullArticle}
                 <View style={styles.closeButtomArt}>
                   <Button
-                    size="tiny"
+                    size="small"
                     onPress={this.handlerShowFullArticle}
-                    style={{ paddingVertical:10, alignSelf: "stretch" }} status='warning'
+                    style={{ paddingVertical: 10, alignSelf: "stretch" }}
+                    status="warning"
                   >
-                    Close
+                    SCHLIESSEN
                   </Button>
                 </View>
               </Card>
@@ -120,7 +145,7 @@ class Cards extends Component {
 
 const styles = StyleSheet.create({
   cards: {
-     borderWidth: 0,
+    borderWidth: 0,
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
@@ -129,7 +154,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.75,
     shadowRadius: 5,
     shadowColor: "black",
-    paddingVertical: 30
+    paddingVertical: 30,
   },
   bgimagesStd: {
     width: screenWidth * 0.8,
@@ -147,18 +172,51 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
   },
+  remainder: {
+    padding: 10,
+    color: "darkorange",
+    fontSize: 60,
+    textAlign: "right",
+    fontWeight: "bold",
+    paddingTop: 75,
+  },
+  textRemainder: {
+    color: "white",
+    fontSize: 26,
+    textAlign: "right",
+    fontWeight: "bold",
+    paddingTop: 5,
+  },
+  textUVIndex: {
+    color: "white",
+    fontSize: 50,
+    textAlign: "right",
+    fontWeight: "bold",
+  },
+  UVIndex: {
+    color: "darkorange",
+    fontSize: 90,
+    textAlign: "right",
+    fontWeight: "bold",
+  },
+  dateUVIndex: {
+    color: "darkorange",
+    fontSize: 30,
+    textAlign: "right",
+    fontWeight: "bold",
+  },
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
-  modal:{
-    backgroundColor: 'white',
+  modal: {
+    backgroundColor: "white",
     height: screenHeight * 0.75,
   },
-  modalCard:{
-    paddingBottom:40,
+  modalCard: {
+    paddingBottom: 40,
   },
-  closeButtomArt:{
-    paddingVertical:10,
+  closeButtomArt: {
+    paddingVertical: 10,
   },
   specialcard: {
     width: screenWidth * 0.8,
