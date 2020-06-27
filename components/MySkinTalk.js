@@ -184,7 +184,10 @@ const MySkinTalk = (props) => {
     <KittenIcon {...props} name='plus' />
   );
 
-  //! /////////////////////////////////////////////
+
+
+
+  //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
   const InputField = React.memo(() => <>
     <Button style={styles.button} status='warning' accessoryRight={PlusIcon} onPress={() => setInputVisible(true)}>FRAGE STELLEN</Button>
     <AddQuestion visible={inputVisible} setVisible={setInputVisible} onSubmit={(subject, question) => submitQuestion(subject, question)} />
@@ -211,15 +214,11 @@ const MySkinTalk = (props) => {
         size="tiny"
         onPress={() => setVisible(false)}
         style={{ alignSelf: "center" }}
-      >
-        SCHLIESSEN
-  </Button>
+      >SCHLIESSEN</Button>
     </Card>
   </Modal>
   )
 
-
-  //! /////////////////////////////////////////////
 
 
   // //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//

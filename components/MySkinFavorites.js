@@ -34,6 +34,13 @@ const MySkinFavorites = (props) => {
     const [answer, setAnswer] = useState([])
     const [favQuestionsList, setFavQuestionsList] = useState([])
     const [fav, setFav] = useState(false)
+    const [inputVisible, setInputVisible] = useState(false);
+    const alertMessages = {
+        newQuestion: 'Ihre Frage wurde erfolgreich gespeichert!',
+        newAnswer: 'Ihre Antwort wurde erfolgreich gespeichert!',
+        newFavorite: 'Die Frage wurde erfolgreich als Favorit gespeichert!',
+        delFavorite: 'Die Frage wurde von Ihre Favoriten gelöscht',
+    }
 
 
 
@@ -59,9 +66,8 @@ const MySkinFavorites = (props) => {
             token
         ).then((data) => {
             getFavorites();
-            console.log(data);
-            toggleFav(data.insertId)
-            alert('Ihre Frage wurde erfolgreich gespeichert!');
+            // console.log(data);
+            toggleFav(data.insertId, alertMessages.newQuestion)
         });
     }
 
@@ -105,7 +111,7 @@ const MySkinFavorites = (props) => {
             getQuestions();
             getAnswers(question.id)
             // console.log(data);
-            alert('Ihre Antwort wurde erfolgreich gespeichert!');
+            alert(alertMessages.newAnswer);
         });
     }
 
@@ -123,7 +129,7 @@ const MySkinFavorites = (props) => {
     const FavIcon = (toggleMe) => {
         return <Icon onPress={toggleMe} size={20} color={'yellow'} name="star" />
     }
-    const toggleFav = (targetID) => {
+    const toggleFav = (targetID, message) => {
         connectAPI(
             "favorites/" + targetID,
             "POST",
@@ -133,20 +139,53 @@ const MySkinFavorites = (props) => {
             // console.log(data)
             let msg_log = (data.insertId == 0) ? 'UN-favorited' : 'favorited'
             console.log(msg_log)
-            let msg = (data.insertId == 0) ? 'Die Frage wurde von Ihre Favoriten gelöscht' : 'Die Frage wurde erfolgreich als Favorit gespeichert!'
+            let msg = (data.insertId == 0) ? alertMessages.delFavorite : message
             alert(msg);
             getFavorites();
             setVisible(false)
         });
     }
-    
-    
+    const PlusIcon = (props) => (
+        <KittenIcon {...props} name='plus' />
+    );
+
+
+    //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
+    const InputField = React.memo(() => <>
+        <Button style={styles.button} status='warning' accessoryRight={PlusIcon} onPress={() => setInputVisible(true)}>FRAGE STELLEN</Button>
+        <AddQuestion visible={inputVisible} setVisible={setInputVisible} onSubmit={(subject, question) => submitQuestion(subject, question)} />
+    </>)
+    const CardPopup = React.memo(() => <Modal
+        visible={visible}
+        backdropStyle={styles.backdrop}
+        onBackdropPress={() => setVisible(false)}
+        style={styles.modal}
+    >
+        <Card disabled={true}>
+            <ScrollView>
+                <Qcard
+                    query={question}
+                    favIcon={() => FavIcon(() => toggleFav(question.id))} />
+                {answer.map(reply => <AnswerCard key={reply.id}
+                    reply={reply} />)}
+            </ScrollView>
+            <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
+            <Button
+                size="tiny"
+                onPress={() => setVisible(false)}
+                style={{ alignSelf: "center" }}
+            >SCHLIESSEN</Button>
+        </Card>
+
+    </Modal>
+    )
+
 
     //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
 
     useEffect(() => {
-        console.log('favorites screen updated')
         getFavorites();
+        console.log('favorites screen updated');
     }, []);
 
 
@@ -155,8 +194,7 @@ const MySkinFavorites = (props) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text>{Math.random()}</Text>
-            <AddQuestion onSubmit={(subject, question) => submitQuestion(subject, question)} />
+            <InputField />
             <QuestionsList
                 style={styles.list}
                 data={favQuestionsList}
@@ -164,33 +202,9 @@ const MySkinFavorites = (props) => {
                 getAnswers={getAnswers}
                 visible={visible}
                 setVisible={setVisible}
-                favIcon={() => FavIcon(console.log(''))} />
-
-            <Modal
-                visible={visible}
-                backdropStyle={styles.backdrop}
-                onBackdropPress={() => setVisible(false)}
-                style={styles.modal}
-            >
-                <Card disabled={true}>
-                    <ScrollView>
-                        <Qcard
-                            query={question}
-                            favIcon={() => FavIcon(() => toggleFav(question.id))} />
-                        {answer.map(reply => <AnswerCard key={reply.id}
-                            reply={reply} />)}
-                    </ScrollView>
-                    <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
-                    <Button
-                        size="tiny"
-                        onPress={() => setVisible(false)}
-                        style={{ alignSelf: "center" }}
-                    >
-                        SCHLIESSEN
-          </Button>
-                </Card>
-
-            </Modal>
+                favIcon={() => FavIcon(console.log(''))}
+            />
+            <CardPopup />
         </SafeAreaView>
     );
 };
