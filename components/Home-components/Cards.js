@@ -39,9 +39,33 @@ class Cards extends Component {
     return (
       <TouchableWithoutFeedback onPressIn={this.handlerResetView}>
         <View>
-          <Card style={styles.specialcard}>
-            <UVIndex />
-          </Card>
+          {/* <UVIndex /> */}
+          <ImageBackground
+            source={require("../../assets/cards-background-images/UVindex.jpg")}
+            style={styles.bgimagesStd}
+            imageStyle={styles.bgimages}
+          >
+            <Card style={styles.cards}>
+              <Text style={styles.textUVIndex}> UVIndex </Text>
+              <Text style={styles.UVIndex}>5</Text>
+              <Text style={styles.textUVIndex}> Hamburg </Text>
+              <Text style={styles.dateUVIndex}> 27.06.2020 </Text>
+            </Card>
+          </ImageBackground>
+
+          {/* <Remainder /> */}
+          <ImageBackground
+            source={require("../../assets/cards-background-images/remainder1.jpg")}
+            style={styles.bgimagesStd}
+            imageStyle={styles.bgimages}
+          >
+            <Card style={styles.cards}>
+              <Text style={styles.textRemainder}>
+                bis zur nächsten Hautuntersuchung
+              </Text>
+              <Text style={styles.remainder}>130 Tage</Text>
+            </Card>
+          </ImageBackground>
 
           {this.state.cards.map((e, i) => {
             let cardContent;
@@ -103,12 +127,12 @@ class Cards extends Component {
                 {this.state.showFullArticle}
                 <View style={styles.closeButtomArt}>
                   <Button
-                    size="tiny"
+                    size="small"
                     onPress={this.handlerShowFullArticle}
                     style={{ paddingVertical: 10, alignSelf: "stretch" }}
                     status="warning"
                   >
-                    Close
+                    SCHLIESSEN
                   </Button>
                 </View>
               </Card>
@@ -147,6 +171,39 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontSize: 36,
+    fontWeight: "bold",
+  },
+  remainder: {
+    padding: 10,
+    color: "darkorange",
+    fontSize: 60,
+    textAlign: "right",
+    fontWeight: "bold",
+    paddingTop: 75,
+  },
+  textRemainder: {
+    color: "white",
+    fontSize: 26,
+    textAlign: "right",
+    fontWeight: "bold",
+    paddingTop: 5,
+  },
+  textUVIndex: {
+    color: "white",
+    fontSize: 50,
+    textAlign: "right",
+    fontWeight: "bold",
+  },
+  UVIndex: {
+    color: "darkorange",
+    fontSize: 90,
+    textAlign: "right",
+    fontWeight: "bold",
+  },
+  dateUVIndex: {
+    color: "darkorange",
+    fontSize: 30,
+    textAlign: "right",
     fontWeight: "bold",
   },
   backdrop: {
