@@ -153,7 +153,6 @@ const MySkinTalk = (props) => {
         setFav(false)
       }
     }
-
   }
   const FavIcon = (toggleMe) => {
     return <Icon onPress={toggleMe} size={20} color={favCol} name="star" />
