@@ -4,7 +4,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import MySkinPredict from "./MySkinPredict";
 import MySkinTalk from "./MySkinTalk";
 import Home from "./Home";
-import { ModalWithBackdropShowcase as Playground } from "./Playground";
+import Playground from "./Playground";
 import Reminder from "./Home-components/Reminder";
 
 import ViewBuilder from "./ViewBuilder";

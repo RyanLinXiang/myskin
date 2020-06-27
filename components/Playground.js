@@ -1,91 +1,94 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
+import React, { Component } from "react";
 import {
+  StyleSheet,
+  View,
   Button,
-  Card,
-  Modal,
-  Text,
-  List,
-  ListItem,
-  Icon,
-  Divider,
-} from "@ui-kitten/components";
-import connectAPI from "../helpers/api";
-import * as globalcss from "../styles/globalcss";
+  TextInput,
+  Picker,
+  KeyboardAvoidingView,
+} from "react-native";
+import Form from "react-native-form";
 
-export const ModalWithBackdropShowcase = (props) => {
-  const { token, user_id, user_name, entriesPerScroll } = props;
+export default class Playground extends Component {
+  FormRef = React.createRef();
+  state = { message: "" };
+  handlerChange = (text) => {
+    this.setState({ message: text });
+  };
 
-  const [visible, setVisible] = useState(false);
-  const [items, setItems] = useState([]);
-  useEffect(() => {
-    connectAPI(
-      "questions?start=0&numbers=" + entriesPerScroll,
-      "GET",
-      false,
-      token
-    ).then((data) => {
-      setItems(data);
-    });
-  }, []);
+  handlerSubmit = () => {
+    const { TextTest, PickerSelect } = this.FormRef.current.getValues();
 
-  const renderItemAccessory = (props) => (
-    <React.Fragment>
-      <Button size="tiny" onPress={() => setVisible(true)}>
-        Show
-      </Button>
-      <Button size="tiny">Follow</Button>
-    </React.Fragment>
-  );
-
-  const renderItemIcon = (props) => <Icon {...props} name="person" />;
-
-  const renderItem = ({ item, index }) => (
-    <React.Fragment>
-      <ListItem
-        title={item.subject}
-        accessoryLeft={renderItemIcon}
-        accessoryRight={renderItemAccessory}
-        style={styles.listitem}
-      />
-      <Divider />
-    </React.Fragment>
-  );
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <List style={styles.list} data={items} renderItem={renderItem} />
-
-      <Modal
-        visible={visible}
-        backdropStyle={styles.backdrop}
-        onBackdropPress={() => setVisible(false)}
-        style={styles.modal}
-      >
-        <Card disabled={true}>
-          <Text>Here comes the question + answers</Text>
-          <Button
-            size="tiny"
-            onPress={() => setVisible(false)}
-            style={{ alignSelf: "center" }}
-          >
-            Close
-          </Button>
-        </Card>
-      </Modal>
-    </SafeAreaView>
-  );
-};
+    this.setState({ message: TextTest });
+    console.log(TextTest, PickerSelect);
+  };
+  render() {
+    return (
+      <KeyboardAvoidingView style={styles.outercontainer} behavior="padding">
+        <Form ref={this.FormRef}>
+          <View style={styles.innercontainer}>
+            <View style={styles.textinputcontainer}>
+              <TextInput
+                type="TextInput"
+                name="TextTest"
+                placeholder="My text"
+                value={this.state.message}
+                onChangeText={this.handlerChange}
+                style={styles.textinput}
+              />
+            </View>
+            <View style={styles.pickercontainer}>
+              <Picker
+                type="Picker"
+                name="PickerSelect"
+                itemStyle={styles.selection}
+              >
+                <Picker.Item label="All" />
+                <Picker.Item label="One" value={1} />
+                <Picker.Item label="Two" value={2} />
+                <Picker.Item label="Three" value={3} />
+              </Picker>
+            </View>
+            <View style={styles.buttoncontainer}>
+              <Button onPress={this.handlerSubmit} title="Post" />
+            </View>
+          </View>
+        </Form>
+      </KeyboardAvoidingView>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  container: globalcss.container,
-  backdrop: {
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
-  },
-  list: {
+  outercontainer: {
+    flex: 1,
     width: "100%",
-    backgroundColor: globalcss.container.backgroundColor,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
   },
-  listitem: { backgroundColor: globalcss.container.backgroundColor },
-  modal: { width: "90%" },
+  innercontainer: {
+    flexDirection: "row",
+    width: "90%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  selection: {
+    fontFamily: "Avenir",
+    fontSize: 16,
+    height: 40,
+  },
+  textinput: {
+    fontFamily: "Avenir",
+    fontSize: 16,
+    height: 38,
+    borderTopColor: "#E4E4E4",
+    borderBottomColor: "#E4E4E4",
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    marginRight: 10,
+  },
+  textinputcontainer: { flex: 4 },
+  pickercontainer: { flex: 1 },
+  buttoncontainer: { flex: 1 },
 });
