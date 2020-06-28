@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, SafeAreaView, TextInput } from "react-native";
-import { Button, Card, Modal, Text, Calendar } from "@ui-kitten/components";
+import { StyleSheet, TextInput } from "react-native";
+import { Card, Text } from "@ui-kitten/components";
 import ArticleReminder from "./articles/ArticleReminder";
 import * as globalcss from "../../styles/globalcss";
 

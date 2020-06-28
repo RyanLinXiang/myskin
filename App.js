@@ -60,6 +60,7 @@ export default class App extends Component {
 
   render() {
     const { token, user_id, user_name } = this.state;
+
     return (
       <React.Fragment>
         <IconRegistry icons={EvaIconsPack} />

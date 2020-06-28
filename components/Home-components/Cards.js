@@ -79,8 +79,10 @@ class Cards extends Component {
                 <React.Fragment key={e.title}>
                   <TouchableHighlight
                     onPress={() => {
-                      this.handlerShowFullArticle(e.component);
-                      this.setState({ pressedCard: false });
+                      requestAnimationFrame(() => {
+                        this.handlerShowFullArticle(e.component);
+                        this.setState({ pressedCard: false });
+                      });
                     }}
                     style={styles.titleItem}
                   >
@@ -107,7 +109,9 @@ class Cards extends Component {
                   <Card
                     style={styles.cards}
                     onPress={() => {
-                      this.handlerShowTitles(e.chapter);
+                      requestAnimationFrame(() => {
+                        this.handlerShowTitles(e.chapter);
+                      });
                     }}
                   >
                     {cardContent}
