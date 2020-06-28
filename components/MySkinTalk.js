@@ -36,7 +36,7 @@ const MySkinTalk = (props) => {
   const [question, setQuestion] = useState('question')
   const [answer, setAnswer] = useState([])
   const [favQuestionsList, setFavQuestionsList] = useState([])
-  const [searchWord, setSearchWord] = useState('')
+  const [searchResults, setSearchResults] = useState([])
   const [fav, setFav] = useState(false)
   let favCol = fav ? 'yellow' : 'grey'
   const alertMessages = {

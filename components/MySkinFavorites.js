@@ -34,7 +34,7 @@ const MySkinFavorites = (props) => {
     const [question, setQuestion] = useState('question')
     const [answer, setAnswer] = useState([])
     const [favQuestionsList, setFavQuestionsList] = useState([])
-    const [searchWord, setSearchWord] = useState('')
+    const [searchResults, setSearchResults] = useState([])
     const [fav, setFav] = useState(false)
     const [inputVisible, setInputVisible] = useState(false);
     const alertMessages = {
@@ -145,17 +145,18 @@ const MySkinFavorites = (props) => {
         });
     }
 
+    //### Search Functions ###//
     const searchKeyword = (keyword) => {
         const encoded = encodeURIComponent(keyword)
-        console.log(typeof keyword, 'keyword')
-        console.log(encoded, 'encoded')
         connectAPI(
             "questions/search/" + encoded + "?start=0&numbers=" + entriesPerScroll,
             "GET",
             false,
             token
           ).then((data) => {
-            console.log(data, 'response')
+              console.log(data)
+            // setSearchResults(data)
+            setFavQuestionsList(data)
           });
     }
     
