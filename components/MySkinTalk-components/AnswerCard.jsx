@@ -23,10 +23,11 @@ export default function Answer(props) {
                     </View>
                     <View style={styles.cardButtom}>
                         <Icon style={styles.icon} fill='#8F9BB3' name='clock' />
-                        <Text> {props.reply.dayspast>1 ? `${props.reply.dayspast} days ago`:`${props.reply.dayspast} day ago`}</Text>
+                        <Text>  vor {props.reply.dayspast>1 ? `${props.reply.dayspast} Tagen`:`${props.reply.dayspast} Tag`}</Text>
                     </View>
                 </View>
             </Card>
+           
         // </View>
     );
 }
@@ -35,18 +36,23 @@ const styles = StyleSheet.create({
     answerContainer: {
         flex: 1,
         backgroundColor: "#fff",
+      
+      
+    
     },
     cardsAnswer: {
         borderWidth: 0,
-        backgroundColor: "white",
-        alignItems: "center",
-        justifyContent: "center",
-        width: screenWidth * 0.9,
-        borderRadius: 10,
+        backgroundColor: "#fff",
+        alignItems: "stretch",
+        width: '100%' ,
+        borderBottomColor:'darkorange',
+        borderBottomWidth:1,
+        marginVertical: 5,
+       
     },
     cardTextAnswer: {
         paddingBottom: 10,
-        fontSize: 18,
+        fontSize: 16,
     },
     cardText: {
         flexDirection: 'row',

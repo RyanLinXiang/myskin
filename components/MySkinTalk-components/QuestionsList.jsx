@@ -1,7 +1,7 @@
 //* #### IMPORTS #### *//
 
 import React, { useState, useEffect } from "react";
-import { StyleSheet, TouchableWithoutFeedback, SafeAreaView, Text } from "react-native";
+import { StyleSheet, SafeAreaView, Text } from "react-native";
 import {
   List,
   ListItem,
@@ -21,7 +21,6 @@ const QuestionsList = (props) => {
   //     </React.Fragment>
   //   )
   // };
-
   const renderItemIcon = (props) => <KittenIcon {...props} name="person" />;
   const renderItem = ({ item, index }) => {
     // let queryText = (props) => {
@@ -31,33 +30,27 @@ const QuestionsList = (props) => {
     //   )
     // }
     return (
-      <TouchableWithoutFeedback>
       <React.Fragment>
         <ListItem
-          onPress={function (me) {
-            const questionText = this.children.props.children[1].props.children[0].props.component;
-            const queryID = props.findQuestion(questionText)
-            props.getAnswers(queryID)
-            props.setVisible(true)
-          }
-          }
+          onPress={() => {
+            /* LinX:            const questionText = this.children.props.children[1].props
+              .children[0].props.component;
+            const queryID = props.findQuestion(questionText); */
+
+            props.getAnswers(item.id);
+          }}
           title={item.subject}
           accessoryLeft={renderItemIcon}
-          accessoryRight={props.favIcon}
+          /*  accessoryRight={props.favIcon} */
           style={styles.listitem}
         />
         <Divider />
       </React.Fragment>
-      </TouchableWithoutFeedback>
-    )
+    );
   };
 
-
-
-  return (<List style={styles.list} data={props.data} renderItem={renderItem} />)
-}
-
-
+  return <List style={styles.list} data={props.data} renderItem={renderItem} />;
+};
 
 //* #### STYLESHEET #### *//
 
@@ -71,12 +64,9 @@ const styles = StyleSheet.create({
     backgroundColor: globalcss.container.backgroundColor,
   },
   listitem: { backgroundColor: globalcss.container.backgroundColor },
-  modal: { width: "90%",   borderRadius: 30, },
-  star: { color: 'red' }
+  modal: { width: "90%" },
+  star: { color: "red" },
 });
-
-
-
 
 //* #### EXPORT #### *//
 

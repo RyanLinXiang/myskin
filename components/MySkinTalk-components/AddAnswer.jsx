@@ -1,10 +1,10 @@
 //* #### IMPORTS #### *//
 
 import React, { useState } from "react";
-import { StyleSheet, View, Dimensions, KeyboardAvoidingView } from "react-native";
-import { Button } from "@ui-kitten/components";
-import { ScrollView, TextInput, } from "react-native-gesture-handler";
-const screenWidth = Dimensions.get("window").width;
+import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import { Button, Divider } from "@ui-kitten/components";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
+import * as globalcss from "../../styles/globalcss";
 
 const AddAnswer = (props) => {
 
@@ -14,7 +14,7 @@ const AddAnswer = (props) => {
     const buttonHandler = () => {
         if (buttonText == 'ANTWORTEN') {
             setShowInput(true)
-            setButtonText('ABSENDEN')
+            setButtonText('SPEICHERN') //'ABSENDEN'
         } else {
             props.onSubmit(answer)
             setShowInput(false)
@@ -25,6 +25,7 @@ const AddAnswer = (props) => {
 
     return (
         <KeyboardAvoidingView style={styles.outercontainer} behavior="padding">
+        <Divider />
             <View style={styles.questionContainer}>
                 {showInput ? <TextInput
                     editable
@@ -39,6 +40,7 @@ const AddAnswer = (props) => {
                 <Button
                     size="tiny"
                     onPress={buttonHandler}
+                    style={ styles.button }
                     status="warning"
                 >
                     {buttonText}
@@ -51,26 +53,29 @@ const AddAnswer = (props) => {
 
 const styles = StyleSheet.create({
     questionContainer: {
-        flex: 1,
+        flex: 1, 
         backgroundColor: "#fff",
-        borderBottomWidth: 2,
-        borderColor: 'lightgrey',
-        paddingBottom: 10,
+        // borderBottomWidth: 1,
+        // borderColor: 'red',
+        paddingBottom: 40,
         marginBottom: 10,
-
     },
     inputSubject: {
-        width: screenWidth * 0.8,
-        marginVertical: 10,
+        width: 300,
+        marginVertical: 15,
         padding: 10,
         alignSelf: 'stretch',
-        fontSize: 20,
+        // fontSize: 15,
         height: 100,
-        borderColor: 'red',
+        borderColor: 'gray',
         borderWidth: 1,
         backgroundColor: '#FFF',
         borderRadius: 10,
     },
+    button:{
+        alignSelf:'stretch',
+        marginVertical: 10,  
+    }
 });
 
 export default AddAnswer

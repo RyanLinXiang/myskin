@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { StyleSheet, View, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, View, TextInput, KeyboardAvoidingView } from "react-native";
 import { Button, Modal, Icon as KittenIcon } from "@ui-kitten/components";
 import Form from "react-native-form";
 
@@ -26,7 +26,7 @@ const AddQuestion = (props) => {
         <KittenIcon {...props} name='plus' />
     );
     return (
-        <TouchableWithoutFeedback style={styles.outercontainer} behavior="padding">
+        <KeyboardAvoidingView style={styles.outercontainer} behavior="padding">
             <View>
                 <Modal
                     visible={props.visible}
@@ -55,18 +55,17 @@ const AddQuestion = (props) => {
                             type="TextInput"
                         />
 
-                        <Button onPress={addQuestionHandler} size="small" type='Submit' style={styles.button} status='warning'> FRAGE SPEICHERN
-                        </Button>
+                        <Button onPress={addQuestionHandler} type='Submit' size="small" style={styles.button} status='warning'>FRAGE SPEICHERN</Button>
                     </Form>
                 </Modal>
             </View>
-        </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     alerts: {
-        color: 'red',
+        color: 'darkorange',
         fontSize: 20,
         fontWeight: 'bold',
         fontStyle: 'italic',
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     backdrop: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     button: {
         margin: 10,
