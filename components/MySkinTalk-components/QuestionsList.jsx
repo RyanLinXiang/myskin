@@ -32,16 +32,16 @@ const QuestionsList = (props) => {
     return (
       <React.Fragment>
         <ListItem
-          onPress={function (me) {
+          onPress={() => {
             /* LinX:            const questionText = this.children.props.children[1].props
               .children[0].props.component;
             const queryID = props.findQuestion(questionText); */
+
             props.getAnswers(item.id);
-            props.setVisible(true);
           }}
           title={item.subject}
           accessoryLeft={renderItemIcon}
-          accessoryRight={props.favIcon}
+          /*  accessoryRight={props.favIcon} */
           style={styles.listitem}
         />
         <Divider />

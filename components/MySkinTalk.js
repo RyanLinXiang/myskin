@@ -84,11 +84,10 @@ const MySkinTalk = (props) => {
       false,
       token
     ).then((data) => {
-      setQuestion(data[0]);
       let qAnda = [];
       if (data[1].length > 0) {
         for (const answer of data[1]) {
-          /* LinX: else if (answer.answer) {
+          /* else if (answer.answer) {
             setAnswer((prev) => {
               let noDuplicates = [...prev, answer].filter(
                 (item, i, self) =>
@@ -101,7 +100,9 @@ const MySkinTalk = (props) => {
           qAnda.push(answer);
         }
       }
+      setQuestion(data[0]);
       setAnswer(qAnda);
+      setVisible(true);
     });
   };
   const submitAnswer = (answer) => {
@@ -140,9 +141,11 @@ const MySkinTalk = (props) => {
       }
     }
   };
-  const FavIcon = (toggleMe) => {
-    return <Icon onPress={toggleMe} size={20} color={favCol} name="star" />;
-  };
+
+  //const FavIcon = (toggleMe) => {
+  //  return <Icon onPress={toggleMe} size={20} color={favCol} name="star" />;
+  //};
+
   const toggleFav = (targetID, message) => {
     //toggle fav
     connectAPI(
@@ -188,44 +191,41 @@ const MySkinTalk = (props) => {
     </>
   );
   //LinX: Removed React.memo as it does not make sense
-  const CardPopup = () => (
-    <Modal
-      visible={visible}
-      backdropStyle={styles.backdrop}
-      onBackdropPress={() => setVisible(false)}
-      style={styles.modal}
-    >
-      <Card disabled={true}>
-        <ScrollView>
-          {visible ? (
-            <>
-              <Qcard
-                query={question}
-                favIcon={() =>
+  const CardPopup = () => {
+    if (question.subject) console.log("Hello");
+    return (
+      <Modal
+        visible={visible}
+        backdropStyle={styles.backdrop}
+        onBackdropPress={() => setVisible(false)}
+        style={styles.modal}
+      >
+        <Card disabled={true}>
+          <ScrollView>
+            <Qcard
+              query={question}
+              /*favIcon={() =>
                   FavIcon(() =>
                     toggleFav(question.id, alertMessages.newFavorite)
                   )
-                }
-              />
-              {answer.map((reply) => (
-                <AnswerCard key={reply.id} reply={reply} />
-              ))}
-            </>
-          ) : (
-            false
-          )}
-        </ScrollView>
-        <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
-        <Button
-          size="tiny"
-          onPress={() => setVisible(false)}
-          style={{ alignSelf: "center" }}
-        >
-          SCHLIESSEN
-        </Button>
-      </Card>
-    </Modal>
-  );
+                }*/
+            />
+            {answer.map((reply) => (
+              <AnswerCard key={reply.id} reply={reply} />
+            ))}
+          </ScrollView>
+          <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
+          <Button
+            size="tiny"
+            onPress={() => setVisible(false)}
+            style={{ alignSelf: "center" }}
+          >
+            SCHLIESSEN
+          </Button>
+        </Card>
+      </Modal>
+    );
+  };
 
   // //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
 
@@ -237,7 +237,7 @@ const MySkinTalk = (props) => {
   const textTest = (where) => console.log(Math.random(), where); //
 
   //* #### FINAL RENDER #### *//
-  console.log("I am rendering" + Math.random());
+
   return (
     <SafeAreaView style={styles.container}>
       <InputField />
@@ -248,7 +248,7 @@ const MySkinTalk = (props) => {
         getAnswers={getAnswers}
         visible={visible}
         setVisible={setVisible}
-        favIcon={() => FavIcon(console.log(""))}
+        /*favIcon={() => FavIcon(console.log(""))}*/
       />
       <CardPopup />
     </SafeAreaView>
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalcss.container.backgroundColor,
   },
   listitem: { backgroundColor: globalcss.container.backgroundColor },
-  modal: { width: "90%" },
+  modal: { width: "90%", zIndex: 500 },
   star: { color: "red" },
 });
 
