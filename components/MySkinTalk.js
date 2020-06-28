@@ -192,7 +192,6 @@ const MySkinTalk = (props) => {
   );
   //LinX: Removed React.memo as it does not make sense
   const CardPopup = () => {
-    if (question.subject) console.log("Hello");
     return (
       <Modal
         visible={visible}
