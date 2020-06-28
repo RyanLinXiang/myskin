@@ -2,12 +2,7 @@ import React, { Component } from "react";
 import Navigation from "./components/Navigation";
 import Connect from "./components/Connect";
 import * as eva from "@eva-design/eva";
-import {
-  ApplicationProvider,
-  IconRegistry,
-  Layout,
-  Text,
-} from "@ui-kitten/components";
+import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -18,7 +13,6 @@ export default class App extends Component {
     user_name: false,
     items: false,
     error: false,
-    view: "home",
   };
 
   entriesPerScroll = 10;
@@ -38,6 +32,21 @@ export default class App extends Component {
         console.log(e);
       }
     } else this.setState({ error: error });
+  };
+
+  handlerLogout = async () => {
+    try {
+      await AsyncStorage.removeItem("@storage_token");
+      this.setState({
+        token: false,
+        user_id: false,
+        user_name: false,
+        items: false,
+        error: false,
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   componentDidMount = async () => {
@@ -71,6 +80,7 @@ export default class App extends Component {
               user_id={user_id}
               user_name={user_name}
               entriesPerScroll={this.entriesPerScroll}
+              handlerLogout={this.handlerLogout}
             />
           ) : (
             <Connect handlerConnect={this.handlerConnect} />

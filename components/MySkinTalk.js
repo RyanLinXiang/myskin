@@ -86,7 +86,7 @@ const MySkinTalk = (props) => {
     ).then((data) => {
       let qAnda = [];
       if (data[1].length > 0) {
-        for (const answer of data[1]) {
+        for (const item of data[1]) {
           /* else if (answer.answer) {
             setAnswer((prev) => {
               let noDuplicates = [...prev, answer].filter(
@@ -97,7 +97,7 @@ const MySkinTalk = (props) => {
             });
           } */
 
-          qAnda.push(answer);
+          qAnda.push(item);
         }
       }
       setQuestion(data[0]);
@@ -192,28 +192,30 @@ const MySkinTalk = (props) => {
   );
   //LinX: Removed React.memo as it does not make sense
   const CardPopup = () => {
-    return (
+    return question.subject ? (
       <Modal
         visible={visible}
         backdropStyle={styles.backdrop}
-        onBackdropPress={() => setVisible(false)}
+        onBackdropPress={() => {
+          setVisible(false);
+        }}
         style={styles.modal}
       >
         <Card disabled={true}>
-          <ScrollView>
-            <Qcard
-              query={question}
-              /*favIcon={() =>
+          <Qcard
+            query={question}
+            /*favIcon={() =>
                   FavIcon(() =>
                     toggleFav(question.id, alertMessages.newFavorite)
                   )
                 }*/
-            />
-            {answer.map((reply) => (
-              <AnswerCard key={reply.id} reply={reply} />
-            ))}
-          </ScrollView>
+          />
+          {answer.map((reply) => (
+            <AnswerCard key={reply.id} reply={reply} />
+          ))}
+
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
+
           <Button
             size="tiny"
             onPress={() => setVisible(false)}
@@ -223,7 +225,7 @@ const MySkinTalk = (props) => {
           </Button>
         </Card>
       </Modal>
-    );
+    ) : null;
   };
 
   // //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
@@ -232,8 +234,6 @@ const MySkinTalk = (props) => {
     getQuestions();
     getFavorites();
   }, []);
-
-  const textTest = (where) => console.log(Math.random(), where); //
 
   //* #### FINAL RENDER #### *//
 
