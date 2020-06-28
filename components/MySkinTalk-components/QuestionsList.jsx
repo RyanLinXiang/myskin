@@ -1,7 +1,7 @@
 //* #### IMPORTS #### *//
 
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, Text } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, SafeAreaView, Text } from "react-native";
 import {
   List,
   ListItem,
@@ -31,6 +31,7 @@ const QuestionsList = (props) => {
     //   )
     // }
     return (
+      <TouchableWithoutFeedback>
       <React.Fragment>
         <ListItem
           onPress={function (me) {
@@ -47,6 +48,7 @@ const QuestionsList = (props) => {
         />
         <Divider />
       </React.Fragment>
+      </TouchableWithoutFeedback>
     )
   };
 
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalcss.container.backgroundColor,
   },
   listitem: { backgroundColor: globalcss.container.backgroundColor },
-  modal: { width: "90%" },
+  modal: { width: "90%",   borderRadius: 30, },
   star: { color: 'red' }
 });
 

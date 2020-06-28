@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions,  StyleSheet, View } from "react-native";
 // import * as globalcss from "../../styles/globalcss";
 import { Card, Text, Divider } from "@ui-kitten/components";
 const screenWidth = Dimensions.get("window").width;
@@ -12,6 +12,7 @@ export default function Question(props) {
 
 
     return (
+        
         <View style={styles.questionContainer}>
                 <Text style={styles.cardTextQuestion}> {props.query.question}</Text>
                 <Divider />
@@ -28,7 +29,9 @@ export default function Question(props) {
                     {/* <Icon onPress={() => setFav(prev => !prev)} size={20} color={favCol} name="star" /> */}
                     {/* <FavButton /> */}
                 </View>
+               
         </View>
+        
     );
 }
 
@@ -47,26 +50,21 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         width: screenWidth * 0.9,
-        borderRadius: 10,
-        shadowOpacity: 0.75,
-        shadowRadius: 10,
-        shadowColor: "black",
-        marginBottom: 20,
-        elevation: 5, //shadow for android
+        borderRadius: 30,
+        marginBottom: 20,  
     },
     cardTextQuestion: {
-        paddingBottom: 10,
-        fontWeight: 'bold',
+        paddingBottom: 10,   
         fontSize: 20
     },
     cardText: {
         flexDirection: 'row',
         paddingTop: 10,
-        justifyContent: 'space-between',
+        justifyContent:'space-evenly',
     },
     cardButtom: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
     },
     icon: {
         width: 20,

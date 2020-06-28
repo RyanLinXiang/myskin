@@ -43,15 +43,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: screenWidth * 0.9,
         borderRadius: 10,
-        shadowOpacity: 0.75,
-        shadowRadius: 10,
-        shadowColor: "black",
-        marginBottom: 20,
-        elevation: 5, //shadow for android
     },
     cardTextAnswer: {
         paddingBottom: 10,
-        fontSize: 18
+        fontSize: 18,
     },
     cardText: {
         flexDirection: 'row',

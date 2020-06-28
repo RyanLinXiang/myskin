@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Divider } from "@ui-kitten/components";
 import * as stylesArticles from "./stylesArticles";
+import { Size } from "@ui-kitten/components/devsupport";
 const screenWidth = Dimensions.get("window").width;
 
 const Article08 = (props) => (
@@ -74,10 +75,13 @@ const Article08 = (props) => (
         </View>
       </View>
     </View>
-    {/* <Image
+    <Text style={styles.textArticle}>
+      Nach ABCDE-Regel erkennen Sie gefährliche Leberflecken
+    </Text>
+    <Image
       style={styles.imgArticle}
-      source={require("../../../assets/articles-images/warnzeichen.jpg")}
-    /> */}
+      source={require("../../../assets/articles-images/warn1.jpg")}
+    />
   </ScrollView>
 );
 
