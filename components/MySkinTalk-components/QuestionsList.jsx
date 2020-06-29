@@ -25,7 +25,6 @@ const QuestionsList = (props) => {
           }}
           title={queryText}
           accessoryLeft={renderItemIcon}
-          accessoryRight={() => props.favButton(item)} 
           style={styles.listitem}
         />
         <Divider />
