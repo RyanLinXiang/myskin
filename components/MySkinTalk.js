@@ -34,8 +34,6 @@ const MySkinTalk = (props) => {
   const [question, setQuestion] = useState("question");
   const [answer, setAnswer] = useState([]);
   const [showData, setShowData] = useState([]);
-  const [fav, setFav] = useState(false);
-  let favCol = fav ? "yellow" : "grey";
   const alertMessages = {
     newQuestion: "Ihre Frage wurde erfolgreich gespeichert!",
     newAnswer: "Ihre Antwort wurde erfolgreich gespeichert!",
@@ -48,7 +46,7 @@ const MySkinTalk = (props) => {
   //* #### FUNCTIONS/METHODS #### *//
 
   //### Question Functions ###//
-  const getQuestions = (favList) => {
+  const getQuestions = (favList, update) => {
     connectAPI(
       "questions?start=0&numbers=" + entriesPerScroll,
       "GET",
@@ -56,19 +54,13 @@ const MySkinTalk = (props) => {
       token
     ).then((data) => {
       const questionsList = data.map(obj => favList.find(favObj => favObj.id === obj.id) || obj) //if is favorite, replace obj with obj from favList
-      if (data.length > showData.length) {
+      if (data.length > showData.length || update) {
         setShowData(questionsList);
       }
       set_db_questions(questionsList);
     });
   };
-  /*  LinX: const findQuestion = (question) => {
-    for (const query of db_questions) {
-      if (question === query.subject) {
-        return query.id;
-      }
-    }
-  }; */
+
   const submitQuestion = (subject, question) => {
     const QUESTION = {
       subject: subject,
@@ -111,13 +103,13 @@ const MySkinTalk = (props) => {
   };
 
   //### Favorite Functions ###//
-  const getFavorites = () => {
+  const getFavorites = (update) => {
     connectAPI(
       "favorites?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
         data.forEach((element) => {
           element.isFav = true;
         }); // add prop isFav
-        getQuestions(data);
+        getQuestions(data, update);
       });
   };
 
@@ -129,6 +121,9 @@ const MySkinTalk = (props) => {
         console.log(msg_log);
         let msg = data.insertId == 0 ? alertMessages.delFavorite : message;
         alert(msg);
+        getFavorites('update!');
+        // (data.insertId == 0) ? setVisible(false) : setVisible(true)
+        setVisible(false)
       });
   };
 

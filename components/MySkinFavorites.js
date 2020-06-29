@@ -91,13 +91,13 @@ const MySkinFavorites = (props) => {
     };
 
     //### Favorite Functions ###//
-    const getFavorites = () => {
+    const getFavorites = (update) => {
         connectAPI(
             "favorites?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
                 data.forEach((element) => {
                     element.isFav = true;
                 }); // add prop isFav
-                if (data.length > showData.length) {
+                if (data.length > showData.length || update) {
                     setShowData(data);
                 }
                 setFavQuestionsList(data)
@@ -111,7 +111,8 @@ const MySkinFavorites = (props) => {
                 console.log(msg_log)
                 let msg = (data.insertId == 0) ? alertMessages.delFavorite : message
                 alert(msg);
-                // getFavorites();
+                getFavorites('update!');
+                (data.insertId == 0) ? setVisible(false):setVisible(true)
                 // setVisible(false) //-> makes card disappear
             });
     }
