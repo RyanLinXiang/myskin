@@ -34,6 +34,7 @@ const MySkinFavorites = (props) => {
     const [question, setQuestion] = useState("question");
     const [answer, setAnswer] = useState([]);
     const [favQuestionsList, setFavQuestionsList] = useState([]);
+    const [showData, setShowData] = useState([]);
     const [fav, setFav] = useState(false);
     let favCol = fav ? "yellow" : "grey";
     const alertMessages = {
@@ -97,6 +98,9 @@ const MySkinFavorites = (props) => {
     const getFavorites = () => {
         connectAPI(
             "favorites?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
+                if (data.length>showData.length) {
+                    setShowData(data);
+                }
                 setFavQuestionsList(data)
             });
     }
@@ -120,9 +124,9 @@ const MySkinFavorites = (props) => {
             "questions/search/" + encoded + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
                 // console.log(data)
                 // setSearchResults(data)
-                let favSearch = data.filter(query => favQuestionsList.some(favQuery => favQuery.id===query.id))
-                console.log(favSearch, 'fav sreach')
-                setFavQuestionsList(favSearch)
+                let favSearch = data.filter(query => favQuestionsList.some(favQuery => favQuery.id===query.id));
+                console.log(favSearch, 'fav search')
+                setShowData(favSearch)
             });
     }
 
@@ -200,7 +204,7 @@ const MySkinFavorites = (props) => {
             <InputField />
             <QuestionsList
                 style={styles.list}
-                data={favQuestionsList}
+                data={showData}
                 // findQuestion={findQuestion}
                 getAnswers={getAnswers}
                 visible={visible}
