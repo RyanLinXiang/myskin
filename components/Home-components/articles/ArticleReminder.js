@@ -1,68 +1,88 @@
-import { StyleSheet, TextInput, View, Platform } from "react-native";
-import { Text, Button, Card, Calendar } from "@ui-kitten/components";
+import { StyleSheet, View, Platform, ScrollView } from "react-native";
+import { Text, Button, Divider } from "@ui-kitten/components";
 import * as stylesArticles from "./stylesArticles";
-import React, { useState } from "react";
+import React, { Component } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-const ArticleReminder = (props) => {
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
+class ArticleReminder extends Component {
+  state = {
+    mode: "date",
+    handler: false,
+    screenDate: this.props.screenDate
+      ? this.props.screenDate
+      : new Date(Date.now()),
+    selectedDate: false,
+    selectedTime: false,
   };
 
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
+  show = false;
+
+  handlerToggleMode = (mode) => {
+    const handler =
+      mode === "date" ? this.handlerChangeDate : this.handlerChangeTime;
+    this.setState({ mode, handler });
+    this.show = true;
   };
 
-  const showDatepicker = () => {
-    showMode("date");
+  handlerChangeDate = (event, selectedDate) => {
+    //const datePart = selectedDate.split("T")[0];
+    const datePart = selectedDate.toLocaleString("de-DE");
+    const convertedBack = new Date();
+    console.log(selectedDate.toLocaleString("de-DE"));
+    console.log(selectedDate.toLocaleString("de-DE"));
+    this.show = Platform.OS === "ios";
+    this.setState({ screenDate: selectedDate });
+  };
+  handlerChangeTime = (event, selectedDate) => {
+    console.log(selectedDate);
+    this.show = Platform.OS === "ios";
+    this.setState({ screenDate: selectedDate });
   };
 
-  const showTimepicker = () => {
-    showMode("time");
-  };
+  render() {
+    const { screenDate, mode, handler } = this.state;
 
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+    return (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={styles.titleArticle}>Hautkrebs-Screening</Text>
+        <Divider />
+        <Text style={styles.textArticle}>
+          Regelmäßiges Hautscreening ist ein wichtiger Bestandteil der
+          Hautkrebsvorsorge. Tragen Sie hier Ihren nächsten Termin ein:
+        </Text>
+        <Button
+          onPress={() => {
+            this.handlerToggleMode("date");
+          }}
+          size="tiny"
+        >
+          Datum auswählen
+        </Button>
+        <Button
+          onPress={() => {
+            this.handlerToggleMode("time");
+          }}
+          size="tiny"
+        >
+          Uhrzeit auswählen
+        </Button>
 
-  /* const setTime = (nextDate) => {
-    console.log("nextDate:" + nextDate.getTime());
-    console.log("Date:" + date.getDate());
-    console.log("remain:" + daysRemaining);
-
-    const oneDay = 24 * 60 * 60 * 1000;
-
-    const chosenDay = date;
-    const currentDay = nextDate.getDate();
-
-    let daysRemaining = Math.abs((chosenDay - currentDay) / oneDay);
-    daysRemaining = daysRemaining.toString();
-  }; */
-
-  return (
-    <View>
-      <View>
-        <Button onPress={showDatepicker} title="Show date picker!" />
-      </View>
-      <View>
-        <Button onPress={showTimepicker} title="Show time picker!" />
-      </View>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />
-      )}
-    </View>
-  );
-};
+        {this.show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            timeZoneOffsetInMinutes={0}
+            value={screenDate}
+            mode={mode}
+            is24Hour={true}
+            display="default"
+            onChange={handler}
+            locale="de"
+          />
+        )}
+      </ScrollView>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   textArticle: stylesArticles.textArticle,
