@@ -26,7 +26,7 @@ const screenWidth = Dimensions.get("window").width;
   };
   
   const imgArticle = {
-    width: screenWidth, 
+    width: 300, 
     alignSelf:'center',
   };
 

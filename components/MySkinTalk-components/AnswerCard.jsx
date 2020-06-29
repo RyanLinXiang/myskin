@@ -36,9 +36,7 @@ const styles = StyleSheet.create({
     answerContainer: {
         flex: 1,
         backgroundColor: "#fff",
-      
-      
-    
+       
     },
     cardsAnswer: {
         borderWidth: 0,
@@ -48,6 +46,7 @@ const styles = StyleSheet.create({
         borderBottomColor:'darkorange',
         borderBottomWidth:1,
         marginVertical: 5,
+        
        
     },
     cardTextAnswer: {

@@ -10,8 +10,11 @@ import Icon from "react-native-vector-icons/FontAwesome";
 export default function Question(props) {
   return (
     <View style={styles.questionContainer}>
+     <Text style={styles.cardTextSubject}> {props.query.subject}</Text>
+      <Divider />
       <Text style={styles.cardTextQuestion}> {props.query.question}</Text>
       <Divider />
+     
       <View style={styles.cardText}>
         <View style={styles.cardButtom}>
           <KittenIcon style={styles.icon} fill="#8F9BB3" name="person" />
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
   questionContainer: {
     flex: 1,
     backgroundColor: "#fff",
-    borderBottomWidth: 2,
+    borderBottomWidth: 4,
     borderColor: "orange",
     paddingBottom: 10,
     marginBottom: 10,
@@ -56,8 +59,13 @@ const styles = StyleSheet.create({
     elevation: 5, //shadow for android
   },
   cardTextQuestion: {
-    paddingBottom: 15,
-    fontWeight: "bold",
+    paddingVertical: 10,
+    color:'black',
+    fontSize: 16,
+  },
+  cardTextSubject:{
+    paddingBottom: 10,
+    fontWeight:'bold',
     color:'orange',
     fontSize: 20,
   },

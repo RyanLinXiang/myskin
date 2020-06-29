@@ -39,7 +39,7 @@ const AddAnswer = (props) => {
                     value={answer}
                 /> ): (false)}
                 <Button
-                    size="tiny"
+                    size="small"
                     onPress={buttonHandler}
                     style={ styles.button }
                     status="warning"

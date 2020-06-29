@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowColor: "darkgray",
     shadowOffset: { height: 10, width: 10 },
-    elevation: 5,
+
   },
   bgimages: { borderRadius: 20, opacity: 0.7 },
   text: {

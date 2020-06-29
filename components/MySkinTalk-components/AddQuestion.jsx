@@ -41,7 +41,7 @@ const AddQuestion = (props) => {
               multiline
               maxLength={100}
               numberOfLines={10}
-              placeholder="Frage..."
+              placeholder="Betreff..."
               style={styles.inputSubject}
               name="SubjectInput"
               type="TextInput"
@@ -51,82 +51,90 @@ const AddQuestion = (props) => {
               maxLength={1000}
               multiline
               numberOfLines={10}
-              placeholder="Beschreibung..."
+              placeholder="Frage..."
               style={styles.inputQuestion}
               name="QuestionInput"
               type="TextInput"
             />
 
-                        <Button onPress={addQuestionHandler} type='Submit' size="small" style={styles.button} status='warning'>FRAGE SPEICHERN</Button>
-                    </Form>
-                    </ScrollView>
-         </KeyboardAvoidingView>
-        </Modal>
-    );
-}
+            <Button
+              onPress={addQuestionHandler}
+              type="Submit"
+              size="small"
+              style={styles.button}
+              status="warning"
+            >
+              FRAGE STELLEN
+            </Button>
+          </Form>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </Modal>
+  );
+};
 
 const styles = StyleSheet.create({
-    alerts: {
-        color: 'darkorange',
-        fontSize: 20,
-        fontWeight: 'bold',
-        fontStyle: 'italic',
-        shadowColor: 'black',
-        shadowOpacity: 1,
-        shadowOffset: { width: 1, height: 2 },
-        alignSelf: 'center',
-        padding: 10,
-    },
-    backdrop: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    button: {
-        margin: 10,
-        alignSelf: 'stretch'
-    },
-    container: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
-    indicator: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    inputSubject: {
-        width: 300,
-        margin: 10,
-        padding: 10,
-        alignSelf: 'stretch',
-        fontSize: 20,
-        height: 100,
-        borderColor: 'gray',
-        borderWidth: 1,
-        backgroundColor: '#FFF',
-        borderRadius: 10,
-    },
-    inputQuestion: {
-        width: 300,
-        margin: 10,
-        padding: 10,
-        alignSelf: 'stretch',
-        fontSize: 20,
-        height: 400,
-        borderColor: 'gray',
-        borderWidth: 1,
-        backgroundColor: '#FFF',
-        borderRadius: 10,
-    },
-    outercontainer: {
-        // flex: 1,
-        // width: "100%",
-        // alignItems: "center",
-        // justifyContent: "center",
-        // marginBottom: 0,
-      },
-    view: {
-        flexWrap: 'wrap',
-        width: '100%',
-    },
+  alerts: {
+    color: "darkorange",
+    fontSize: 20,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    shadowColor: "black",
+    shadowOpacity: 1,
+    shadowOffset: { width: 1, height: 2 },
+    alignSelf: "center",
+    padding: 10,
+  },
+  backdrop: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  button: {
+    margin: 10,
+    alignSelf: "stretch",
+  },
+  container: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  indicator: {
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  inputSubject: {
+    width: 300,
+    margin: 10,
+    padding: 10,
+    alignSelf: "stretch",
+    fontSize: 20,
+    height: 50,
+    borderColor: "gray",
+    borderWidth: 1,
+    backgroundColor: "#FFF",
+    borderRadius: 10,
+  },
+  inputQuestion: {
+    width: 300,
+    margin: 10,
+    padding: 10,
+    alignSelf: "stretch",
+    fontSize: 20,
+    height: 150,
+    borderColor: "gray",
+    borderWidth: 1,
+    backgroundColor: "#FFF",
+    borderRadius: 10,
+  },
+  outercontainer: {
+    // flex: 1,
+    // width: "100%",
+    // alignItems: "center",
+    // justifyContent: "center",
+    // marginBottom: 0,
+  },
+  view: {
+    flexWrap: "wrap",
+    width: "100%",
+  },
 });
 
 export default AddQuestion;
