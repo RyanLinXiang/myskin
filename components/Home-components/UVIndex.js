@@ -57,7 +57,7 @@ export default class UVIndex extends Component {
       <View style={styles.container}>
         <StatusBar hidden={true} />
         {location && geocode && uvLoaded ? (
-          <Text>
+          <Text style={style.titleText}>
             {"Latitude: " +
               location.latitude.toFixed(2) +
               ", Longitude: " +
@@ -95,4 +95,8 @@ const styles = StyleSheet.create({
     fontSize: 38,
     marginBottom: 90,
   },
+  titleText: {
+    fontFamily: 'roboto-bold',
+    fontSize: 18
+  }
 });

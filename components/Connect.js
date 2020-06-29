@@ -10,6 +10,8 @@ import Form from "react-native-form";
 import * as globalcss from "../styles/globalcss";
 import connectAPI from "../helpers/api";
 
+import * as Font from 'expo-font';
+
 const Connect = (props) => {
   const [mode, toggleMode] = useState("login");
 
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
   container: globalcss.container,
   logoImage: { width: 250, height: 250, margin: 10 },
   input: {
-    fontFamily: "Roboto",
+    fontFamily: 'Roboto',
     fontSize: 18,
     textAlign: "center",
     margin: 10,
