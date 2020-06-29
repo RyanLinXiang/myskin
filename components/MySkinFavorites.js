@@ -138,13 +138,13 @@ const MySkinFavorites = (props) => {
     const InputField = () => (
         <>
             <SearchField placeholder={'Favoriten-Suche...'} onSubmit={searchKeyword} />
-            <Button
+            {showData.length<favQuestionsList.length ? <Button
                 style={styles.button}
                 status='danger'
                 onPress={() => getFavorites()}
             >
                 RESET SUCHE
-            </Button>
+            </Button>:null}
             <Button
                 style={styles.button}
                 status='warning'

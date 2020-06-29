@@ -34,6 +34,7 @@ const MySkinTalk = (props) => {
   const [question, setQuestion] = useState("question");
   const [answer, setAnswer] = useState([]);
   const [favQuestionsList, setFavQuestionsList] = useState([]);
+  const [showData, setShowData] = useState([]);
   const [fav, setFav] = useState(false);
   let favCol = fav ? "yellow" : "grey";
   const alertMessages = {
@@ -55,6 +56,9 @@ const MySkinTalk = (props) => {
       false,
       token
     ).then((data) => {
+      if (data.length>showData.length) {
+        setShowData(data);
+    }
       set_db_questions(data);
     });
   };
@@ -161,7 +165,7 @@ const MySkinTalk = (props) => {
       "questions/search/" + encoded + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
         console.log(data)
         // setSearchResults(data)
-        set_db_questions(data)
+        setShowData(data)
       });
   }
 
@@ -173,13 +177,13 @@ const MySkinTalk = (props) => {
   const InputField = () => (
     <>
       <SearchField placeholder={'Suche...'} onSubmit={searchKeyword} />
-      <Button
+      {showData.length < favQuestionsList.length ? <Button
         style={styles.button}
         status='danger'
         onPress={() => getQuestions()}
       >
         RESET SUCHE
-      </Button>
+      </Button> : null}
       <Button
         style={styles.button}
         status="warning"
@@ -240,7 +244,7 @@ const MySkinTalk = (props) => {
       <InputField />
       <QuestionsList
         style={styles.list}
-        data={db_questions}
+        data={showData}
         //LinX:   findQuestion={findQuestion}
         getAnswers={getAnswers}
         visible={visible}
