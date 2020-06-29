@@ -21,7 +21,6 @@ const QuestionsList = (props) => {
   //     </React.Fragment>
   //   )
   // };
-
   const renderItemIcon = (props) => <KittenIcon {...props} name="person" />;
   const renderItem = ({ item, index }) => {
     let queryText = (item.num > 0) ? `${item.subject} (${item.num})` :item.subject;
@@ -29,29 +28,25 @@ const QuestionsList = (props) => {
     return (
       <React.Fragment>
         <ListItem
-          onPress={function (me) {
-            const questionText = this.children.props.children[1].props.children[0].props.component;
-            const queryID = props.findQuestion(questionText)
-            props.getAnswers(queryID)
-            props.setVisible(true)
-          }
-          }
-          title={queryText}
+          onPress={() => {
+            /* LinX:            const questionText = this.children.props.children[1].props
+              .children[0].props.component;
+            const queryID = props.findQuestion(questionText); */
+
+            props.getAnswers(item.id);
+          }}
+          title={item.subject}
           accessoryLeft={renderItemIcon}
-          accessoryRight={props.favIcon}
+          /*  accessoryRight={props.favIcon} */
           style={styles.listitem}
         />
         <Divider />
       </React.Fragment>
-    )
+    );
   };
 
-
-
-  return (<List style={styles.list} data={props.data} renderItem={renderItem} />)
-}
-
-
+  return <List style={styles.list} data={props.data} renderItem={renderItem} />;
+};
 
 //* #### STYLESHEET #### *//
 
@@ -66,11 +61,8 @@ const styles = StyleSheet.create({
   },
   listitem: { backgroundColor: globalcss.container.backgroundColor },
   modal: { width: "90%" },
-  star: { color: 'red' }
+  star: { color: "red" },
 });
-
-
-
 
 //* #### EXPORT #### *//
 

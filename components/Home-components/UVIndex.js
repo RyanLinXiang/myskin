@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, StatusBar } from "react-native";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
+import { Card, Text } from "@ui-kitten/components";
+import ArticleUVIndex from "./articles/ArticleUVIndex";
+import * as globalcss from "../../styles/globalcss";
 
 export default class UVIndex extends Component {
   state = {
@@ -45,7 +48,7 @@ export default class UVIndex extends Component {
       .then((json) => {
         let uvi;
         if (json.error) uvi = 4;
-        else uvi = json.result.uv;
+        else uvi = json.result.uv.toFixed(1);
         this.setState({
           uvi: uvi,
           uvLoaded: true,
@@ -53,32 +56,45 @@ export default class UVIndex extends Component {
       });
   };
 
+  getCurrentDate = () => {
+    const today = new Date();
+    let hh = today.getHours();
+    let min = today.getMinutes();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
+    dd = dd < 10 ? "0" + dd : dd;
+    mm = mm < 10 ? "0" + mm : mm;
+    hh = hh < 10 ? "0" + hh : hh;
+    min = min < 10 ? "0" + min : min;
+
+    return dd + "." + mm + "." + yyyy + ", " + hh + ":" + min;
+  };
+
   render() {
     const { location, geocode, uvi, uvLoaded, errorMessage } = this.state;
 
-    return (
-      <View>
-        <StatusBar hidden={true} />
+    return !this.props.api ? (
+      <ArticleUVIndex />
+    ) : (
+      <Card style={styles.cards}>
         {location && geocode && uvLoaded ? (
-          <Text>
-            {"Latitude: " +
-              location.latitude.toFixed(2) +
-              ", Longitude: " +
-              location.longitude.toFixed(2) +
-              " Geocode: " +
-              geocode[0].city +
-              " UV-Index: " +
-              uvi.toFixed(1)}
-          </Text>
+          <React.Fragment>
+            <Text style={styles.titleUVIndex}>UV-Index</Text>
+            <Text style={styles.UVIndex}>{uvi}</Text>
+            <Text style={styles.textUVIndex}> {geocode[0].city} </Text>
+            <Text style={styles.dateUVIndex}> {this.getCurrentDate()} </Text>
+          </React.Fragment>
         ) : (
-          <Text>UV Index</Text>
+          <ActivityIndicator size="large" color="#CCCCCC" />
         )}
-      </View>
+      </Card>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  cards: globalcss.cards,
   errorText: {
     color: "red",
     backgroundColor: "transparent",
@@ -93,5 +109,29 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 38,
     marginBottom: 90,
+  },
+  textUVIndex: {
+    color: "white",
+    fontSize: 20,
+    textAlign: "right",
+    fontWeight: "bold",
+  },
+  titleUVIndex: {
+    color: "white",
+    fontSize: 30,
+    textAlign: "right",
+    fontWeight: "bold",
+  },
+  UVIndex: {
+    color: "darkorange",
+    fontSize: 90,
+    textAlign: "right",
+    fontWeight: "bold",
+  },
+  dateUVIndex: {
+    color: "darkorange",
+    fontSize: 20,
+    textAlign: "right",
+    fontWeight: "bold",
   },
 });

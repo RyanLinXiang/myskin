@@ -1,3 +1,8 @@
+import { Dimensions } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+
 const container = {
   flex: 1,
   justifyContent: "center",
@@ -7,8 +12,21 @@ const container = {
 
 const talkStyle = {
   fontSize: 10,
-  favOn: 'yellow',
-  favOff: 'grey'
-}
+  favOn: "yellow",
+  favOff: "grey",
+};
 
-export { container, talkStyle };
+const cards = {
+  borderWidth: 0,
+  backgroundColor: "transparent",
+  alignItems: "center",
+  justifyContent: "center",
+  width: screenWidth * 0.8,
+  height: screenWidth * 0.8,
+  shadowOpacity: 0.75,
+  shadowRadius: 5,
+  shadowColor: "black",
+  paddingVertical: 30,
+};
+
+export { container, talkStyle, cards, screenWidth, screenHeight };
