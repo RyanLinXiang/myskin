@@ -5,6 +5,7 @@ import {
   Button,
   Image,
   TextInput,
+  Alert,
 } from "react-native";
 import Form from "react-native-form";
 import * as globalcss from "../styles/globalcss";
@@ -22,13 +23,39 @@ const Connect = (props) => {
   const handlerLogin = () => {
     const { user_name, password } = FormRef.current.getValues();
     connectAPI("login", "POST", { user_name, password }, false).then((data) => {
-      props.handlerConnect(data.token, data.user_id, data.user_name, false);
+      if (!data.error)
+        props.handlerConnect(data.token, data.user_id, data.user_name, false);
+      else {
+        Alert.alert("Fehler", data.error, [
+          {
+            text: "OK",
+          },
+        ]);
+      }
     });
   };
 
   const handlerRegister = () => {
     const { user_name, password, email } = FormRef.current.getValues();
-    // console.log(user_name, password, email);
+    connectAPI("register", "POST", { user_name, password, email }, false).then(
+      (data) => {
+        if (!data.error) {
+          Alert.alert("Wilkommen!", data.success, [
+            {
+              text: "OK",
+            },
+          ]);
+
+          handlerToggleMode();
+        } else {
+          Alert.alert("Fehler", data.error, [
+            {
+              text: "OK",
+            },
+          ]);
+        }
+      }
+    );
   };
 
   return (

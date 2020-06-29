@@ -35,7 +35,7 @@ const QuestionsList = (props) => {
 
             props.getAnswers(item.id);
           }}
-          title={item.subject}
+          title={queryText}
           accessoryLeft={renderItemIcon}
           /*  accessoryRight={props.favIcon} */
           style={styles.listitem}

@@ -42,12 +42,13 @@ const Navigation = (props) => {
     );
   }
 
-  function playground() {
-    return <Playground {...props} />;
+  function logout() {
+    props.handlerLogout();
+    return <React.Fragment></React.Fragment>;
   }
 
-  function reminder() {
-    return <Reminder {...props} />;
+  function playground() {
+    return <Playground {...props} />;
   }
 
   const Drawer = createDrawerNavigator();
@@ -77,14 +78,14 @@ const Navigation = (props) => {
             options={{ title: "MySkin: Favorites" }}
           />
           <Drawer.Screen
+            name="Logout"
+            component={logout}
+            options={{ title: "Logout" }}
+          />
+          <Drawer.Screen
             name="Playground"
             component={playground}
             options={{ title: "Playground" }}
-          />
-          <Drawer.Screen
-            name="Reminder"
-            component={reminder}
-            options={{ title: "Reminder" }}
           />
         </Drawer.Navigator>
       </NavigationContainer>
