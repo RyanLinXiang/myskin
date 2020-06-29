@@ -21,13 +21,14 @@ const AddAnswer = (props) => {
             setButtonText('ANTWORTEN')
             setAnswer('')
         }
-    }
+    };
+  
 
     return (
         <KeyboardAvoidingView style={styles.outercontainer} behavior="padding">
         <Divider />
             <View style={styles.questionContainer}>
-                {showInput ? <TextInput
+                {showInput ? ( <TextInput
                     editable
                     multiline
                     maxLength={1000}
@@ -36,7 +37,7 @@ const AddAnswer = (props) => {
                     style={styles.inputSubject}
                     onChangeText={nextValue => setAnswer(nextValue)}
                     value={answer}
-                /> : false}
+                /> ): (false)}
                 <Button
                     size="tiny"
                     onPress={buttonHandler}
@@ -47,8 +48,8 @@ const AddAnswer = (props) => {
                 </Button>
             </View>
         </KeyboardAvoidingView>
-    )
-}
+    );
+  }
 
 
 const styles = StyleSheet.create({
@@ -78,4 +79,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddAnswer
+
+export default AddAnswer;

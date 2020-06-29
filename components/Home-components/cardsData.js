@@ -17,27 +17,33 @@ const cardsData = [
     articles: [
       { title: "Die Haut", component: <Article01 /> },
       { title: "Was ist Hautkrebs?", component: <Article02 /> },
-      { title: "Wie verbreitet ist Hautkrebs?",component: <Article03 /> },
-      {title: "Risikofaktoren für Hautkrebs?", component: <Article04 /> },
+      { title: "Wie verbreitet ist Hautkrebs?", component: <Article03 /> },
+      { title: "Risikofaktoren für Hautkrebs?", component: <Article04 /> },
       { title: "Vitamin D", component: <Article05 /> },
     ],
-    img: require("../../assets/cards-background-images/erkrankung.jpg"),
+    img: require("../../assets/cards-background-images/erkrankung_neu.png"),
   },
   {
     chapter: "Vorbeugung",
     articles: [
-      { title: "Wie Sie sich und Ihre Haut schützen können", component: <Article06 /> },
+      {
+        title: "Wie Sie sich und Ihre Haut schützen können",
+        component: <Article06 />,
+      },
       { title: "Selbstuntersuchung der Haut", component: <Article07 /> },
       { title: "Warnzeichen", component: <Article08 /> },
     ],
-    img: require("../../assets/cards-background-images/vorbeugung.jpg"),
+    img: require("../../assets/cards-background-images/vorbeugung_neu.jpg"),
   },
   {
     chapter: "Lebensweise",
     articles: [
       { title: "Ernährung", component: <Article09 /> },
       { title: "Bewegung ist entscheidend", component: <Article10 /> },
-      { title: "Meditation und Entspannnungstechniken", component: <Article11 /> },
+      {
+        title: "Meditation und Entspannnungstechniken",
+        component: <Article11 />,
+      },
     ],
     img: require("../../assets/cards-background-images/lebensweise.jpg"),
   },

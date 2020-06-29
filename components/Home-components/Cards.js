@@ -40,7 +40,7 @@ class Cards extends Component {
         <View>
           {/* <UVIndex /> */}
           <ImageBackground
-            source={require("../../assets/cards-background-images/UVindex.jpg")}
+            source={require("../../assets/cards-background-images/UVindex_neu.jpg")}
             style={styles.bgimagesStd}
             imageStyle={styles.bgimages}
           >
@@ -56,7 +56,7 @@ class Cards extends Component {
 
           {/* <Remainder /> */}
           <ImageBackground
-            source={require("../../assets/cards-background-images/remainder1.jpg")}
+            source={require("../../assets/cards-background-images/remainder1_neu.jpg")}
             style={styles.bgimagesStd}
             imageStyle={styles.bgimages}
           >

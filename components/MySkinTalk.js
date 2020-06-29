@@ -86,7 +86,7 @@ const MySkinTalk = (props) => {
     ).then((data) => {
       let qAnda = [];
       if (data[1].length > 0) {
-        for (const answer of data[1]) {
+        for (const item of data[1]) {
           /* else if (answer.answer) {
             setAnswer((prev) => {
               let noDuplicates = [...prev, answer].filter(
@@ -97,7 +97,7 @@ const MySkinTalk = (props) => {
             });
           } */
 
-          qAnda.push(answer);
+          qAnda.push(item);
         }
       }
       setQuestion(data[0]);
@@ -176,10 +176,9 @@ const MySkinTalk = (props) => {
   const InputField = () => (
     <>
       <Button
-       size="small"
         style={styles.button}
         status="warning"
-        // accessoryRight={PlusIcon}
+        accessoryRight={PlusIcon}
         onPress={() => setInputVisible(true)}
       >
         FRAGE STELLEN
@@ -193,39 +192,40 @@ const MySkinTalk = (props) => {
   );
   //LinX: Removed React.memo as it does not make sense
   const CardPopup = () => {
-    return (
+    return question.subject ? (
       <Modal
         visible={visible}
         backdropStyle={styles.backdrop}
-        onBackdropPress={() => setVisible(false)}
+        onBackdropPress={() => {
+          setVisible(false);
+        }}
         style={styles.modal}
       >
-        <Card style={styles.modalCard} disabled={true}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <Qcard
-              query={question}
-              /*favIcon={() =>
+        <Card disabled={true}>
+          <Qcard
+            query={question}
+            /*favIcon={() =>
                   FavIcon(() =>
                     toggleFav(question.id, alertMessages.newFavorite)
                   )
                 }*/
-            />
-            {answer.map((reply) => (
-              <AnswerCard key={reply.id} reply={reply} />
-            ))}
-          </ScrollView>
+          />
+          {answer.map((reply) => (
+            <AnswerCard key={reply.id} reply={reply} />
+          ))}
+
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
+
           <Button
             size="tiny"
             onPress={() => setVisible(false)}
-            style={{ alignSelf: "stretch" }}
-            status="warning"
+            style={{ alignSelf: "center" }}
           >
             SCHLIESSEN
           </Button>
         </Card>
       </Modal>
-    );
+    ) : null;
   };
 
   // //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
@@ -234,8 +234,6 @@ const MySkinTalk = (props) => {
     getQuestions();
     getFavorites();
   }, []);
-
-  const textTest = (where) => console.log(Math.random(), where); //
 
   //* #### FINAL RENDER #### *//
 
@@ -265,26 +263,11 @@ const styles = StyleSheet.create({
   },
   list: {
     width: "100%",
-    // width: globalcss.screenWidth * 0.9,
     backgroundColor: globalcss.container.backgroundColor,
   },
-  listitem: { 
-    
-    backgroundColor: globalcss.container.backgroundColor },
-  modal: { 
-    width: "90%", 
-    justifyContent:'space-evenly',
-    height: globalcss.screenHeight * 0.8,
-   },
-   modalCard: {
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-    paddingBottom: 80,
-  },
-   
-  star: { color: "darkorange" },
+  listitem: { backgroundColor: globalcss.container.backgroundColor },
+  modal: { width: "90%", zIndex: 500 },
+  star: { color: "red" },
 });
 
 //* #### EXPORT #### *//
