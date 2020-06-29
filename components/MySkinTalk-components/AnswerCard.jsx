@@ -1,18 +1,13 @@
-import React, { Component, useState } from "react";
+import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-// import * as globalcss from "../../styles/globalcss";
 import { Card, Text, Divider } from "@ui-kitten/components";
 const screenWidth = Dimensions.get("window").width;
 import { Icon } from '@ui-kitten/components';
-// import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 export default function Answer(props) {
 
-    //   const [count, setCount]=useState('');
-
     return (
-        // <View style={styles.answerContainer}>
             <Card style={styles.cardsAnswer}>
                 <Text style={styles.cardTextAnswer}> {props.reply.answer}</Text>
                 <Divider />
@@ -27,15 +22,10 @@ export default function Answer(props) {
                     </View>
                 </View>
             </Card>
-        // </View>
     );
 }
 
 const styles = StyleSheet.create({
-    answerContainer: {
-        flex: 1,
-        backgroundColor: "#fff",
-    },
     cardsAnswer: {
         borderWidth: 0,
         backgroundColor: "white",

@@ -1,7 +1,7 @@
 //* #### IMPORTS #### *//
 
-import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, Text } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 import {
   List,
   ListItem,
@@ -9,18 +9,10 @@ import {
   Divider,
 } from "@ui-kitten/components";
 import * as globalcss from "../../styles/globalcss";
-import FavButton from "./FavButton";
 
 const QuestionsList = (props) => {
-  //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-
-  // const renderItemAccessory = (props) => {
-  //   return (
-  //     <React.Fragment>
-  //       <FavButton setFav={props.setFav} />
-  //     </React.Fragment>
-  //   )
-  // };
+  
+  //* #### ACCESSORY COMPONENTS TO BE RENDERED #### */
   const renderItemIcon = (props) => <KittenIcon {...props} name="person" />;
   const renderItem = ({ item, index }) => {
     let queryText = (item.num > 0) ? `${item.subject} (${item.num})` :item.subject;
@@ -29,10 +21,6 @@ const QuestionsList = (props) => {
       <React.Fragment>
         <ListItem
           onPress={() => {
-            /* LinX:            const questionText = this.children.props.children[1].props
-              .children[0].props.component;
-            const queryID = props.findQuestion(questionText); */
-
             props.getAnswers(item.id);
           }}
           title={queryText}

@@ -7,16 +7,11 @@ import {
     Card,
     Modal,
     Text,
-    List,
-    ListItem,
     Icon as KittenIcon,
-    Divider,
 } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Icon from "react-native-vector-icons/FontAwesome";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
-import { ScrollView } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
 import AddAnswer from "./MySkinTalk-components/AddAnswer";
 import Qcard from "./MySkinTalk-components/Qcard";
@@ -34,7 +29,7 @@ const MySkinFavorites = (props) => {
     // const [db_answers, set_db_answers] = useState([]);
     const [question, setQuestion] = useState("question");
     const [answer, setAnswer] = useState([]);
-    const [favQuestionsList, setFavQuestionsList] = useState([]);
+    const [db_fav_questions, set_db_fav_questions] = useState([]);
     const [showData, setShowData] = useState([]);
     const alertMessages = {
         newQuestion: "Ihre Frage wurde erfolgreich gespeichert!",
@@ -57,7 +52,7 @@ const MySkinFavorites = (props) => {
         connectAPI("questions", "POST", QUESTION, token).then((data) => {
             getFavorites();
             // console.log(data);
-            toggleFav(data.insertId, alertMessages.newQuestion);
+            toggleFav(data.insertId);
         });
     };
 
@@ -85,7 +80,6 @@ const MySkinFavorites = (props) => {
         connectAPI("answers", "POST", ANSWER, token).then((data) => {
             getFavorites();
             getAnswers(question.id);
-            // console.log(data);
             alert(alertMessages.newAnswer);
         });
     };
@@ -100,20 +94,13 @@ const MySkinFavorites = (props) => {
                 if (data.length > showData.length || update) {
                     setShowData(data);
                 }
-                setFavQuestionsList(data)
+                set_db_fav_questions(data)
             });
     }
-    const toggleFav = (targetID, message) => {
+    const toggleFav = (targetID) => {
         connectAPI(
             "favorites/" + targetID, "POST", false, token).then((data) => {
-                // console.log(data)
-                let msg_log = (data.insertId == 0) ? 'UN-favorited' : 'favorited'
-                console.log(msg_log)
-                let msg = (data.insertId == 0) ? alertMessages.delFavorite : message
-                alert(msg);
                 getFavorites('update!');
-                (data.insertId == 0) ? setVisible(false):setVisible(true)
-                // setVisible(false) //-> makes card disappear
             });
     }
 
@@ -122,7 +109,7 @@ const MySkinFavorites = (props) => {
         const encoded = encodeURIComponent(keyword)
         connectAPI(
             "questions/search/" + encoded + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
-                let favSearch = data.filter(query => favQuestionsList.some(favQuery => favQuery.id === query.id)); //only keep if searched question is a favorite
+                let favSearch = data.filter(query => db_fav_questions.some(favQuery => favQuery.id === query.id)); //only keep if searched question is a favorite
                 setShowData(favSearch)
             });
     }
@@ -138,9 +125,8 @@ const MySkinFavorites = (props) => {
             size='large'
             onPress={() => {
                 if (query.question !== undefined) {
-                  toggleFav(query.id, alertMessages.newFavorite)
-                  console.log(query.subject)
-                  console.log(query.isFav ? 'favorited' : 'UN-favorited');
+                  toggleFav(query.id);
+                  setQuestion({...query, isFav: !query.isFav});
                 }
               }}
         >
@@ -154,7 +140,7 @@ const MySkinFavorites = (props) => {
     const InputField = () => (
         <>
             <SearchField placeholder={'Favoriten-Suche...'} onSubmit={searchKeyword} />
-            {showData.length < favQuestionsList.length ? <Button
+            {showData.length < db_fav_questions.length ? <Button
                 style={styles.button}
                 status='danger'
                 onPress={() => getFavorites()}
@@ -209,7 +195,6 @@ const MySkinFavorites = (props) => {
 
     useEffect(() => {
         getFavorites();
-        console.log('favorites screen updated');
     }, []);
 
 
@@ -222,7 +207,6 @@ const MySkinFavorites = (props) => {
             <QuestionsList
                 style={styles.list}
                 data={showData}
-                // findQuestion={findQuestion}
                 getAnswers={getAnswers}
                 visible={visible}
                 setVisible={setVisible}

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { StyleSheet, View, TextInput, KeyboardAvoidingView } from "react-native";
-import { Button, Modal, Icon as KittenIcon } from "@ui-kitten/components";
+import { Button, Icon as KittenIcon } from "@ui-kitten/components";
 import Form from "react-native-form";
 
 const SearchField = (props) => {
@@ -8,7 +8,6 @@ const SearchField = (props) => {
 
     const searchHandler = () => { 
         const { SearchKeyword } = FormRef.current.getValues();
-        // console.log(SearchKeyword);
         props.onSubmit(SearchKeyword)
     }
     const SearchIcon = (props) => <KittenIcon {...props} name='search-outline' />

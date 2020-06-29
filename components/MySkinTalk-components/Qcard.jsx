@@ -1,11 +1,8 @@
-import React, { Component, useState } from "react";
+import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-// import * as globalcss from "../../styles/globalcss";
-import { Card, Text, Divider } from "@ui-kitten/components";
+import { Text, Divider } from "@ui-kitten/components";
 const screenWidth = Dimensions.get("window").width;
 import { Icon as KittenIcon } from "@ui-kitten/components";
-import FavButton from "./FavButton";
-import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function Question(props) {
   return (

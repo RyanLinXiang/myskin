@@ -7,12 +7,8 @@ import {
   Card,
   Modal,
   Text,
-  List,
-  ListItem,
   Icon as KittenIcon,
-  Divider,
 } from "@ui-kitten/components";
-import Icon from "react-native-vector-icons/FontAwesome";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -30,7 +26,6 @@ const MySkinTalk = (props) => {
 
   const [visible, setVisible] = useState(false);
   const [db_questions, set_db_questions] = useState([]);
-  // const [db_answers, set_db_answers] = useState([]);
   const [question, setQuestion] = useState("question");
   const [answer, setAnswer] = useState([]);
   const [showData, setShowData] = useState([]);
@@ -47,12 +42,7 @@ const MySkinTalk = (props) => {
 
   //### Question Functions ###//
   const getQuestions = (favList, update) => {
-    connectAPI(
-      "questions?start=0&numbers=" + entriesPerScroll,
-      "GET",
-      false,
-      token
-    ).then((data) => {
+    connectAPI("questions?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
       const questionsList = data.map(obj => favList.find(favObj => favObj.id === obj.id) || obj) //if is favorite, replace obj with obj from favList
       if (data.length > showData.length || update) {
         setShowData(questionsList);
@@ -69,7 +59,7 @@ const MySkinTalk = (props) => {
     connectAPI("questions", "POST", QUESTION, token).then((data) => {
       getFavorites();
       // console.log(data);
-      toggleFav(data.insertId, alertMessages.newQuestion);
+      toggleFav(data.insertId);
     });
   };
 
@@ -97,7 +87,6 @@ const MySkinTalk = (props) => {
     connectAPI("answers", "POST", ANSWER, token).then((data) => {
       getFavorites();
       getAnswers(question.id);
-      // console.log(data);
       alert(alertMessages.newAnswer);
     });
   };
@@ -113,17 +102,10 @@ const MySkinTalk = (props) => {
       });
   };
 
-  const toggleFav = (targetID, message) => {
+  const toggleFav = (targetID) => {
     connectAPI(
       "favorites/" + targetID, "POST", false, token).then((data) => {
-        // console.log(data)
-        let msg_log = data.insertId == 0 ? "UN-favorited" : "favorited";
-        console.log(msg_log);
-        let msg = data.insertId == 0 ? alertMessages.delFavorite : message;
-        alert(msg);
         getFavorites('update!');
-        // (data.insertId == 0) ? setVisible(false) : setVisible(true)
-        setVisible(false)
       });
   };
 
@@ -132,8 +114,6 @@ const MySkinTalk = (props) => {
     const encoded = encodeURIComponent(keyword)
     connectAPI(
       "questions/search/" + encoded + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
-        console.log(data)
-        // setSearchResults(data)
         setShowData(data)
       });
   }
@@ -149,9 +129,8 @@ const MySkinTalk = (props) => {
         size='large'
         onPress={() => {
           if (query.question !== undefined) {
-            toggleFav(query.id, alertMessages.newFavorite)
-            console.log(query.subject)
-            console.log(query.isFav ? 'favorited' : 'UN-favorited');
+            toggleFav(query.id)
+            setQuestion({...query, isFav: !query.isFav});
           }
         }}
       >
@@ -169,7 +148,7 @@ const MySkinTalk = (props) => {
       {showData.length < db_questions.length ? <Button
         style={styles.button}
         status='danger'
-        onPress={() => getQuestions()}
+        onPress={() => getFavorites()}
       >
         RESET SUCHE
       </Button> : null}
@@ -223,7 +202,6 @@ const MySkinTalk = (props) => {
   // //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
 
   useEffect(() => {
-    console.log('Talk screen updated')
     getFavorites()
   }, []);
 
@@ -235,7 +213,6 @@ const MySkinTalk = (props) => {
       <QuestionsList
         style={styles.list}
         data={showData}
-        //LinX:   findQuestion={findQuestion}
         getAnswers={getAnswers}
         visible={visible}
         setVisible={setVisible}
