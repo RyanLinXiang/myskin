@@ -10,6 +10,7 @@
   "dependencies": {
     "@eva-design/eva": "^2.0.0",
     "@react-native-community/async-storage": "^1.11.0",
+    "@react-native-community/datetimepicker": "2.2.2",
     "@react-native-community/masked-view": "0.1.6",
     "@react-navigation/drawer": "^5.8.2",
     "@react-navigation/native": "^5.5.1",
@@ -36,10 +37,8 @@
     "react-native-form": "^2.1.3",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "~1.6.0",
-    "react-native-keyboard-aware-scrollview": "^2.1.0",
     "react-native-reanimated": "~1.7.0",
-    "react-native-responsive-screen": "^1.4.1",
-    "react-native-safe-area-context": "0.7.3",
+    "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "~2.2.0",
     "react-native-svg": "^11.0.1",
     "react-native-table-component": "^1.2.1",
@@ -48,8 +47,8 @@
     "react-native-web": "~0.11.7"
   },
   "devDependencies": {
-    "babel-preset-expo": "~8.1.0",
-    "@babel/core": "^7.8.6"
+    "@babel/core": "^7.8.6",
+    "babel-preset-expo": "~8.1.0"
   },
   "private": true
 }
