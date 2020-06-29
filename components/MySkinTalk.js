@@ -15,7 +15,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
-import { ScrollView } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
 import AddAnswer from "./MySkinTalk-components/AddAnswer";
 import Qcard from "./MySkinTalk-components/Qcard";
@@ -33,7 +33,6 @@ const MySkinTalk = (props) => {
   // const [db_answers, set_db_answers] = useState([]);
   const [question, setQuestion] = useState("question");
   const [answer, setAnswer] = useState([]);
-  const [favQuestionsList, setFavQuestionsList] = useState([]);
   const [showData, setShowData] = useState([]);
   const [fav, setFav] = useState(false);
   let favCol = fav ? "yellow" : "grey";
@@ -49,17 +48,18 @@ const MySkinTalk = (props) => {
   //* #### FUNCTIONS/METHODS #### *//
 
   //### Question Functions ###//
-  const getQuestions = () => {
+  const getQuestions = (favList) => {
     connectAPI(
       "questions?start=0&numbers=" + entriesPerScroll,
       "GET",
       false,
       token
     ).then((data) => {
-      if (data.length>showData.length) {
-        setShowData(data);
-    }
-      set_db_questions(data);
+      const questionsList = data.map(obj => favList.find(favObj => favObj.id === obj.id) || obj) //if is favorite, replace obj with obj from favList
+      if (data.length > showData.length) {
+        setShowData(questionsList);
+      }
+      set_db_questions(questionsList);
     });
   };
   /*  LinX: const findQuestion = (question) => {
@@ -75,7 +75,7 @@ const MySkinTalk = (props) => {
       question: question,
     };
     connectAPI("questions", "POST", QUESTION, token).then((data) => {
-      getQuestions();
+      getFavorites();
       // console.log(data);
       toggleFav(data.insertId, alertMessages.newQuestion);
     });
@@ -84,31 +84,18 @@ const MySkinTalk = (props) => {
   //### Answer Functions ###//
   const getAnswers = (id) => {
     connectAPI(
-      "questions/" + id + "?start=0&numbers=" + entriesPerScroll,
-      "GET",
-      false,
-      token
-    ).then((data) => {
-      let qAnda = [];
-      if (data[1].length > 0) {
-        for (const item of data[1]) {
-          /* else if (answer.answer) {
-            setAnswer((prev) => {
-              let noDuplicates = [...prev, answer].filter(
-                (item, i, self) =>
-                  i === self.findIndex((replyObj) => replyObj.id === item.id)
-              ); 
-              return [...prev, answer];
-            });
-          } */
-
-          qAnda.push(item);
+      "questions/" + id + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
+        let allAnswers = [];
+        if (data[1].length > 0) {
+          for (const item of data[1]) {
+            allAnswers.push(item);
+          }
         }
-      }
-      setQuestion(data[0]);
-      setAnswer(qAnda);
-      setVisible(true);
-    });
+        let isFavoriteOrNot = showData.find(isfavObj => isfavObj.id === data[0].id).isFav // find isFav attribute to include in question object
+        setQuestion({ ...data[0], isFav: isFavoriteOrNot });
+        setAnswer(allAnswers);
+        setVisible(true);
+      });
   };
   const submitAnswer = (answer) => {
     const ANSWER = {
@@ -116,7 +103,7 @@ const MySkinTalk = (props) => {
       question_id: question.id,
     };
     connectAPI("answers", "POST", ANSWER, token).then((data) => {
-      getQuestions();
+      getFavorites();
       getAnswers(question.id);
       // console.log(data);
       alert(alertMessages.newAnswer);
@@ -127,25 +114,12 @@ const MySkinTalk = (props) => {
   const getFavorites = () => {
     connectAPI(
       "favorites?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
-        setFavQuestionsList(data);
+        data.forEach((element) => {
+          element.isFav = true;
+        }); // add prop isFav
+        getQuestions(data);
       });
   };
-  // const isFavorite = (targetID /* LinX: = question.id */) => {
-  //   getFavorites();
-  //   for (const favQuestion of favQuestionsList) {
-  //     if (favQuestion.id == targetID) {
-  //       console.log("listed");
-  //       setFav(true);
-  //     } else {
-  //       console.log("not listed");
-  //       setFav(false);
-  //     }
-  //   }
-  // };
-
-  //const FavIcon = (toggleMe) => {
-  //  return <Icon onPress={toggleMe} size={20} color={favCol} name="star" />;
-  //};
 
   const toggleFav = (targetID, message) => {
     connectAPI(
@@ -171,13 +145,33 @@ const MySkinTalk = (props) => {
 
 
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
+  // &#9734; => NOT fav
+  // &#9733; => IS fav
+  const FavButton = (query) => {
+    return (
+      <TouchableOpacity
+        status="warning"
+        size='large'
+        onPress={() => {
+          if (query.question !== undefined) {
+            toggleFav(query.id, alertMessages.newFavorite)
+            console.log(query.subject)
+            console.log(query.isFav ? 'favorited' : 'UN-favorited');
+          }
+        }}
+      >
+        {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
+          <Text style={styles.button}>&#9734;</Text>}
+      </TouchableOpacity>
+    );
+  };
+
   const PlusIcon = (props) => <KittenIcon {...props} name="plus" />;
 
-  //LinX: Removed React.memo as it does not make sense
   const InputField = () => (
     <>
       <SearchField placeholder={'Suche...'} onSubmit={searchKeyword} />
-      {showData.length < favQuestionsList.length ? <Button
+      {showData.length < db_questions.length ? <Button
         style={styles.button}
         status='danger'
         onPress={() => getQuestions()}
@@ -199,7 +193,7 @@ const MySkinTalk = (props) => {
       />
     </>
   );
-  //LinX: Removed React.memo as it does not make sense
+
   const CardPopup = () => {
     return question.subject ? (
       <Modal
@@ -211,6 +205,7 @@ const MySkinTalk = (props) => {
         <Card disabled={true}>
           <Qcard
             query={question}
+            favButton={FavButton}
           />
           {answer.map((reply) => (
             <AnswerCard key={reply.id} reply={reply} />
@@ -233,8 +228,8 @@ const MySkinTalk = (props) => {
   // //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
 
   useEffect(() => {
-    getQuestions();
-    getFavorites();
+    console.log('Talk screen updated')
+    getFavorites()
   }, []);
 
   //* #### FINAL RENDER #### *//
@@ -249,7 +244,7 @@ const MySkinTalk = (props) => {
         getAnswers={getAnswers}
         visible={visible}
         setVisible={setVisible}
-      /*favIcon={() => FavIcon(console.log(""))}*/
+        favButton={FavButton}
       />
       <CardPopup />
     </SafeAreaView>
@@ -262,6 +257,10 @@ const styles = StyleSheet.create({
   container: globalcss.container,
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
+  },
+  button: {
+    fontSize: 25,
+    color: 'darkorange',
   },
   inputField: {
     height: 120,

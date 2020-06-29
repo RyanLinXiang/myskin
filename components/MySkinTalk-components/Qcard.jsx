@@ -25,9 +25,7 @@ export default function Question(props) {
               : `vor ${props.query.dayspast} Tag`}
           </Text>
         </View>
-        {/* props.favIcon()*/}
-        {/* <Icon onPress={() => setFav(prev => !prev)} size={20} color={favCol} name="star" /> */}
-        {/* <FavButton /> */}
+        {props.favButton(props.query)}
       </View>
     </View>
   );

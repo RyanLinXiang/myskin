@@ -37,7 +37,7 @@ const QuestionsList = (props) => {
           }}
           title={queryText}
           accessoryLeft={renderItemIcon}
-          /*  accessoryRight={props.favIcon} */
+          accessoryRight={() => props.favButton(item)} 
           style={styles.listitem}
         />
         <Divider />
