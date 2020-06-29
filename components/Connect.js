@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   container: globalcss.container,
   logoImage: { width: 250, height: 250, margin: 10 },
   input: {
-    fontFamily: "Roboto_300Light",
+    fontFamily: "Roboto",
     fontSize: 18,
     textAlign: "center",
     margin: 10,
