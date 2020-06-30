@@ -8,7 +8,7 @@ const SearchField = (props) => {
 
     const searchHandler = () => { 
         const { SearchKeyword } = FormRef.current.getValues();
-        props.onSubmit(SearchKeyword)
+        props.onSubmit(SearchKeyword);
     }
     const SearchIcon = (props) => <KittenIcon {...props} name='search-outline' />
     return (
