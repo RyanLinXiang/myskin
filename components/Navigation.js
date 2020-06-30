@@ -5,7 +5,6 @@ import MySkinPredict from "./MySkinPredict";
 import MySkinTalk from "./MySkinTalk";
 import Home from "./Home";
 import Playground from "./Playground";
-import Reminder from "./Home-components/Reminder";
 
 import ViewBuilder from "./ViewBuilder";
 import MySkinFavorites from "./MySkinFavorites";
