@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import * as tf from "@tensorflow/tfjs";
 import { fetch, bundleResourceIO } from "@tensorflow/tfjs-react-native";
 import Constants from "expo-constants";
@@ -8,8 +8,9 @@ import * as ImagePicker from "expo-image-picker";
 import * as jpeg from "jpeg-js";
 import Output from "./MySkinPredict-components/Output";
 import Status from "./MySkinPredict-components/Status";
-import { Button } from "@ui-kitten/components";
+import { Button, Text, Modal, Card } from "@ui-kitten/components";
 import * as globalcss from "../styles/globalcss";
+import ArticlePredict from "./Home-components/articles/ArticlePredict";
 
 class MySkinPredict extends React.Component {
   state = {
@@ -19,6 +20,8 @@ class MySkinPredict extends React.Component {
     image: null,
     tfjsmodel: null,
     error: false,
+
+    showModal: false,
   };
 
   async componentDidMount() {
@@ -97,7 +100,7 @@ class MySkinPredict extends React.Component {
         imageTensor,
         options
       );
-      this.setState({ predictions });
+      this.setState({ predictions, tooltip: true });
     } catch (error) {
       this.setState({ error });
     }
@@ -129,8 +132,19 @@ class MySkinPredict extends React.Component {
     });
   };
 
+  handlerToggleModal = () => {
+    this.setState({ showModal: !this.state.showModal });
+  };
+
   render() {
-    const { isTfReady, isModelReady, predictions, image, error } = this.state;
+    const {
+      isTfReady,
+      isModelReady,
+      predictions,
+      image,
+      error,
+      showModal,
+    } = this.state;
 
     let loading;
 
@@ -149,6 +163,7 @@ class MySkinPredict extends React.Component {
               predictions={predictions}
               image={image}
               error={error}
+              handlerReset={this.handlerReset}
             />
           </View>
           <TouchableOpacity
@@ -167,22 +182,36 @@ class MySkinPredict extends React.Component {
               error={error}
             />
           </TouchableOpacity>
-          {isModelReady && image && predictions ? (
-            <React.Fragment>
-              <Button onPress={this.handlerReset} size="tiny" status="warning">
-                Neu starten
-              </Button>
-              <Text style={styles.warning}>
-                Die oben dargestellte Zahl ist die Wahrscheinlichkeit, dass Ihr
-                Muttermal ein Melanom sein könnte. Dabei beruht die Berechnung
-                auf einem Modell der Künstlichen Intelligenz. Dieses Modell
-                basiert auf 10.000 Bildern von Melanomen und von
-                Nicht-Melanomen. Je kleiner die Wahrscheinlichkeit, desto
-                unwahrscheinlicher ist es, dass Ihr Muttermal ein Melanom ist.
-                Die Berechnung ist ohne Gewähr. Bitte konsultieren Sie auf jeden
-                Fall Ihren Hautarzt für eine gesicherte Diagnose.
-              </Text>
-            </React.Fragment>
+
+          <Text
+            style={styles.hints}
+            appearance="hint"
+            onPress={this.handlerToggleModal}
+          >
+            Hinweise und Erläuterungen
+          </Text>
+
+          {showModal ? (
+            <Modal
+              visible={true}
+              backdropStyle={styles.backdrop}
+              onBackdropPress={this.handlerToggleModal}
+              style={styles.modal}
+            >
+              <Card style={styles.modalCard} disabled={true}>
+                <ArticlePredict />
+                <View style={styles.closeButtomArt}>
+                  <Button
+                    size="small"
+                    onPress={this.handlerToggleModal}
+                    style={{ paddingVertical: 10, alignSelf: "stretch" }}
+                    status="warning"
+                  >
+                    SCHLIESSEN
+                  </Button>
+                </View>
+              </Card>
+            </Modal>
           ) : null}
         </View>
       </View>
@@ -199,7 +228,7 @@ const styles = StyleSheet.create({
   },
   innercontainer: {
     flex: 1,
-    marginTop: -100,
+    marginTop: -50,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -208,7 +237,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     padding: 5,
-    borderRadius: 10,
+    borderRadius: 150,
     opacity: 0.7,
     alignItems: "center",
     justifyContent: "center",
@@ -217,10 +246,22 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderStyle: "dotted",
   },
-  warning: {
+
+  hints: {
     marginTop: 20,
-    fontSize: 10,
-    width: "90%",
+  },
+  backdrop: {
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+  },
+  modal: {
+    backgroundColor: "white",
+    height: globalcss.screenHeight * 0.75,
+  },
+  modalCard: {
+    paddingBottom: 40,
+  },
+  closeButtomArt: {
+    paddingVertical: 10,
   },
 });
 

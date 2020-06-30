@@ -1,79 +1,107 @@
 import React from "react";
-import { StyleSheet, Text, Image, ImageBackground } from "react-native";
+import { StyleSheet, Text, Image, ImageBackground, View } from "react-native";
 import { BarIndicator, WaveIndicator } from "react-native-indicators";
 import { Button, Icon } from "@ui-kitten/components";
 import * as Animatable from "react-native-animatable";
+import FlashMessage from "react-native-flash-message";
 
 const Output = (props) => {
   const { loading, image, predictions, isModelReady, error } = props;
-
   let output;
 
-  if (!loading) {
-    if (image && !predictions) output = <Image source={image} />;
-    else if (image && predictions) {
-      if (!error) {
+  if (!error) {
+    if (!loading) {
+      if (image && !predictions) output = <Image source={image} />;
+      else if (image && predictions) {
         output = (
           <React.Fragment>
             <ImageBackground
               source={image}
               blurRadius={50}
               style={styles.predictedImage}
+              imageStyle={styles.predictedImageExtras}
             >
-              <Text style={styles.predictedNumberHeader}>
-                Wahrscheinlichkeit für Melanom:
-              </Text>
-              <Text style={styles.predictedNumber}>
-                {Math.round(predictions.dataSync()[0] * 100)}
-                <Text style={styles.predictedNumberPercentage}> %</Text>
-              </Text>
+              <View
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.5)",
+                  width: "100%",
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 150,
+                }}
+              >
+                <Animatable.Text
+                  animation={"pulse"}
+                  duration={2000}
+                  style={styles.predictedNumberHeader}
+                >
+                  <Text>Wahrscheinlichkeit für Melanom:</Text>
+                </Animatable.Text>
+
+                <Animatable.Text
+                  animation={"bounceIn"}
+                  duration={5000}
+                  style={styles.predictedNumber}
+                >
+                  <Text>
+                    {Math.round(predictions.dataSync()[0] * 100)}
+                    <Text style={styles.predictedNumberPercentage}> %</Text>
+                  </Text>
+                </Animatable.Text>
+              </View>
             </ImageBackground>
           </React.Fragment>
         );
-      } else
+      } else if (isModelReady && !image)
         output = (
-          <React.Fragment>
-            <ImageBackground
-              source={image}
-              blurRadius={50}
-              style={styles.predictedImage}
-            >
-              <Text>Bitte versuchen Sie es mit einem anderen Bild</Text>
-            </ImageBackground>
-          </React.Fragment>
+          <Animatable.View animation={"wobble"} duration={3000}>
+            <Icon
+              style={{
+                width: 100,
+                height: 100,
+              }}
+              name="image-outline"
+            />
+          </Animatable.View>
         );
-    } else if (isModelReady && !image)
-      output = (
-        <Animatable.View animation={"wobble"} duration={3000}>
-          <Icon
-            style={{
-              width: 100,
-              height: 100,
-            }}
-            name="image-outline"
-          />
-        </Animatable.View>
-      );
-  } else {
-    switch (loading) {
-      case "model":
-        output = (
-          <BarIndicator size={80} style={styles.indicator} color="darkorange" />
-        );
-        break;
-      case "predict":
-        output = (
-          <WaveIndicator
-            size={80}
-            count={10}
-            style={styles.indicator}
-            color="darkorange"
-          />
-        );
-      default:
-        break;
+    } else {
+      switch (loading) {
+        case "model":
+          output = (
+            <BarIndicator
+              size={80}
+              style={styles.indicator}
+              color="darkorange"
+            />
+          );
+          break;
+        case "predict":
+          output = (
+            <WaveIndicator
+              size={80}
+              count={10}
+              style={styles.indicator}
+              color="darkorange"
+            />
+          );
+        default:
+          break;
+      }
     }
-  }
+  } else
+    output = (
+      <React.Fragment>
+        <ImageBackground
+          source={image}
+          blurRadius={50}
+          style={styles.predictedImage}
+          imageStyle={styles.predictedImageExtras}
+        >
+          <Text>Bitte versuchen Sie es mit einem anderen Bild</Text>
+        </ImageBackground>
+      </React.Fragment>
+    );
 
   return output;
 };
@@ -85,15 +113,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  predictedImageExtras: { borderRadius: 150 },
   predictedNumberHeader: { fontSize: 12, color: "white" },
-  predictedNumberPercentage: { fontSize: 22, color: "white" },
+  predictedNumberPercentage: { fontSize: 24, color: "white" },
   predictedNumber: {
-    fontSize: 58,
+    fontSize: 64,
     fontWeight: "bold",
-    color: "white",
+    color: "darkorange",
     shadowOpacity: 0.75,
     shadowRadius: 5,
-    shadowColor: "darkgrey",
+    shadowColor: "black",
     shadowOffset: { height: 10, width: 10 },
   },
   indicator: {
