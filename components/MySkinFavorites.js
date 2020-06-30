@@ -114,14 +114,14 @@ const MySkinFavorites = (props) => {
 
     //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
     // &#9746; => 'x' in a box
-    // &#9747; => just 'x'
+    // &#10005; => just 'x'
     const DelQuestionButton = (targetID) => (
         <TouchableOpacity
             status="danger"
             size='large'
             onPress={() => { deleteQuestion(targetID); getFavorites('update!') }}
         >
-            <Text style={styles.delButton}>&#9746;</Text>
+            <Text style={styles.delButton}>&#10005;</Text>
         </TouchableOpacity>
     );
 
@@ -131,7 +131,7 @@ const MySkinFavorites = (props) => {
             size='large'
             onPress={() => deleteAnswer(targetID)}
         >
-            <Text style={styles.delButton}>&#9746;</Text>
+            <Text style={styles.delButton}>&#10005;</Text>
         </TouchableOpacity>
     );
 
