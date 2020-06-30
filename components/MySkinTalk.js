@@ -110,18 +110,28 @@ const MySkinTalk = (props) => {
 
 
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-  const LoadMoreButton = () => 
-  showData.length<entriesPerScroll ? null:(
-  <Button
-    style={styles.button}
-    status='warning'
-    onPress={() => { 
-      pagination > showData.length ? setPagination(entriesPerScroll):setPagination(prev => prev + 10) 
-    }}
-  >
-    {pagination > showData.length ? 'WENIGER FRAGEN LADEN': 'MEHR FRAGEN LADEN'}
-  </Button>
-)
+  const LoadMoreButton = () => {
+    if (showData.length < entriesPerScroll) {
+      return null
+    } else if (pagination > showData.length) {
+      return <Button
+        style={styles.button}
+        status='warning'
+        onPress={() => setPagination(entriesPerScroll)}
+      >
+        WENIGER FRAGEN LADEN
+    </Button>
+    } else if (pagination <= showData.length) {
+      return <Button
+        style={styles.button}
+        status='warning'
+        onPress={() => setPagination(prev => prev + 10)}
+      >
+        MEHR FRAGEN LADEN
+    </Button>
+    }
+
+  }
 
   // &#9734; => NOT fav
   // &#9733; => IS fav
