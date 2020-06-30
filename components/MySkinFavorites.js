@@ -107,7 +107,7 @@ const MySkinFavorites = (props) => {
             pagination > showData.length ? setPagination(entriesPerScroll):setPagination(prev => prev + 10) 
           }}
         >
-          {pagination > showData.length ? 'WENIGER LADEN': 'MEHR LADEN'}
+          {pagination > showData.length ? 'WENIGER FRAGEN LADEN': 'MEHR FRAGEN LADEN'}
         </Button>
       )
 
