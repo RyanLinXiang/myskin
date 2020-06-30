@@ -70,7 +70,7 @@ const MySkinFavorites = (props) => {
             getAnswers(qANDa.question.id);
         });
     };
-
+jkl
     //### Favorite Functions ###//
     const getFavorites = (update) => {
         connectAPI(
