@@ -178,9 +178,11 @@ const MySkinTalk = (props) => {
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
 
           <Button
-            size="tiny"
+            size="small"
             onPress={() => setVisible(false)}
-            style={{ alignSelf: "center" }}
+            style={{ alignSelf: "stretch" }}
+            status="warning"
+
           >
             SCHLIESSEN
           </Button>

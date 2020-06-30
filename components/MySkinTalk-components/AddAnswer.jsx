@@ -1,9 +1,10 @@
 //* #### IMPORTS #### *//
 
 import React, { useState } from "react";
-import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView, Dimensions } from "react-native";
 import { Button } from "@ui-kitten/components";
 import { TextInput } from "react-native-gesture-handler";
+const screenWidth = Dimensions.get("window").width;
 
 const AddAnswer = (props) => {
   const [showInput, setShowInput] = useState(false);
@@ -40,7 +41,7 @@ const AddAnswer = (props) => {
         ) : (
           false
         )}
-        <Button size="tiny" onPress={buttonHandler}>
+        <Button size="small" onPress={buttonHandler} status="warning">
           {buttonText}
         </Button>
       </View>
@@ -58,11 +59,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   inputSubject: {
+    width: screenWidth * 0.8,
     width: 300,
     margin: 10,
     padding: 10,
     alignSelf: "stretch",
-    fontSize: 20,
+    fontSize: 16,
     height: 100,
     borderColor: "gray",
     borderWidth: 1,

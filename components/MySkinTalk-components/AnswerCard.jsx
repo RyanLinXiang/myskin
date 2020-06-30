@@ -18,7 +18,7 @@ export default function Answer(props) {
                     </View>
                     <View style={styles.cardButtom}>
                         <Icon style={styles.icon} fill='#8F9BB3' name='clock' />
-                        <Text> {props.reply.dayspast>1 ? `${props.reply.dayspast} days ago`:`${props.reply.dayspast} day ago`}</Text>
+                        <Text>  vor {props.reply.dayspast>1 ? `${props.reply.dayspast} Tagen`:`${props.reply.dayspast} Tag`}</Text>
                     </View>
                 </View>
             </Card>
@@ -29,19 +29,28 @@ const styles = StyleSheet.create({
     cardsAnswer: {
         borderWidth: 0,
         backgroundColor: "white",
-        alignItems: "center",
-        justifyContent: "center",
-        width: screenWidth * 0.9,
+        alignItems:'baseline',
+        justifyContent:'space-around',
+        width: screenWidth,
         borderRadius: 10,
-        shadowOpacity: 0.75,
-        shadowRadius: 10,
-        shadowColor: "black",
+        borderBottomWidth: 1,
+        borderColor: "orange",
         marginBottom: 20,
-        elevation: 5, //shadow for android
+        paddingRight:30,
+        // shadowOpacity: 0.75,
+        // shadowRadius: 10,
+        // shadowColor: "black",
+      
+        // elevation: 5, //shadow for android
     },
     cardTextAnswer: {
+        alignItems: "stretch",
+        width: screenWidth * 0.9,
+        borderWidth: 0,
         paddingBottom: 10,
-        fontSize: 18
+        alignSelf:'center',
+        fontSize: 17,
+        marginVertical: 5,
     },
     cardText: {
         flexDirection: 'row',
@@ -51,10 +60,11 @@ const styles = StyleSheet.create({
     cardButtom: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+    
     },
     icon: {
-        width: 20,
-        height: 20,
+        width: 18,
+        height: 18,
     },
 
 });

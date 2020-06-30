@@ -40,7 +40,7 @@ const AddQuestion = (props) => {
               multiline
               maxLength={100}
               numberOfLines={10}
-              placeholder="Frage..."
+              placeholder="Betreff..."
               style={styles.inputSubject}
               name="SubjectInput"
               type="TextInput"
@@ -50,7 +50,7 @@ const AddQuestion = (props) => {
               maxLength={1000}
               multiline
               numberOfLines={10}
-              placeholder="Beschreibung..."
+              placeholder="Frage..."
               style={styles.inputQuestion}
               name="QuestionInput"
               type="TextInput"
@@ -60,9 +60,10 @@ const AddQuestion = (props) => {
               onPress={addQuestionHandler}
               type="Submit"
               style={styles.button}
+              size="small"
               status="warning"
-              accessoryRight={PlusIcon}
-            />
+              // accessoryRight={PlusIcon}
+              >FRAGE STELLEN</Button>
           </Form>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -83,11 +84,12 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   backdrop: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   button: {
-    margin: 2,
+    margin: 10,
     alignSelf: "stretch",
+    marginBottom: 220
   },
 
   indicator: {
@@ -100,6 +102,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: "stretch",
     fontSize: 20,
+    height: 60,
     borderColor: "gray",
     borderWidth: 1,
     backgroundColor: "#FFF",
@@ -109,7 +112,7 @@ const styles = StyleSheet.create({
     width: 300,
     margin: 10,
     padding: 10,
-    height: 400,
+    height: 150,
     alignSelf: "stretch",
     fontSize: 20,
     borderColor: "gray",
