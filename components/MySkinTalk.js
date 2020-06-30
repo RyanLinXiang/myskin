@@ -8,6 +8,7 @@ import {
   Modal,
   Text,
   Icon as KittenIcon,
+  Divider,
 } from "@ui-kitten/components";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
@@ -116,7 +117,7 @@ const MySkinTalk = (props) => {
     return (
       <TouchableOpacity
         status="warning"
-        size='large'
+        size='small'
         onPress={() => {
           if (query.question !== undefined) {
             toggleFav(query.id)
@@ -125,7 +126,7 @@ const MySkinTalk = (props) => {
         }}
       >
         {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
-          <Text style={styles.button}>&#9734;</Text>}
+          <Text style={{alignSelf:'stretch'}}>&#9734;</Text>}
       </TouchableOpacity>
     );
   };
@@ -136,16 +137,19 @@ const MySkinTalk = (props) => {
     <>
       <SearchField placeholder={'Suche...'} onSubmit={searchKeyword} />
       {showData.length < db_questions.length ? <Button
-        style={styles.button}
-        status='danger'
+        style={{alignSelf:'stretch', margin:30}}
+        size="small"
+        status="warning"
         onPress={() => getFavorites()}
       >
         RESET SUCHE
       </Button> : null}
+      <Divider />
       <Button
-        style={styles.button}
+      size="small"
+        style={{alignSelf:'stretch', margin:30}}
         status="warning"
-        accessoryRight={PlusIcon}
+        // accessoryRight={PlusIcon}
         onPress={() => setInputVisible(true)}
       >
         FRAGE STELLEN
@@ -234,9 +238,11 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: globalcss.container.backgroundColor,
   },
-  listitem: { backgroundColor: globalcss.container.backgroundColor },
+  listitem: {
+     flex:1,
+     backgroundColor: globalcss.container.backgroundColor },
   modal: { width: "90%" },
-  star: { color: "red" },
+  star: { color: "red" }, 
 });
 
 //* #### EXPORT #### *//

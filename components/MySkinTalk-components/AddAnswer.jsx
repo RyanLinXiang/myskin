@@ -13,7 +13,7 @@ const AddAnswer = (props) => {
   const buttonHandler = () => {
     if (buttonText == "ANTWORTEN") {
       setShowInput(true);
-      setButtonText("ABSENDEN");
+      setButtonText("ABSENDEN"); //"SPEICHERN" ?
     } else if (answer.length<2) {
       alert("Leere Antworten können nicht geschpeichert werden.")
     } else {
@@ -41,7 +41,7 @@ const AddAnswer = (props) => {
         ) : (
           false
         )}
-        <Button size="small" onPress={buttonHandler} status="warning">
+        <Button size="small" style={{alignSelf:'stretch', margin:9}} onPress={buttonHandler} status="warning">
           {buttonText}
         </Button>
       </View>

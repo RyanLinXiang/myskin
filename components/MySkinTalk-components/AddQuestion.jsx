@@ -84,12 +84,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   backdrop: {
+    flex:1,
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   button: {
     margin: 10,
     alignSelf: "stretch",
-    marginBottom: 220
+    marginBottom: 150 // Boxes in Modal TOP-Position :) -> Keyboard
   },
 
   indicator: {
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: "stretch",
     fontSize: 20,
-    height: 60,
+    height: 80,
     borderColor: "gray",
     borderWidth: 1,
     backgroundColor: "#FFF",

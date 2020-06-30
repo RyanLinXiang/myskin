@@ -27,6 +27,7 @@ export default function Answer(props) {
 
 const styles = StyleSheet.create({
     cardsAnswer: {
+        flex:1,
         borderWidth: 0,
         backgroundColor: "white",
         alignItems:'baseline',
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: "orange",
         marginBottom: 20,
-        paddingRight:30,
+        paddingRight:1,
         // shadowOpacity: 0.75,
         // shadowRadius: 10,
         // shadowColor: "black",
