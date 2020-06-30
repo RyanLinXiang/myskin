@@ -29,12 +29,13 @@ const MySkinTalk = (props) => {
   const [showData, setShowData] = useState([]);
   const [qANDa, setQandA] = useState({question: '', answer: ''});
   const [inputVisible, setInputVisible] = useState(false);
+  const [pagination, setPagination] = useState({start:0, end:entriesPerScroll});
 
   //* #### FUNCTIONS/METHODS #### *//
 
   //### Question Functions ###//
   const getQuestions = (favList, update) => {
-    connectAPI("questions?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
+    connectAPI("questions?start="+pagination.start+"&numbers="+pagination.end, "GET", false, token).then((data) => {
       const questionsList = data.map(obj => favList.find(favObj => favObj.id === obj.id) || obj) //if is favorite, replace obj with obj from favList
       if (data.length > showData.length || update) {
         setShowData(questionsList);
@@ -83,7 +84,7 @@ const MySkinTalk = (props) => {
   //### Favorite Functions ###//
   const getFavorites = (update) => {
     connectAPI(
-      "favorites?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
+      "favorites?start="+pagination.start+"&numbers="+pagination.end, "GET", false, token).then((data) => {
         data.forEach((element) => {
           element.isFav = true;
         }); // add prop isFav
