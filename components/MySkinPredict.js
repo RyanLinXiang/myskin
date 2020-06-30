@@ -16,7 +16,7 @@ import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as jpeg from "jpeg-js";
 import * as globalcss from "../styles/globalcss";
-import BlinkView from "react-native-blink-view";
+import * as Animatable from "react-native-animatable";
 
 class MySkinPredict extends React.Component {
   state = {
@@ -195,7 +195,7 @@ class MySkinPredict extends React.Component {
         );
       else if (isModelReady && !image)
         output = (
-          <BlinkView blinking={true} delay={1000}>
+          <Animatable.View animation={"wobble"} duration={3000}>
             <Icon
               style={{
                 width: 100,
@@ -203,7 +203,7 @@ class MySkinPredict extends React.Component {
               }}
               name="image-outline"
             />
-          </BlinkView>
+          </Animatable.View>
         );
     } else {
       switch (loading) {
@@ -292,13 +292,10 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "transparent",
+    backgroundColor: "lightgrey",
     borderColor: "white",
-    borderWidth: 1,
-    overflow: "hidden",
-    shadowColor: "black",
-    shadowRadius: 10,
-    shadowOpacity: 1,
+    borderWidth: 5,
+    borderStyle: "dotted",
   },
 
   warning: {
