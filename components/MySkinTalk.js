@@ -28,15 +28,15 @@ const MySkinTalk = (props) => {
   const [visible, setVisible] = useState(false);
   const [db_questions, set_db_questions] = useState([]);
   const [showData, setShowData] = useState([]);
-  const [qANDa, setQandA] = useState({question: '', answer: ''});
+  const [qANDa, setQandA] = useState({ question: '', answer: '' });
   const [inputVisible, setInputVisible] = useState(false);
-  const [pagination, setPagination] = useState({start:0, end:entriesPerScroll});
+  const [pagination, setPagination] = useState(entriesPerScroll);
 
   //* #### FUNCTIONS/METHODS #### *//
 
   //### Question Functions ###//
   const getQuestions = (favList, update) => {
-    connectAPI("questions?start="+pagination.start+"&numbers="+pagination.end, "GET", false, token).then((data) => {
+    connectAPI("questions?start=0&numbers=" + pagination, "GET", false, token).then((data) => {
       const questionsList = data.map(obj => favList.find(favObj => favObj.id === obj.id) || obj) //if is favorite, replace obj with obj from favList
       if (data.length > showData.length || update) {
         setShowData(questionsList);
@@ -67,7 +67,7 @@ const MySkinTalk = (props) => {
           }
         }
         let isFavoriteOrNot = showData.find(isfavObj => isfavObj.id === data[0].id).isFav // find isFav attribute to include in question object
-        setQandA({question: { ...data[0], isFav: isFavoriteOrNot }, answer: allAnswers});
+        setQandA({ question: { ...data[0], isFav: isFavoriteOrNot }, answer: allAnswers });
         setVisible(true);
       });
   };
@@ -85,7 +85,7 @@ const MySkinTalk = (props) => {
   //### Favorite Functions ###//
   const getFavorites = (update) => {
     connectAPI(
-      "favorites?start="+pagination.start+"&numbers="+pagination.end, "GET", false, token).then((data) => {
+      "favorites?start=0&numbers=" + pagination, "GET", false, token).then((data) => {
         data.forEach((element) => {
           element.isFav = true;
         }); // add prop isFav
@@ -111,6 +111,19 @@ const MySkinTalk = (props) => {
 
 
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
+  const LoadMoreButton = () => 
+  showData.length<entriesPerScroll ? null:(
+  <Button
+    style={styles.button}
+    status='warning'
+    onPress={() => { 
+      pagination > showData.length ? setPagination(entriesPerScroll):setPagination(prev => prev + 10) 
+    }}
+  >
+    {pagination > showData.length ? 'WENIGER FRAGEN LADEN': 'MEHR FRAGEN LADEN'}
+  </Button>
+)
+
   // &#9734; => NOT fav
   // &#9733; => IS fav
   const FavButton = (query) => {
@@ -121,7 +134,7 @@ const MySkinTalk = (props) => {
         onPress={() => {
           if (query.question !== undefined) {
             toggleFav(query.id)
-            setQandA(prev => ({question: {...query, isFav: !query.isFav}, answer: prev.answer}));
+            setQandA(prev => ({ question: { ...query, isFav: !query.isFav }, answer: prev.answer }));
           }
         }}
       >
@@ -198,8 +211,8 @@ const MySkinTalk = (props) => {
   // //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
 
   useEffect(() => {
-    getFavorites()
-  }, []);
+    getFavorites('update!')
+  }, [pagination]);
 
   //* #### FINAL RENDER #### *//
 
@@ -214,6 +227,7 @@ const MySkinTalk = (props) => {
         setVisible={setVisible}
         favButton={FavButton}
       />
+      <LoadMoreButton />
       <CardPopup />
     </SafeAreaView>
   );

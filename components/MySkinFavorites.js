@@ -2,13 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
-import {
-    Button,
-    Card,
-    Modal,
-    Text,
-    Icon as KittenIcon,
-} from "@ui-kitten/components";
+import { Button, Card, Modal, Text, Icon as KittenIcon } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
@@ -27,11 +21,11 @@ const MySkinFavorites = (props) => {
     const [visible, setVisible] = useState(false);
     const [db_fav_questions, set_db_fav_questions] = useState([]);
     const [showData, setShowData] = useState([]);
-    const [qANDa, setQandA] = useState({question: '', answer: ''});
+    const [qANDa, setQandA] = useState({ question: '', answer: '' });
     const [inputVisible, setInputVisible] = useState(false);
+    const [pagination, setPagination] = useState(entriesPerScroll);
 
     //* #### FUNCTIONS/METHODS #### *//
-
 
     //### Question Functions ###//
     const submitQuestion = (subject, question) => {
@@ -49,16 +43,16 @@ const MySkinFavorites = (props) => {
     const getAnswers = (id) => {
         connectAPI(
             "questions/" + id + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
-            let allAnswers = [];
-            if (data[1].length > 0) {
-                for (const item of data[1]) {
-                    allAnswers.push(item);
+                let allAnswers = [];
+                if (data[1].length > 0) {
+                    for (const item of data[1]) {
+                        allAnswers.push(item);
+                    }
                 }
-            }
-            let isFavoriteOrNot = showData.find(isfavObj => isfavObj.id === data[0].id).isFav // find isFav attribute to include in question object
-            setQandA({question: { ...data[0], isFav: isFavoriteOrNot }, answer: allAnswers});
-            setVisible(true);
-        });
+                let isFavoriteOrNot = showData.find(isfavObj => isfavObj.id === data[0].id).isFav // find isFav attribute to include in question object
+                setQandA({ question: { ...data[0], isFav: isFavoriteOrNot }, answer: allAnswers });
+                setVisible(true);
+            });
     };
     const submitAnswer = (answer) => {
         const ANSWER = {
@@ -70,11 +64,11 @@ const MySkinFavorites = (props) => {
             getAnswers(qANDa.question.id);
         });
     };
-jkl
+
     //### Favorite Functions ###//
     const getFavorites = (update) => {
         connectAPI(
-            "favorites?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
+            "favorites?start=0&numbers=" + pagination, "GET", false, token).then((data) => {
                 data.forEach((element) => {
                     element.isFav = true;
                 }); // add prop isFav
@@ -104,6 +98,19 @@ jkl
 
 
     //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
+    const LoadMoreButton = () => 
+        showData.length<entriesPerScroll ? null:(
+        <Button
+          style={styles.button}
+          status='warning'
+          onPress={() => { 
+            pagination > showData.length ? setPagination(entriesPerScroll):setPagination(prev => prev + 10) 
+          }}
+        >
+          {pagination > showData.length ? 'WENIGER FRAGEN LADEN': 'MEHR FRAGEN LADEN'}
+        </Button>
+      )
+
     // &#9734; => NOT fav
     // &#9733; => IS fav
     const FavButton = (query) => (
@@ -112,10 +119,10 @@ jkl
             size='large'
             onPress={() => {
                 if (query.question !== undefined) {
-                  toggleFav(query.id);
-                  setQandA(prev => ({question: {...query, isFav: !query.isFav}, answer: prev.answer}));
+                    toggleFav(query.id);
+                    setQandA(prev => ({ question: { ...query, isFav: !query.isFav }, answer: prev.answer }));
                 }
-              }}
+            }}
         >
             {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
                 <Text style={styles.button}>&#9734;</Text>}
@@ -126,7 +133,10 @@ jkl
 
     const InputField = () => (
         <>
-            <SearchField placeholder={'Favoriten-Suche...'} onSubmit={searchKeyword} />
+            <SearchField
+                placeholder={'Favoriten-Suche...'}
+                onSubmit={searchKeyword}
+            />
             {showData.length < db_fav_questions.length ? <Button
                 style={styles.button}
                 status='danger'
@@ -181,8 +191,8 @@ jkl
     //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
 
     useEffect(() => {
-        getFavorites();
-    }, []);
+        getFavorites('update!');
+    }, [pagination]);
 
 
 
@@ -199,6 +209,7 @@ jkl
                 setVisible={setVisible}
                 favButton={FavButton}
             />
+            <LoadMoreButton />
             <CardPopup />
         </SafeAreaView>
     );
