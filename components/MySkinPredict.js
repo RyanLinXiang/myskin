@@ -18,6 +18,7 @@ class MySkinPredict extends React.Component {
     predictions: null,
     image: null,
     tfjsmodel: null,
+    error: false,
   };
 
   async componentDidMount() {
@@ -98,7 +99,7 @@ class MySkinPredict extends React.Component {
       );
       this.setState({ predictions });
     } catch (error) {
-      console.log(error);
+      this.setState({ error });
     }
   };
 
@@ -116,7 +117,7 @@ class MySkinPredict extends React.Component {
         this.classifyImage();
       }
     } catch (error) {
-      console.log(error);
+      this.setState({ error });
     }
   };
 
@@ -124,11 +125,12 @@ class MySkinPredict extends React.Component {
     this.setState({
       predictions: null,
       image: null,
+      error: false,
     });
   };
 
   render() {
-    const { isTfReady, isModelReady, predictions, image } = this.state;
+    const { isTfReady, isModelReady, predictions, image, error } = this.state;
 
     let loading;
 
@@ -146,6 +148,7 @@ class MySkinPredict extends React.Component {
               isModelReady={isModelReady}
               predictions={predictions}
               image={image}
+              error={error}
             />
           </View>
           <TouchableOpacity
@@ -161,6 +164,7 @@ class MySkinPredict extends React.Component {
               image={image}
               predictions={predictions}
               isModelReady={isModelReady}
+              error={error}
             />
           </TouchableOpacity>
           {isModelReady && image && predictions ? (

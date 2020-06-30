@@ -5,31 +5,44 @@ import { Button, Icon } from "@ui-kitten/components";
 import * as Animatable from "react-native-animatable";
 
 const Output = (props) => {
-  const { loading, image, predictions, isModelReady } = props;
+  const { loading, image, predictions, isModelReady, error } = props;
 
   let output;
 
   if (!loading) {
     if (image && !predictions) output = <Image source={image} />;
-    else if (image && predictions)
-      output = (
-        <React.Fragment>
-          <ImageBackground
-            source={image}
-            blurRadius={50}
-            style={styles.predictedImage}
-          >
-            <Text style={styles.predictedNumberHeader}>
-              Wahrscheinlichkeit für Melanom:
-            </Text>
-            <Text style={styles.predictedNumber}>
-              {Math.round(predictions.dataSync()[0] * 100)}
-              <Text style={styles.predictedNumberPercentage}> %</Text>
-            </Text>
-          </ImageBackground>
-        </React.Fragment>
-      );
-    else if (isModelReady && !image)
+    else if (image && predictions) {
+      if (!error) {
+        output = (
+          <React.Fragment>
+            <ImageBackground
+              source={image}
+              blurRadius={50}
+              style={styles.predictedImage}
+            >
+              <Text style={styles.predictedNumberHeader}>
+                Wahrscheinlichkeit für Melanom:
+              </Text>
+              <Text style={styles.predictedNumber}>
+                {Math.round(predictions.dataSync()[0] * 100)}
+                <Text style={styles.predictedNumberPercentage}> %</Text>
+              </Text>
+            </ImageBackground>
+          </React.Fragment>
+        );
+      } else
+        output = (
+          <React.Fragment>
+            <ImageBackground
+              source={image}
+              blurRadius={50}
+              style={styles.predictedImage}
+            >
+              <Text>Bitte versuchen Sie es mit einem anderen Bild</Text>
+            </ImageBackground>
+          </React.Fragment>
+        );
+    } else if (isModelReady && !image)
       output = (
         <Animatable.View animation={"wobble"} duration={3000}>
           <Icon
