@@ -3,12 +3,22 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
   ActivityIndicator,
   TouchableOpacity,
   Image,
   ImageBackground,
 } from "react-native";
+import {
+  BallIndicator,
+  BarIndicator,
+  DotIndicator,
+  MaterialIndicator,
+  PacmanIndicator,
+  PulseIndicator,
+  SkypeIndicator,
+  UIActivityIndicator,
+  WaveIndicator,
+} from "react-native-indicators";
 import { Button } from "@ui-kitten/components";
 import * as tf from "@tensorflow/tfjs";
 import { fetch, bundleResourceIO } from "@tensorflow/tfjs-react-native";
@@ -42,7 +52,6 @@ class MySkinPredict extends React.Component {
 
       this.setState({ isModelReady: true, tfjsmodel });
       this.getPermissionAsync();
-      console.log("Success");
     } catch (e) {
       console.log(e);
     }
@@ -150,16 +159,21 @@ class MySkinPredict extends React.Component {
       status = (
         <React.Fragment>
           <Text style={styles.statusText}>Analyse läuft ... bitte warten.</Text>
-          <ActivityIndicator size="small" />
+          <DotIndicator color="white" />
         </React.Fragment>
       );
     else
       status = (
         <React.Fragment>
           <Text style={styles.statusText}>
-            Modell wird geladen ... bitte kurz warten.
+            Modell wird geladen ... bitte kurz warten.{" "}
+            <View
+              style={{ height: "20%" }}
+              style={{ borderWidth: 1, borderColor: "red" }}
+            >
+              <BarIndicator color="darkorange" />
+            </View>
           </Text>
-          <ActivityIndicator size="small" />
         </React.Fragment>
       );
 
@@ -190,7 +204,6 @@ class MySkinPredict extends React.Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
         <Text style={styles.status}>{status}</Text>
         <TouchableOpacity
           style={styles.imageContainer}
