@@ -26,18 +26,8 @@ const MySkinTalk = (props) => {
 
   const [visible, setVisible] = useState(false);
   const [db_questions, set_db_questions] = useState([]);
-  const [showData, setShowData] = useState([])
-
-  //! DELETE BELLOW
-  const [question, setQuestion] = useState("question");
-  const [answer, setAnswer] = useState([]);
-  ;
-  //! DELETE ABOVE
-  const alertMessages = {
-    newQuestion: "Ihre Frage wurde erfolgreich gespeichert!",
-    newAnswer: "Ihre Antwort wurde erfolgreich gespeichert!",
-  };
-
+  const [showData, setShowData] = useState([]);
+  const [qANDa, setQandA] = useState({question: '', answer: ''});
   const [inputVisible, setInputVisible] = useState(false);
 
   //* #### FUNCTIONS/METHODS #### *//
@@ -61,7 +51,6 @@ const MySkinTalk = (props) => {
     connectAPI("questions", "POST", QUESTION, token).then((data) => {
       getFavorites();
       toggleFav(data.insertId);
-      alert(alertMessages.newQuestion);
     });
   };
 
@@ -76,20 +65,18 @@ const MySkinTalk = (props) => {
           }
         }
         let isFavoriteOrNot = showData.find(isfavObj => isfavObj.id === data[0].id).isFav // find isFav attribute to include in question object
-        setQuestion({ ...data[0], isFav: isFavoriteOrNot });
-        setAnswer(allAnswers);
+        setQandA({question: { ...data[0], isFav: isFavoriteOrNot }, answer: allAnswers});
         setVisible(true);
       });
   };
   const submitAnswer = (answer) => {
     const ANSWER = {
       answer: answer,
-      question_id: question.id,
+      question_id: qANDa.question.id,
     };
     connectAPI("answers", "POST", ANSWER, token).then((data) => {
       getFavorites();
-      getAnswers(question.id);
-      alert(alertMessages.newAnswer);
+      getAnswers(qANDa.question.id);
     });
   };
 
@@ -132,7 +119,7 @@ const MySkinTalk = (props) => {
         onPress={() => {
           if (query.question !== undefined) {
             toggleFav(query.id)
-            setQuestion({...query, isFav: !query.isFav});
+            setQandA(prev => ({question: {...query, isFav: !query.isFav}, answer: prev.answer}));
           }
         }}
       >
@@ -171,7 +158,7 @@ const MySkinTalk = (props) => {
   );
 
   const CardPopup = () => {
-    return question.subject ? (
+    return qANDa.question.subject ? (
       <Modal
         visible={visible}
         backdropStyle={styles.backdrop}
@@ -180,10 +167,10 @@ const MySkinTalk = (props) => {
       >
         <Card disabled={true}>
           <Qcard
-            query={question}
+            query={qANDa.question}
             favButton={FavButton}
           />
-          {answer.map((reply) => (
+          {qANDa.answer.map((reply) => (
             <AnswerCard key={reply.id} reply={reply} />
           ))}
 
