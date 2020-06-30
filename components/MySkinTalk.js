@@ -32,8 +32,6 @@ const MySkinTalk = (props) => {
   const alertMessages = {
     newQuestion: "Ihre Frage wurde erfolgreich gespeichert!",
     newAnswer: "Ihre Antwort wurde erfolgreich gespeichert!",
-    newFavorite: "Die Frage wurde erfolgreich als Favorit gespeichert!",
-    delFavorite: "Die Frage wurde von Ihre Favoriten gelöscht",
   };
 
   const [inputVisible, setInputVisible] = useState(false);
@@ -58,8 +56,8 @@ const MySkinTalk = (props) => {
     };
     connectAPI("questions", "POST", QUESTION, token).then((data) => {
       getFavorites();
-      // console.log(data);
       toggleFav(data.insertId);
+      alert(alertMessages.newQuestion);
     });
   };
 

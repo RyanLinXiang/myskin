@@ -51,8 +51,8 @@ const MySkinFavorites = (props) => {
         };
         connectAPI("questions", "POST", QUESTION, token).then((data) => {
             getFavorites();
-            // console.log(data);
             toggleFav(data.insertId);
+            alert(alertMessages.newQuestion);
         });
     };
 
