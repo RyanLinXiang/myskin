@@ -3,13 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
-  ActivityIndicator,
   TouchableOpacity,
   Image,
   ImageBackground,
 } from "react-native";
-import { Button } from "@ui-kitten/components";
+import { BarIndicator, WaveIndicator } from "react-native-indicators";
+import { Button, Icon } from "@ui-kitten/components";
 import * as tf from "@tensorflow/tfjs";
 import { fetch, bundleResourceIO } from "@tensorflow/tfjs-react-native";
 import Constants from "expo-constants";
@@ -17,6 +16,7 @@ import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as jpeg from "jpeg-js";
 import * as globalcss from "../styles/globalcss";
+import * as Animatable from "react-native-animatable";
 
 class MySkinPredict extends React.Component {
   state = {
@@ -42,7 +42,6 @@ class MySkinPredict extends React.Component {
 
       this.setState({ isModelReady: true, tfjsmodel });
       this.getPermissionAsync();
-      console.log("Success");
     } catch (e) {
       console.log(e);
     }
@@ -139,86 +138,130 @@ class MySkinPredict extends React.Component {
     const { isTfReady, isModelReady, predictions, image } = this.state;
 
     let status;
+    let loading;
 
-    if (isTfReady && isModelReady && !image && !predictions)
+    // Status Logics:
+
+    if (isTfReady && isModelReady && !image && !predictions) {
       status = (
         <Text style={styles.statusText}>mySkin: Predict ist bereit.</Text>
       );
-    else if (isModelReady && image && predictions)
+      loading = false;
+    } else if (isModelReady && image && predictions) {
       status = <Text style={styles.statusText}>Analyse abgeschlossen.</Text>;
-    else if (isModelReady && image && !predictions)
+      loading = false;
+    } else if (isModelReady && image && !predictions) {
       status = (
         <React.Fragment>
           <Text style={styles.statusText}>Analyse läuft ... bitte warten.</Text>
-          <ActivityIndicator size="small" />
         </React.Fragment>
       );
-    else
+      loading = "predict";
+    } else {
       status = (
         <React.Fragment>
           <Text style={styles.statusText}>
-            Modell wird geladen ... bitte kurz warten.
+            Modell wird geladen ... bitte kurz warten.{" "}
           </Text>
-          <ActivityIndicator size="small" />
         </React.Fragment>
       );
+      loading = "model";
+    }
+
+    // Output Logics
 
     let output;
 
-    if (image && !predictions)
-      output = <Image source={image} style={styles.uploadedImage} />;
-    else if (image && predictions)
-      output = (
-        <React.Fragment>
-          <ImageBackground
-            source={image}
-            blurRadius={50}
-            style={styles.predictedImage}
-          >
-            <Text style={styles.predictedNumberHeader}>
-              Wahrscheinlichkeit für Melanom:
-            </Text>
-            <Text style={styles.predictedNumber}>
-              {Math.round(predictions.dataSync()[0] * 100)}
-              <Text style={styles.predictedNumberPercentage}> %</Text>
-            </Text>
-          </ImageBackground>
-        </React.Fragment>
-      );
-    else if (isModelReady && !image)
-      output = <Text>Bitte ein Bild auswählen</Text>;
+    if (!loading) {
+      if (image && !predictions)
+        output = <Image source={image} style={styles.uploadedImage} />;
+      else if (image && predictions)
+        output = (
+          <React.Fragment>
+            <ImageBackground
+              source={image}
+              blurRadius={50}
+              style={styles.predictedImage}
+            >
+              <Text style={styles.predictedNumberHeader}>
+                Wahrscheinlichkeit für Melanom:
+              </Text>
+              <Text style={styles.predictedNumber}>
+                {Math.round(predictions.dataSync()[0] * 100)}
+                <Text style={styles.predictedNumberPercentage}> %</Text>
+              </Text>
+            </ImageBackground>
+          </React.Fragment>
+        );
+      else if (isModelReady && !image)
+        output = (
+          <Animatable.View animation={"wobble"} duration={3000}>
+            <Icon
+              style={{
+                width: 100,
+                height: 100,
+              }}
+              name="image-outline"
+            />
+          </Animatable.View>
+        );
+    } else {
+      switch (loading) {
+        case "model":
+          output = (
+            <BarIndicator
+              size={80}
+              style={styles.indicator}
+              color="darkorange"
+            />
+          );
+          break;
+        case "predict":
+          output = (
+            <WaveIndicator
+              size={80}
+              count={10}
+              style={styles.indicator}
+              color="darkorange"
+            />
+          );
+        default:
+          break;
+      }
+    }
 
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <Text style={styles.status}>{status}</Text>
-        <TouchableOpacity
-          style={styles.imageContainer}
-          onPress={
-            isModelReady && this.state.tfjsmodel.predict && !predictions
-              ? this.handlerSelectImage
-              : undefined
-          }
-        >
-          {output}
-        </TouchableOpacity>
-        {isModelReady && image && predictions ? (
-          <React.Fragment>
-            <Button onPress={this.handlerReset} size="tiny" status="warning">
-              Neu starten
-            </Button>
-            <Text style={styles.warning}>
-              Die oben dargestellte Zahl ist die Wahrscheinlichkeit, dass Ihr
-              Muttermal ein Melanom sein könnte. Dabei beruht die Berechnung auf
-              einem Modell der Künstlichen Intelligenz. Dieses Modell basiert
-              auf 10.000 Bildern von Melanomen und von Nicht-Melanomen. Je
-              kleiner die Wahrscheinlichkeit, desto unwahrscheinlicher ist es,
-              dass Ihr Muttermal ein Melanom ist. Die Berechnung ist ohne
-              Gewähr. Bitte konsultieren Sie auf jeden Fall Ihren Hautarzt für
-              eine gesicherte Diagnose.
-            </Text>
-          </React.Fragment>
-        ) : null}
+        <View style={styles.innercontainer}>
+          <Text style={styles.status}>{status}</Text>
+          <TouchableOpacity
+            style={styles.imageContainer}
+            onPress={
+              isModelReady && this.state.tfjsmodel.predict && !predictions
+                ? this.handlerSelectImage
+                : undefined
+            }
+          >
+            {output}
+          </TouchableOpacity>
+          {isModelReady && image && predictions ? (
+            <React.Fragment>
+              <Button onPress={this.handlerReset} size="tiny" status="warning">
+                Neu starten
+              </Button>
+              <Text style={styles.warning}>
+                Die oben dargestellte Zahl ist die Wahrscheinlichkeit, dass Ihr
+                Muttermal ein Melanom sein könnte. Dabei beruht die Berechnung
+                auf einem Modell der Künstlichen Intelligenz. Dieses Modell
+                basiert auf 10.000 Bildern von Melanomen und von
+                Nicht-Melanomen. Je kleiner die Wahrscheinlichkeit, desto
+                unwahrscheinlicher ist es, dass Ihr Muttermal ein Melanom ist.
+                Die Berechnung ist ohne Gewähr. Bitte konsultieren Sie auf jeden
+                Fall Ihren Hautarzt für eine gesicherte Diagnose.
+              </Text>
+            </React.Fragment>
+          ) : null}
+        </View>
       </View>
     );
   }
@@ -231,6 +274,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
   },
+  innercontainer: {
+    flex: 1,
+    marginTop: -100,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   statusText: {
     fontSize: 16,
   },
@@ -239,14 +288,14 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     padding: 5,
-    backgroundColor: "lightgrey",
-    borderRadius: 5,
-    borderColor: "darkgrey",
-    borderWidth: 1,
-    borderStyle: "solid",
+    borderRadius: 10,
     opacity: 0.7,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "lightgrey",
+    borderColor: "white",
+    borderWidth: 5,
+    borderStyle: "dotted",
   },
 
   warning: {
@@ -271,6 +320,9 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowColor: "darkgrey",
     shadowOffset: { height: 10, width: 10 },
+  },
+  indicator: {
+    flex: 1,
   },
 });
 
