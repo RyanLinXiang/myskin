@@ -1,22 +1,15 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  ImageBackground,
-} from "react-native";
-import { BarIndicator, WaveIndicator } from "react-native-indicators";
-import { Button, Icon } from "@ui-kitten/components";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import * as tf from "@tensorflow/tfjs";
 import { fetch, bundleResourceIO } from "@tensorflow/tfjs-react-native";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as jpeg from "jpeg-js";
+import Output from "./MySkinPredict-components/Output";
+import Status from "./MySkinPredict-components/Status";
+import { Button } from "@ui-kitten/components";
 import * as globalcss from "../styles/globalcss";
-import * as Animatable from "react-native-animatable";
 
 class MySkinPredict extends React.Component {
   state = {
@@ -137,103 +130,24 @@ class MySkinPredict extends React.Component {
   render() {
     const { isTfReady, isModelReady, predictions, image } = this.state;
 
-    let status;
     let loading;
 
-    // Status Logics:
-
-    if (isTfReady && isModelReady && !image && !predictions) {
-      status = (
-        <Text style={styles.statusText}>mySkin: Predict ist bereit.</Text>
-      );
-      loading = false;
-    } else if (isModelReady && image && predictions) {
-      status = <Text style={styles.statusText}>Analyse abgeschlossen.</Text>;
-      loading = false;
-    } else if (isModelReady && image && !predictions) {
-      status = (
-        <React.Fragment>
-          <Text style={styles.statusText}>Analyse läuft ... bitte warten.</Text>
-        </React.Fragment>
-      );
-      loading = "predict";
-    } else {
-      status = (
-        <React.Fragment>
-          <Text style={styles.statusText}>
-            Modell wird geladen ... bitte kurz warten.{" "}
-          </Text>
-        </React.Fragment>
-      );
-      loading = "model";
-    }
-
-    // Output Logics
-
-    let output;
-
-    if (!loading) {
-      if (image && !predictions)
-        output = <Image source={image} style={styles.uploadedImage} />;
-      else if (image && predictions)
-        output = (
-          <React.Fragment>
-            <ImageBackground
-              source={image}
-              blurRadius={50}
-              style={styles.predictedImage}
-            >
-              <Text style={styles.predictedNumberHeader}>
-                Wahrscheinlichkeit für Melanom:
-              </Text>
-              <Text style={styles.predictedNumber}>
-                {Math.round(predictions.dataSync()[0] * 100)}
-                <Text style={styles.predictedNumberPercentage}> %</Text>
-              </Text>
-            </ImageBackground>
-          </React.Fragment>
-        );
-      else if (isModelReady && !image)
-        output = (
-          <Animatable.View animation={"wobble"} duration={3000}>
-            <Icon
-              style={{
-                width: 100,
-                height: 100,
-              }}
-              name="image-outline"
-            />
-          </Animatable.View>
-        );
-    } else {
-      switch (loading) {
-        case "model":
-          output = (
-            <BarIndicator
-              size={80}
-              style={styles.indicator}
-              color="darkorange"
-            />
-          );
-          break;
-        case "predict":
-          output = (
-            <WaveIndicator
-              size={80}
-              count={10}
-              style={styles.indicator}
-              color="darkorange"
-            />
-          );
-        default:
-          break;
-      }
-    }
+    if (isTfReady && isModelReady && !image && !predictions) loading = false;
+    else if (isModelReady && image && predictions) loading = false;
+    else if (isModelReady && image && !predictions) loading = "predict";
+    else loading = "model";
 
     return (
       <View style={styles.container}>
         <View style={styles.innercontainer}>
-          <Text style={styles.status}>{status}</Text>
+          <View style={styles.status}>
+            <Status
+              isTfReady={isTfReady}
+              isModelReady={isModelReady}
+              predictions={predictions}
+              image={image}
+            />
+          </View>
           <TouchableOpacity
             style={styles.imageContainer}
             onPress={
@@ -242,7 +156,12 @@ class MySkinPredict extends React.Component {
                 : undefined
             }
           >
-            {output}
+            <Output
+              loading={loading}
+              image={image}
+              predictions={predictions}
+              isModelReady={isModelReady}
+            />
           </TouchableOpacity>
           {isModelReady && image && predictions ? (
             <React.Fragment>
@@ -280,9 +199,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  statusText: {
-    fontSize: 16,
-  },
   status: { marginBottom: 20 },
   imageContainer: {
     width: 300,
@@ -297,32 +213,10 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderStyle: "dotted",
   },
-
   warning: {
     marginTop: 20,
     fontSize: 10,
     width: "90%",
-  },
-
-  predictedImage: {
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  predictedNumberHeader: { fontSize: 12, color: "white" },
-  predictedNumberPercentage: { fontSize: 22, color: "white" },
-  predictedNumber: {
-    fontSize: 58,
-    fontWeight: "bold",
-    color: "white",
-    shadowOpacity: 0.75,
-    shadowRadius: 5,
-    shadowColor: "darkgrey",
-    shadowOffset: { height: 10, width: 10 },
-  },
-  indicator: {
-    flex: 1,
   },
 });
 
