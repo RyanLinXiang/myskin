@@ -1,13 +1,12 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, View } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import MySkinPredict from "./MySkinPredict";
 import MySkinTalk from "./MySkinTalk";
 import Home from "./Home";
-import Playground from "./Playground";
-
 import ViewBuilder from "./ViewBuilder";
 import MySkinFavorites from "./MySkinFavorites";
+import { Icon } from "@ui-kitten/components";
 
 const Navigation = (props) => {
   function predict({ navigation }) {
@@ -46,10 +45,6 @@ const Navigation = (props) => {
     return <React.Fragment></React.Fragment>;
   }
 
-  function playground() {
-    return <Playground {...props} />;
-  }
-
   const Drawer = createDrawerNavigator();
 
   return (
@@ -57,34 +52,74 @@ const Navigation = (props) => {
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="Home">
           <Drawer.Screen
-            name="mySkin: Home"
+            name="Home"
             component={home}
-            options={{ title: "Home" }}
+            options={{
+              title: "Home",
+              drawerIcon: () => (
+                <Icon
+                  style={{ width: 25, height: 25 }}
+                  fill="darkgrey"
+                  name="home-outline"
+                />
+              ),
+            }}
           />
           <Drawer.Screen
             name="mySkin: Predict"
             component={predict}
-            options={{ title: "MySkin: Predict" }}
+            options={{
+              title: "mySkin: Predict",
+              drawerIcon: () => (
+                <Icon
+                  style={{ width: 25, height: 25 }}
+                  fill="darkgrey"
+                  name="bar-chart-outline"
+                />
+              ),
+            }}
           />
           <Drawer.Screen
             name="mySkin: Talk"
             component={talk}
-            options={{ title: "MySkin: Talk" }}
+            options={{
+              title: "mySkin: Talk",
+              drawerIcon: () => (
+                <Icon
+                  style={{ width: 25, height: 25 }}
+                  fill="darkgrey"
+                  name="message-circle-outline"
+                />
+              ),
+            }}
           />
           <Drawer.Screen
-            name="mySkin: Favorites"
+            name="Lieblingsfragen"
             component={favorites}
-            options={{ title: "MySkin: Favorites" }}
+            options={{
+              title: "Lieblingsfragen",
+              drawerIcon: () => (
+                <Icon
+                  style={{ width: 25, height: 25 }}
+                  fill="darkgrey"
+                  name="heart-outline"
+                />
+              ),
+            }}
           />
           <Drawer.Screen
             name="Logout"
             component={logout}
-            options={{ title: "Logout" }}
-          />
-          <Drawer.Screen
-            name="Playground"
-            component={playground}
-            options={{ title: "Playground" }}
+            options={{
+              title: "Logout",
+              drawerIcon: () => (
+                <Icon
+                  style={{ width: 25, height: 25 }}
+                  fill="darkgrey"
+                  name="log-out-outline"
+                />
+              ),
+            }}
           />
         </Drawer.Navigator>
       </NavigationContainer>
