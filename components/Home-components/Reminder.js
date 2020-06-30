@@ -6,17 +6,26 @@ import ArticleReminder from "./articles/ArticleReminder";
 import * as globalcss from "../../styles/globalcss";
 
 const Reminder = (props) => {
+  const { api, handlerResetView } = props;
+
   const getTimeUntil = async () => {
     try {
       let screenDate = await AsyncStorage.getItem("@storage_screenDate");
+
       let daysLeft;
+      screenDate = new Date(screenDate);
 
       if (screenDate) {
         const time = Date.parse(screenDate) - Date.parse(new Date());
         daysLeft = Math.floor(time / (1000 * 60 * 60 * 24));
-      } else screenDate = false;
+      } else {
+        screenDate = false;
+        daysLeft = 0;
+      }
 
-      setStateDate({ screenDate, daysLeft });
+      // Avoid infinite loop by checking if daysleft has changed
+      if (daysLeft !== stateDate.daysLeft)
+        setStateDate({ screenDate, daysLeft });
     } catch (e) {
       console.log(e);
     }
@@ -24,15 +33,18 @@ const Reminder = (props) => {
 
   useEffect(() => {
     getTimeUntil();
-  }, []);
+  });
 
   const [stateDate, setStateDate] = useState({
     screenDate: false,
     daysLeft: false,
   });
 
-  return !props.api ? (
-    <ArticleReminder screenDate={stateDate.screenDate} />
+  return !api ? (
+    <ArticleReminder
+      screenDate={stateDate.screenDate}
+      handlerResetView={handlerResetView}
+    />
   ) : (
     <Card style={styles.cards}>
       {stateDate.daysLeft > 0 ? (
