@@ -26,9 +26,13 @@ const MySkinTalk = (props) => {
 
   const [visible, setVisible] = useState(false);
   const [db_questions, set_db_questions] = useState([]);
+  const [showData, setShowData] = useState([])
+
+  //! DELETE BELLOW
   const [question, setQuestion] = useState("question");
   const [answer, setAnswer] = useState([]);
-  const [showData, setShowData] = useState([]);
+  ;
+  //! DELETE ABOVE
   const alertMessages = {
     newQuestion: "Ihre Frage wurde erfolgreich gespeichert!",
     newAnswer: "Ihre Antwort wurde erfolgreich gespeichert!",
