@@ -22,6 +22,7 @@ export default function Question(props) {
               : `vor ${props.query.dayspast} Tag`}
           </Text>
         </View>
+        {props.user===props.query.user_id ? props.DelButton(props.query.id):null}
         {props.favButton(props.query)}
       </View>
     </View>

@@ -108,8 +108,30 @@ const MySkinTalk = (props) => {
       });
   }
 
+  //### Delete Functions ###//
+  const deleteQuestion = (targetID) => {
+    connectAPI(
+      "questions/" + targetID, "DELETE", false, token).then((data) => {
+        // getFavorites('update!');
+        alert('Ihre frage würde gelöscht')
+        setVisible(false)
+      });
+  }
+
 
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
+  // &#9746; => 'x' in a box
+  // &#9747; => just 'x'
+  const DelButton = (targetID) => (
+    <TouchableOpacity
+      status="danger"
+      size='large'
+      onPress={() => {deleteQuestion(targetID); getFavorites('update!')}}
+    >
+      <Text style={styles.delButton}>&#9746;</Text>
+    </TouchableOpacity>
+  );
+
   const LoadMoreButton = () => {
     if (showData.length < entriesPerScroll) {
       return null
@@ -193,6 +215,8 @@ const MySkinTalk = (props) => {
           <Qcard
             query={qANDa.question}
             favButton={FavButton}
+            user={user_id}
+            DelButton={(queryID) => DelButton(queryID)}
           />
           {qANDa.answer.map((reply) => (
             <AnswerCard key={reply.id} reply={reply} />
@@ -247,6 +271,10 @@ const styles = StyleSheet.create({
   button: {
     fontSize: 25,
     color: 'darkorange',
+  },
+  delButton: {
+    fontSize: 25,
+    color: 'red',
   },
   inputField: {
     height: 120,

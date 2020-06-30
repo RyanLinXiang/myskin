@@ -95,21 +95,42 @@ const MySkinFavorites = (props) => {
             });
     }
 
+    //### Delete Functions ###//
+    const deleteQuestion = (targetID) => {
+        connectAPI(
+            "questions/" + targetID, "DELETE", false, token).then((data) => {
+                // getFavorites('update!');
+                alert('Ihre frage würde gelöscht')
+                setVisible(false)
+            });
+    }
 
 
     //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-    const LoadMoreButton = () => 
-        showData.length<entriesPerScroll ? null:(
-        <Button
-          style={styles.button}
-          status='warning'
-          onPress={() => { 
-            pagination > showData.length ? setPagination(entriesPerScroll):setPagination(prev => prev + 10) 
-          }}
+    // &#9746; => 'x' in a box
+    // &#9747; => just 'x'
+    const DelButton = (targetID) => (
+        <TouchableOpacity
+            status="danger"
+            size='large'
+            onPress={() => {deleteQuestion(targetID); getFavorites('update!')}}
         >
-          {pagination > showData.length ? 'WENIGER FRAGEN LADEN': 'MEHR FRAGEN LADEN'}
-        </Button>
-      )
+            <Text style={styles.delButton}>&#9746;</Text>
+        </TouchableOpacity>
+    );
+
+    const LoadMoreButton = () =>
+        showData.length < entriesPerScroll ? null : (
+            <Button
+                style={styles.button}
+                status='warning'
+                onPress={() => {
+                    pagination > showData.length ? setPagination(entriesPerScroll) : setPagination(prev => prev + 10)
+                }}
+            >
+                {pagination > showData.length ? 'WENIGER FRAGEN LADEN' : 'MEHR FRAGEN LADEN'}
+            </Button>
+        )
 
     // &#9734; => NOT fav
     // &#9733; => IS fav
@@ -171,6 +192,8 @@ const MySkinFavorites = (props) => {
                     <Qcard
                         query={qANDa.question}
                         favButton={FavButton}
+                        user={user_id}
+                        DelButton={(queryID) => DelButton(queryID)}
                     />
                     {qANDa.answer.map(reply => <AnswerCard key={reply.id}
                         reply={reply} />)}
@@ -228,6 +251,10 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: 'darkorange',
     },
+    delButton: {
+        fontSize: 25,
+        color: 'red',
+      },
     inputField: {
         height: 120,
         marginBottom: 10,
