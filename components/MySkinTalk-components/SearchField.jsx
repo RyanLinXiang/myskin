@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { StyleSheet, View, TextInput, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, View, TextInput } from "react-native";
 import { Button, Icon as KittenIcon } from "@ui-kitten/components";
 import Form from "react-native-form";
 
@@ -13,7 +13,6 @@ const SearchField = (props) => {
     }
     const SearchIcon = (props) => <KittenIcon {...props} name='search-outline' />
     return (
-        // <KeyboardAvoidingView style={styles.outercontainer} behavior="padding">
             <Form ref={FormRef}>
                 <View style={styles.innercontainer}>
                     <View style={styles.textinputcontainer}>
@@ -29,7 +28,6 @@ const SearchField = (props) => {
                     </View>
                 </View>
             </Form>
-        // </KeyboardAvoidingView>
     )  
 }
 
