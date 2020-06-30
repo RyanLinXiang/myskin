@@ -52,6 +52,7 @@ const AddAnswer = (props) => {
 const styles = StyleSheet.create({
   questionContainer: {
     flex: 1,
+    width:'100%',
     backgroundColor: "#fff",
     borderBottomWidth: 2,
     borderColor: "lightgrey",
@@ -59,8 +60,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   inputSubject: {
-    width: screenWidth * 0.8,
-    width: 300,
+    flex:1,
     margin: 10,
     padding: 10,
     alignSelf: "stretch",

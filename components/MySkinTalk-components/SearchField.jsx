@@ -13,6 +13,7 @@ const SearchField = (props) => {
     const SearchIcon = (props) => <KittenIcon {...props} name='search-outline'  /> 
     return (
         // <KeyboardAvoidingView style={styles.outercontainer} behavior="padding">
+        <View style={styles.outercontainer} >
             <Form ref={FormRef}>
                 <View style={styles.innercontainer}>
                     <View style={styles.textinputcontainer}>
@@ -28,6 +29,7 @@ const SearchField = (props) => {
                     </View>
                 </View>
             </Form>
+         </View>
         // </KeyboardAvoidingView>
     )  
 }

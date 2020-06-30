@@ -1,7 +1,7 @@
 //* #### IMPORTS #### *//
 
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet, SafeAreaView, Dimensions } from "react-native";
 import {
   Button,
   Card,
@@ -12,13 +12,15 @@ import {
 } from "@ui-kitten/components";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
 import AddAnswer from "./MySkinTalk-components/AddAnswer";
 import Qcard from "./MySkinTalk-components/Qcard";
 import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
 import SearchField from "./MySkinTalk-components/SearchField";
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
 
 const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -114,11 +116,12 @@ const MySkinTalk = (props) => {
   const LoadMoreButton = () => 
   showData.length<entriesPerScroll ? null:(
   <Button
-    style={styles.button}
-    status='warning'
+  
     onPress={() => { 
       pagination > showData.length ? setPagination(entriesPerScroll):setPagination(prev => prev + 10) 
     }}
+    style={styles.button}
+    status='warning'
   >
     {pagination > showData.length ? 'WENIGER FRAGEN LADEN': 'MEHR FRAGEN LADEN'}
   </Button>
@@ -183,27 +186,33 @@ const MySkinTalk = (props) => {
         onBackdropPress={() => setVisible(false)}
         style={styles.modal}
       >
-        <Card disabled={true}>
-          <Qcard
-            query={qANDa.question}
-            favButton={FavButton}
-          />
-          {qANDa.answer.map((reply) => (
-            <AnswerCard key={reply.id} reply={reply} />
-          ))}
+   
+        <Card  style={styles.modalCard} disabled={true}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Qcard
+              query={qANDa.question}
+              favButton={FavButton}
+            />
+        
+            {qANDa.answer.map((reply) => (
+              <AnswerCard key={reply.id} reply={reply} />
+            ))}
+          </ScrollView>
+          <SafeAreaView keyboardDismissMode={'none'}  style={styles.answerCardButtons}>
+              <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
 
-          <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
+              <Button
+                size="small"
+                onPress={() => setVisible(false)}
+                style={{ alignSelf: "stretch" }}
+                status="warning"
 
-          <Button
-            size="small"
-            onPress={() => setVisible(false)}
-            style={{ alignSelf: "stretch" }}
-            status="warning"
-
-          >
-            SCHLIESSEN
-          </Button>
+              >
+                SCHLIESSEN
+              </Button>
+           </SafeAreaView>
         </Card>
+        
       </Modal>
     ) : null;
   };
@@ -241,11 +250,12 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   button: {
-    fontSize: 25,
-    color: 'darkorange',
+    alignSelf:'stretch',
   },
   inputField: {
+    
     height: 120,
+    padding:10,   
     marginBottom: 10,
   },
   list: {
@@ -255,8 +265,27 @@ const styles = StyleSheet.create({
   listitem: {
      flex:1,
      backgroundColor: globalcss.container.backgroundColor },
-  modal: { width: "90%" },
-  star: { color: "red" }, // do we need this?
+  modal: {
+     flex:1,
+     width: screenWidth * 0.85,
+     height: screenHeight * 0.85,
+     marginBottom:20
+     },
+  modalCard: { flex:1,
+    alignItems:'stretch',
+    backgroundColor:'#FFF',
+    borderColor: "gray",
+    borderRadius: 10,
+   },
+   answerCardButtons:{
+    flex:1,
+    width:'100%',
+    backgroundColor:'#FFF',
+    justifyContent:'space-between',
+    alignItems:'center',
+    paddingVertical:20,
+    marginBottom:20
+   },
 });
 
 //* #### EXPORT #### *//
