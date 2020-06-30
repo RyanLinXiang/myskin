@@ -29,11 +29,6 @@ const MySkinFavorites = (props) => {
     const [question, setQuestion] = useState("question");
     const [answer, setAnswer] = useState([]);
     const [showData, setShowData] = useState([]);
-    const alertMessages = {
-        newQuestion: "Ihre Frage wurde erfolgreich gespeichert!",
-        newAnswer: "Ihre Antwort wurde erfolgreich gespeichert!",
-    };
-
     const [inputVisible, setInputVisible] = useState(false);
 
     //* #### FUNCTIONS/METHODS #### *//
@@ -48,7 +43,6 @@ const MySkinFavorites = (props) => {
         connectAPI("questions", "POST", QUESTION, token).then((data) => {
             getFavorites();
             toggleFav(data.insertId);
-            alert(alertMessages.newQuestion);
         });
     };
 
@@ -56,17 +50,17 @@ const MySkinFavorites = (props) => {
     const getAnswers = (id) => {
         connectAPI(
             "questions/" + id + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
-            let allAnswers = [];
-            if (data[1].length > 0) {
-                for (const item of data[1]) {
-                    allAnswers.push(item);
+                let allAnswers = [];
+                if (data[1].length > 0) {
+                    for (const item of data[1]) {
+                        allAnswers.push(item);
+                    }
                 }
-            }
-            let isFavoriteOrNot = showData.find(isfavObj => isfavObj.id === data[0].id).isFav // find isFav attribute to include in question object
-            setQuestion({ ...data[0], isFav: isFavoriteOrNot });
-            setAnswer(allAnswers);
-            setVisible(true);
-        });
+                let isFavoriteOrNot = showData.find(isfavObj => isfavObj.id === data[0].id).isFav // find isFav attribute to include in question object
+                setQuestion({ ...data[0], isFav: isFavoriteOrNot });
+                setAnswer(allAnswers);
+                setVisible(true);
+            });
     };
     const submitAnswer = (answer) => {
         const ANSWER = {
@@ -76,7 +70,6 @@ const MySkinFavorites = (props) => {
         connectAPI("answers", "POST", ANSWER, token).then((data) => {
             getFavorites();
             getAnswers(question.id);
-            alert(alertMessages.newAnswer);
         });
     };
 
@@ -121,10 +114,10 @@ const MySkinFavorites = (props) => {
             size='large'
             onPress={() => {
                 if (query.question !== undefined) {
-                  toggleFav(query.id);
-                  setQuestion({...query, isFav: !query.isFav});
+                    toggleFav(query.id);
+                    setQuestion({ ...query, isFav: !query.isFav });
                 }
-              }}
+            }}
         >
             {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
                 <Text style={styles.button}>&#9734;</Text>}

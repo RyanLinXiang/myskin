@@ -29,11 +29,6 @@ const MySkinTalk = (props) => {
   const [question, setQuestion] = useState("question");
   const [answer, setAnswer] = useState([]);
   const [showData, setShowData] = useState([]);
-  const alertMessages = {
-    newQuestion: "Ihre Frage wurde erfolgreich gespeichert!",
-    newAnswer: "Ihre Antwort wurde erfolgreich gespeichert!",
-  };
-
   const [inputVisible, setInputVisible] = useState(false);
 
   //* #### FUNCTIONS/METHODS #### *//
@@ -57,7 +52,6 @@ const MySkinTalk = (props) => {
     connectAPI("questions", "POST", QUESTION, token).then((data) => {
       getFavorites();
       toggleFav(data.insertId);
-      alert(alertMessages.newQuestion);
     });
   };
 
@@ -85,7 +79,6 @@ const MySkinTalk = (props) => {
     connectAPI("answers", "POST", ANSWER, token).then((data) => {
       getFavorites();
       getAnswers(question.id);
-      alert(alertMessages.newAnswer);
     });
   };
 
