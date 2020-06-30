@@ -56,9 +56,9 @@ const MySkinTalk = (props) => {
   };
 
   //### Answer Functions ###//
-  const getAnswers = (id) => {
+  const getAnswers = (queryID) => {
     connectAPI(
-      "questions/" + id + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
+      "questions/" + queryID + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
         let allAnswers = [];
         if (data[1].length > 0) {
           for (const item of data[1]) {
@@ -112,9 +112,15 @@ const MySkinTalk = (props) => {
   const deleteQuestion = (targetID) => {
     connectAPI(
       "questions/" + targetID, "DELETE", false, token).then((data) => {
-        // getFavorites('update!');
-        alert('Ihre frage würde gelöscht')
+        alert('Ihre Frage würde gelöscht')
         setVisible(false)
+      });
+  }
+
+  const deleteAnswer = (target) => {
+    connectAPI(
+      "answers/" + target.id, "DELETE", false, token).then((data) => {
+        getAnswers(target.question_id)
       });
   }
 
@@ -122,11 +128,21 @@ const MySkinTalk = (props) => {
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
   // &#9746; => 'x' in a box
   // &#9747; => just 'x'
-  const DelButton = (targetID) => (
+  const DelQuestionButton = (targetID) => (
     <TouchableOpacity
       status="danger"
       size='large'
-      onPress={() => {deleteQuestion(targetID); getFavorites('update!')}}
+      onPress={() => { deleteQuestion(targetID); getFavorites('update!') }}
+    >
+      <Text style={styles.delButton}>&#9746;</Text>
+    </TouchableOpacity>
+  );
+
+  const DelAnswerButton = (targetID) => (
+    <TouchableOpacity
+      status="danger"
+      size='large'
+      onPress={() => deleteAnswer(targetID)}
     >
       <Text style={styles.delButton}>&#9746;</Text>
     </TouchableOpacity>
@@ -216,10 +232,15 @@ const MySkinTalk = (props) => {
             query={qANDa.question}
             favButton={FavButton}
             user={user_id}
-            DelButton={(queryID) => DelButton(queryID)}
+            DelButton={(queryID) => DelQuestionButton(queryID)}
           />
           {qANDa.answer.map((reply) => (
-            <AnswerCard key={reply.id} reply={reply} />
+            <AnswerCard
+              key={reply.id}
+              reply={reply}
+              user={user_id}
+              DelButton={(replyID) => DelAnswerButton(replyID)}
+            />
           ))}
 
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />

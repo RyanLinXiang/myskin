@@ -20,6 +20,7 @@ export default function Answer(props) {
                         <Icon style={styles.icon} fill='#8F9BB3' name='clock' />
                         <Text> {props.reply.dayspast>1 ? `${props.reply.dayspast} days ago`:`${props.reply.dayspast} day ago`}</Text>
                     </View>
+                    {props.user===props.reply.user_id ? props.DelButton(props.reply):null}
                 </View>
             </Card>
     );
