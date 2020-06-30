@@ -1,12 +1,17 @@
 import React from "react";
-import { NavigationContainer, View } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { NavigationContainer } from "@react-navigation/native";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import MySkinPredict from "./MySkinPredict";
 import MySkinTalk from "./MySkinTalk";
 import Home from "./Home";
 import ViewBuilder from "./ViewBuilder";
 import MySkinFavorites from "./MySkinFavorites";
 import { Icon } from "@ui-kitten/components";
+import { SafeAreaView, Image, StyleSheet } from "react-native";
 
 const Navigation = (props) => {
   function predict({ navigation }) {
@@ -47,19 +52,40 @@ const Navigation = (props) => {
 
   const Drawer = createDrawerNavigator();
 
+  const CustomDrawerContent = (props) => {
+    return (
+      <React.Fragment>
+        <SafeAreaView style={styles.headerContainer}>
+          <Image
+            source={require("../assets/logoavatar.png")}
+            style={styles.headerLogo}
+          />
+        </SafeAreaView>
+
+        <DrawerContentScrollView {...props} style={styles.navItemsList}>
+          <DrawerItemList {...props} />
+        </DrawerContentScrollView>
+      </React.Fragment>
+    );
+  };
+
   return (
     <React.Fragment>
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Navigator
+          initialRouteName="Home"
+          drawerContent={(props) => <CustomDrawerContent {...props} />}
+          drawerContentOptions={navListItems}
+        >
           <Drawer.Screen
             name="Home"
             component={home}
             options={{
               title: "Home",
-              drawerIcon: () => (
+              drawerIcon: ({ color }) => (
                 <Icon
                   style={{ width: 25, height: 25 }}
-                  fill="darkgrey"
+                  fill={color}
                   name="home-outline"
                 />
               ),
@@ -70,10 +96,10 @@ const Navigation = (props) => {
             component={predict}
             options={{
               title: "mySkin: Predict",
-              drawerIcon: () => (
+              drawerIcon: ({ color }) => (
                 <Icon
                   style={{ width: 25, height: 25 }}
-                  fill="darkgrey"
+                  fill={color}
                   name="bar-chart-outline"
                 />
               ),
@@ -84,10 +110,10 @@ const Navigation = (props) => {
             component={talk}
             options={{
               title: "mySkin: Talk",
-              drawerIcon: () => (
+              drawerIcon: ({ color }) => (
                 <Icon
                   style={{ width: 25, height: 25 }}
-                  fill="darkgrey"
+                  fill={color}
                   name="message-circle-outline"
                 />
               ),
@@ -98,10 +124,10 @@ const Navigation = (props) => {
             component={favorites}
             options={{
               title: "Lieblingsfragen",
-              drawerIcon: () => (
+              drawerIcon: ({ color }) => (
                 <Icon
                   style={{ width: 25, height: 25 }}
-                  fill="darkgrey"
+                  fill={color}
                   name="heart-outline"
                 />
               ),
@@ -112,10 +138,10 @@ const Navigation = (props) => {
             component={logout}
             options={{
               title: "Logout",
-              drawerIcon: () => (
+              drawerIcon: ({ color }) => (
                 <Icon
                   style={{ width: 25, height: 25 }}
-                  fill="darkgrey"
+                  fill={color}
                   name="log-out-outline"
                 />
               ),
@@ -128,3 +154,19 @@ const Navigation = (props) => {
 };
 
 export default Navigation;
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    width: "100%",
+    alignItems: "center",
+  },
+  headerLogo: { width: 250, height: 250 },
+  navItemsList: { marginTop: -50 },
+});
+
+const navListItems = {
+  activeTintColor: "white",
+  inactiveTintColor: "darkgrey",
+  activeBackgroundColor: "darkorange",
+  inactiveBackgroundColor: "white",
+};
