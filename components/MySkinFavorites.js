@@ -101,11 +101,12 @@ const MySkinFavorites = (props) => {
     const LoadMoreButton = () => 
         showData.length<entriesPerScroll ? null:(
         <Button
-          style={styles.button}
+           
           status='warning'
           onPress={() => { 
             pagination > showData.length ? setPagination(entriesPerScroll):setPagination(prev => prev + 10) 
           }}
+          style={{alignSelf:'stretch', margin:30, marginVertical:15, paddingVertical:10}}
         >
           {pagination > showData.length ? 'WENIGER FRAGEN LADEN': 'MEHR FRAGEN LADEN'}
         </Button>
@@ -138,16 +139,16 @@ const MySkinFavorites = (props) => {
                 onSubmit={searchKeyword}
             />
             {showData.length < db_fav_questions.length ? <Button
-                style={styles.button}
-                status='danger'
+                style={{alignSelf:'stretch', marginHorizontal:30, marginTop:15}}
+                status="warning"
                 onPress={() => getFavorites()}
             >
                 RESET SUCHE
             </Button> : null}
             <Button
-                style={styles.button}
+                  style={{alignSelf:'stretch', margin:30, marginVertical:15}}
                 status='warning'
-                accessoryRight={PlusIcon}
+                // accessoryRight={PlusIcon}
                 onPress={() => setInputVisible(true)}
             >
                 FRAGE STELLEN
@@ -176,9 +177,9 @@ const MySkinFavorites = (props) => {
                         reply={reply} />)}
                     <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
                     <Button
-                        size="tiny"
+                        size="small"
                         onPress={() => setVisible(false)}
-                        style={{ alignSelf: "center" }}
+                        style={{alignSelf:'stretch', margin:10, marginVertical:15}}
                     >
                         SCHLIESSEN
                     </Button>
@@ -225,7 +226,8 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, 0.8)",
     },
     button: {
-        fontSize: 25,
+        // fontSize: 20,
+        alignSelf:'stretch',
         color: 'darkorange',
     },
     inputField: {

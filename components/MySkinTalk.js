@@ -150,7 +150,7 @@ const MySkinTalk = (props) => {
     <>
       <SearchField placeholder={'Suche...'} onSubmit={searchKeyword} />
       {showData.length < db_questions.length ? <Button
-        style={{alignSelf:'stretch', margin:30}}
+        style={{alignSelf:'stretch', marginHorizontal:30, marginTop:15}}
         size="small"
         status="warning"
         onPress={() => getFavorites()}
@@ -160,7 +160,7 @@ const MySkinTalk = (props) => {
       <Divider />
       <Button
       size="small"
-        style={{alignSelf:'stretch', margin:30}}
+        style={{alignSelf:'stretch', margin:30, marginVertical:15}}
         status="warning"
         // accessoryRight={PlusIcon}
         onPress={() => setInputVisible(true)}
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
      flex:1,
      backgroundColor: globalcss.container.backgroundColor },
   modal: { width: "90%" },
-  star: { color: "red" }, 
+  star: { color: "red" }, // do we need this?
 });
 
 //* #### EXPORT #### *//

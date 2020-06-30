@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     borderTopWidth:2,
     backgroundColor: globalcss.container.backgroundColor },
   modal: { width: "90%" },
-  star: { color: "red" }, 
+  star: { color: "red" },  // ?
 });
 
 //* #### EXPORT #### *//
