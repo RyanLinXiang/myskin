@@ -21,7 +21,7 @@ const cardsData = [
       { title: "Risikofaktoren für Hautkrebs?", component: <Article04 /> },
       { title: "Vitamin D", component: <Article05 /> },
     ],
-    img: require("../../assets/cards-background-images/erkrankung_neu.png"),
+    img: require("../../assets/cards-background-images/erkrankung.jpg"),
   },
   {
     chapter: "Vorbeugung",
@@ -33,7 +33,7 @@ const cardsData = [
       { title: "Selbstuntersuchung der Haut", component: <Article07 /> },
       { title: "Warnzeichen", component: <Article08 /> },
     ],
-    img: require("../../assets/cards-background-images/vorbeugung_neu.jpg"),
+    img: require("../../assets/cards-background-images/vorbeugung.jpg"),
   },
   {
     chapter: "Lebensweise",

@@ -33,9 +33,10 @@ const AddQuestion = (props) => {
       backdropStyle={styles.backdrop}
       onBackdropPress={() => props.setVisible(false)}
     >
-      <KeyboardAvoidingView behavior="padding">
+      
         <ScrollView>
           <Form ref={FormRef}>
+          <KeyboardAvoidingView behavior="padding">
             <TextInput
               editable
               multiline
@@ -66,9 +67,10 @@ const AddQuestion = (props) => {
             >
               FRAGE STELLEN
             </Button>
+            </KeyboardAvoidingView>
           </Form>
         </ScrollView>
-      </KeyboardAvoidingView>
+     
     </Modal>
   );
 };
@@ -105,8 +107,8 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     alignSelf: "stretch",
-    fontSize: 20,
-    height: 50,
+    fontSize: 17,
+    height: 80,
     borderColor: "gray",
     borderWidth: 1,
     backgroundColor: "#FFF",
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     alignSelf: "stretch",
-    fontSize: 20,
+    fontSize: 17,
     height: 150,
     borderColor: "gray",
     borderWidth: 1,

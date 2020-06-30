@@ -120,9 +120,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "right",
     fontWeight: "bold",
+    
     // Android Shadows:
-    textShadowColor: "rgba(0,0,0,0.7)",
-    textShadowOffset: { width: 1, height: 4 },
+    textShadowColor: "rgba(0,0,0,0.8)",
+    textShadowOffset: { width: 1, height: -1 },
     textShadowRadius: 10,
   },
   titleUVIndex: {

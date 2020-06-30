@@ -6,9 +6,21 @@ import MySkinTalk from "./MySkinTalk";
 import Home from "./Home";
 import Playground from "./Playground";
 import Reminder from "./Home-components/Reminder";
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  ScrollView,
+  Dimensions,
+  Text,
+  Image,
+  ImageBackground,
+} from "react-native";
 
 import ViewBuilder from "./ViewBuilder";
 import MySkinFavorites from "./MySkinFavorites";
+import { Divider } from "@ui-kitten/components";
+import { Header } from "react-native/Libraries/NewAppScreen";
 
 const Navigation = (props) => {
   function predict({ navigation }) {
@@ -56,7 +68,9 @@ const Navigation = (props) => {
   return (
     <React.Fragment>
       <NavigationContainer>
+
         <Drawer.Navigator initialRouteName="Home">
+       
           <Drawer.Screen
             name="mySkin: Home"
             component={home}
@@ -89,8 +103,23 @@ const Navigation = (props) => {
           />
         </Drawer.Navigator>
       </NavigationContainer>
+      
     </React.Fragment>
   );
 };
+
+// photo for Header-slideBar
+{/* <ImageBackground
+          style={styles.imgArticle}
+          source={require("../assets/navigation-images/logo-hande1.png")}
+        />
+
+const styles = StyleSheet.create({
+  imgArticle: {
+    width:390,
+    justifyContent:'center',
+    height: 200
+  },
+}); */}
 
 export default Navigation;

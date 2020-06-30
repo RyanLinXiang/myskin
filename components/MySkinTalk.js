@@ -176,7 +176,7 @@ const MySkinTalk = (props) => {
   const InputField = () => (
     <>
       <Button
-       size="small"
+        size="small"
         style={styles.button}
         status="warning"
         // accessoryRight={PlusIcon}
@@ -211,10 +211,15 @@ const MySkinTalk = (props) => {
                 }*/
             />
             {answer.map((reply) => (
-              <AnswerCard style={{ height: "80%"} } key={reply.id} reply={reply} /> //style test
+              <AnswerCard
+                style={{ height: "80%" }}
+                key={reply.id}
+                reply={reply}
+              /> //style test
             ))}
           </ScrollView>
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
+          {/* schliessen-button  -> soll in AddAnswer.jsx zusamen mit "Antworten"-Button */}
           <Button
             size="small"
             onPress={() => setVisible(false)}
@@ -268,20 +273,20 @@ const styles = StyleSheet.create({
     // width: globalcss.screenWidth * 0.9,
     backgroundColor: globalcss.container.backgroundColor,
   },
-  listitem: {  backgroundColor: globalcss.container.backgroundColor },
-  modal: { 
-    width: "90%", 
-    justifyContent:'space-evenly',
+  listitem: { backgroundColor: globalcss.container.backgroundColor },
+  modal: {
+    width: "90%",
+    justifyContent: "flex-start",
     height: globalcss.screenHeight * 0.8,
-   },
-   modalCard: {
+  },
+  modalCard: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     paddingBottom: 80,
   },
-   
+
   star: { color: "darkorange" },
 });
 

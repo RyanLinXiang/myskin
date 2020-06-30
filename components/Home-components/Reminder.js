@@ -35,14 +35,24 @@ const styles = StyleSheet.create({
     justifyContent:'flex-end',
     textAlign: "right",
     fontWeight: "bold",
-    paddingTop: 30,
+    paddingTop: 20,
+     // Android Shadows:
+     textShadowColor: "rgba(0,0,0,0.7)",
+     textShadowOffset: { width: 1, height: -1 },
+     textShadowRadius: 10,
   },
   textReminder: {
     color: "white",
-    fontSize: 26,
+    fontSize: 25,
     textAlign: "right",
     fontWeight: "bold",
-    paddingTop: 30,
+     // Android Shadows:
+     textShadowColor: "rgba(0,0,0,0.8)",
+     textShadowOffset: { width: 1, height: -1 },
+     textShadowRadius: 10,
+     paddingVertical:30,
+     paddingRight:10
+     
   },
 });
 
