@@ -25,9 +25,9 @@ const MySkinFavorites = (props) => {
     //* #### STATES #### *//
 
     const [visible, setVisible] = useState(false);
+    const [db_fav_questions, set_db_fav_questions] = useState([]);
     const [question, setQuestion] = useState("question");
     const [answer, setAnswer] = useState([]);
-    const [db_fav_questions, set_db_fav_questions] = useState([]);
     const [showData, setShowData] = useState([]);
     const alertMessages = {
         newQuestion: "Ihre Frage wurde erfolgreich gespeichert!",
