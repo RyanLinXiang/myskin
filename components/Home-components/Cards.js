@@ -31,8 +31,13 @@ class Cards extends Component {
     this.setState({ pressedCard: chapter });
   };
 
-  handlerResetView = () =>
-    this.setState({ showFullArticle: false, pressedCard: false });
+  handlerResetView = () => {
+    this.setState({
+      showFullArticle: false,
+      pressedCard: false,
+      modalVisibility: false,
+    });
+  };
 
   render() {
     return (
@@ -62,7 +67,12 @@ class Cards extends Component {
           >
             <TouchableHighlight
               onPress={() => {
-                this.handlerShowFullArticle(<Reminder api={false} />);
+                this.handlerShowFullArticle(
+                  <Reminder
+                    api={false}
+                    handlerResetView={this.handlerResetView}
+                  />
+                );
               }}
               style={styles.titleItem}
             >
