@@ -1,13 +1,7 @@
 //* #### IMPORTS #### *//
 import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView, ScrollView, Dimensions } from "react-native";
-import {
-  Button,
-  Card,
-  Modal,
-  Text,
-  Icon as KittenIcon,
-} from "@ui-kitten/components";
+import { Button, Card, Modal, Icon as KittenIcon } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
@@ -128,7 +122,7 @@ const MySkinFavorites = (props) => {
     >
       <KittenIcon
         fill={'red'}
-        style={styles.delButton}
+        style={styles.iconButton}
         name='trash-2-outline'
       />
     </TouchableOpacity>
@@ -142,30 +136,11 @@ const MySkinFavorites = (props) => {
     >
       <KittenIcon
         fill={'red'}
-        style={styles.delButton}
+        style={styles.iconButton}
         name='trash-2-outline'
       />
     </TouchableOpacity>
   );
-
-  const LoadMoreButton = () =>
-    showData.length < entriesPerScroll ? null : (
-      <Button
-        // style={styles.button}
-        style={{
-          alignSelf: "stretch",
-          margin: 30,
-          marginVertical: 15,
-          paddingVertical: 10,
-        }}
-        status="warning"
-        onPress={() => {
-          pagination > showData.length ? setPagination(entriesPerScroll) : setPagination(prev => prev + 10)
-        }}
-      >
-        {pagination > showData.length ? 'WENIGER FRAGEN LADEN' : 'MEHR FRAGEN LADEN'}
-      </Button>
-    );
 
   const FavButton = (query) => (
     <TouchableOpacity
@@ -180,11 +155,11 @@ const MySkinFavorites = (props) => {
     >
       {query.isFav ? <KittenIcon
         fill={'red'}
-        style={styles.delButton}
+        style={styles.iconButton}
         name='heart'
       /> : <KittenIcon
           fill={'grey'}
-          style={styles.delButton}
+          style={styles.iconButton}
           name='heart-outline'
         />}
     </TouchableOpacity>
@@ -307,6 +282,12 @@ const styles = StyleSheet.create({
     // fontSize: 20,
     alignSelf: "stretch",
     color: "darkorange",
+  },
+  iconButton: {		
+    fontSize: 25,		
+    color: 'red',		
+    width: 25,		
+    height: 25,		
   },
   inputField: {
     height: 120,

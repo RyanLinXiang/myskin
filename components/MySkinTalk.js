@@ -1,7 +1,7 @@
 //* #### IMPORTS #### *//
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, Dimensions, KeyboardAvoidingView } from "react-native";
-import { Button, Card, Modal, Text, Icon as KittenIcon, Divider } from "@ui-kitten/components";
+import { StyleSheet, SafeAreaView, Dimensions } from "react-native";
+import { Button, Card, Modal, Icon as KittenIcon, Divider } from "@ui-kitten/components";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
@@ -128,7 +128,7 @@ const MySkinTalk = (props) => {
     >
       <KittenIcon
         fill={'red'}
-        style={styles.delButton}
+        style={styles.iconButton}
         name='trash-2-outline'
       />
     </TouchableOpacity>
@@ -142,7 +142,7 @@ const MySkinTalk = (props) => {
     >
       <KittenIcon
         fill={'red'}
-        style={styles.delButton}
+        style={styles.iconButton}
         name='trash-2-outline'
       />
     </TouchableOpacity>
@@ -162,11 +162,11 @@ const MySkinTalk = (props) => {
       >
         {query.isFav ? <KittenIcon
           fill={'red'}
-          style={styles.delButton}
+          style={styles.iconButton}
           name='heart'
         /> : <KittenIcon
             fill={'grey'}
-            style={styles.delButton}
+            style={styles.iconButton}
             name='heart-outline'
           />}
       </TouchableOpacity>
@@ -280,14 +280,13 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: 'stretch',
   },
-  delButton: {
+  iconButton: {
     fontSize: 25,
     color: 'red',
     width: 25,
     height: 25,
   },
   inputField: {
-
     height: 120,
     padding: 10,
     marginBottom: 10,
