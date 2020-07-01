@@ -194,7 +194,7 @@ const MySkinTalk = (props) => {
             {qANDa.answer.map((reply) => (
               <AnswerCard key={reply.id} reply={reply} />
             ))}
-          </ScrollView>
+          
           <SafeAreaView keyboardDismissMode={'none'} style={styles.answerCardButtons}>
             <AddAnswer 
             setVisible={setVisible} 
@@ -209,6 +209,7 @@ const MySkinTalk = (props) => {
               SCHLIESSEN
               </Button> */}
           </SafeAreaView>
+          </ScrollView>
         </Card>
 
       </Modal>

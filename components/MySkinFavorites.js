@@ -186,7 +186,6 @@ const MySkinFavorites = (props) => {
       <Button
         style={{ alignSelf: "stretch", margin: 30, marginVertical: 15 }}
         status="warning"
-        // accessoryRight={PlusIcon}
         onPress={() => setInputVisible(true)}
       >
         FRAGE STELLEN
@@ -212,7 +211,7 @@ const MySkinFavorites = (props) => {
             {qANDa.answer.map((reply) => (
               <AnswerCard key={reply.id} reply={reply} />
             ))}
-          </ScrollView>
+          
           <SafeAreaView
             keyboardDismissMode={"none"}
             style={styles.answerCardButtons}
@@ -229,6 +228,7 @@ const MySkinFavorites = (props) => {
               SCHLIESSEN
             </Button> */}
           </SafeAreaView>
+          </ScrollView>
         </Card>
       </Modal>
     ) : null;

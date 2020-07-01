@@ -62,15 +62,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     margin: 10,
   },
-  questionContainer: {
-    flex: 1,
-    width: '100%',
-    backgroundColor: "#fff",
-    // borderBottomWidth: 2,
-    // borderColor: "lightgrey",
-    paddingBottom: 10,
-    marginBottom: 10,
-  },
   inputSubject: {
     flex: 1,
     margin: 10,
@@ -83,6 +74,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: "#FFF",
     borderRadius: 10,
+  },
+  questionContainer: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: "#fff",
+    // borderBottomWidth: 2,
+    // borderColor: "lightgrey",
+    paddingBottom: 10,
+    marginBottom: 10,
   },
 });
 
