@@ -254,11 +254,17 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   modal: {
+    marginRight: 50,
+    borderRadius: 30,
+    justifyContent: "space-evenly",
     backgroundColor: "white",
-    height: globalcss.screenHeight * 0.75,
+    height: globalcss.screenHeight * 0.80,
   },
   modalCard: {
     paddingBottom: 40,
+    borderColor:'white',
+    borderRadius: 20,
+   
   },
   closeButtomArt: {
     paddingVertical: 10,

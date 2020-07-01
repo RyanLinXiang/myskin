@@ -1,7 +1,6 @@
 import React from "react";
 import {
   StyleSheet,
-  SafeAreaView,
   View,
   ScrollView,
   Dimensions,
@@ -10,8 +9,6 @@ import {
 } from "react-native";
 import { Divider } from "@ui-kitten/components";
 import * as stylesArticles from "./stylesArticles";
-import { Size } from "@ui-kitten/components/devsupport";
-const screenWidth = Dimensions.get("window").width;
 
 const Article08 = (props) => (
   <ScrollView showsVerticalScrollIndicator={false}>

@@ -1,6 +1,5 @@
 import { StyleSheet, View, Platform, ScrollView, Alert } from "react-native";
 import { Text, Button, Divider } from "@ui-kitten/components";
-import * as stylesArticles from "./stylesArticles";
 import React, { Component } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -130,7 +129,7 @@ class ArticleReminder extends Component {
     else
       status = (
         <Text style={styles.textArticleRe}>
-          Ihr eingetragener Termin ist am{" "}
+          Ihr eingetragener Termin ist am{"\n"}
           <Text style={styles.date}>
             {this.formatDate(screenDate) +
               ", um " +
@@ -138,7 +137,7 @@ class ArticleReminder extends Component {
               " Uhr"}
           </Text>
           <Text style={styles.textArticleRe}>
-            . Sie können diesen Termin nun ändern:
+            . Sie können diesen Termin nun ändern
           </Text>
         </Text>
       );
@@ -151,12 +150,16 @@ class ArticleReminder extends Component {
           Regelmäßiges Hautscreening ist ein wichtiger Bestandteil der
           Hautkrebsvorsorge.
         </Text>
-        <Text style={styles.textArticleRe}>{status}</Text>
+        <Text style={styles.textArticleRe}>
+          Tragen Sie hier Ihren nächsten Termin ein, damit mySkin Sie
+          rechtzeitig erinnert:
+        </Text>
+
         <Button
           onPress={() => {
             this.handlerToggleMode("date");
           }}
-          style={{ marginTop: 70, marginVertical: 15 }}
+          style={{ marginTop: 10, marginVertical: 10 }}
           status="warning"
           size="small"
         >
@@ -192,13 +195,14 @@ class ArticleReminder extends Component {
         {selectedDate && selectedTime ? (
           <Button
             onPress={this.handlerSetReminder}
-            style={{ padding: 5, marginVertical:10 }}
-            status="warninig"
+            style={{ padding: 5, marginVertical: 10 }}
+            status="warning"
             size="small"
           >
             Erinnerung setzen
           </Button>
         ) : null}
+        <Text style={styles.textArticleRe}>{status}</Text>
       </ScrollView>
     );
   }
@@ -215,7 +219,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "darkorange",
   },
-  date: { fontWeight: "bold", fontSize: 20, color: "darkorange" },
+  date: { fontSize: 20, color: "darkorange" },
 });
 
 export default ArticleReminder;

@@ -1,5 +1,3 @@
-import { StyleSheet, Dimensions, Image, ScrollView } from "react-native";
-const screenWidth = Dimensions.get("window").width;
 
   const scrollView =  {
     paddingVertical: 20
@@ -51,7 +49,6 @@ const screenWidth = Dimensions.get("window").width;
   };
 
   const listText = {
-  // fontStyle: 'italic'
   color:'darkorange',
   };
 

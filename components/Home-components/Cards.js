@@ -5,10 +5,7 @@ import {
   TouchableWithoutFeedback,
   ImageBackground,
 } from "react-native";
-import {
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import cardsData from "./cardsData";
 import UVIndex from "./UVIndex";
 import Reminder from "./Reminder";
@@ -178,11 +175,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 36,
     fontWeight: "bold",
-     // Android Shadows:
-     textShadowColor: "rgba(0,0,0,0.7)",
-     textShadowOffset: { width: 1, height: -1 },
-     textShadowRadius: 10,
-     padding:10,
+    // Android Shadows:
+    textShadowColor: "rgba(0,0,0,0.7)",
+    textShadowOffset: { width: 1, height: -1 },
+    textShadowRadius: 10,
+    padding: 10,
   },
 
   backdrop: {
@@ -193,23 +190,21 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: "space-evenly",
     backgroundColor: "white",
-    height: globalcss.screenHeight * 0.80,
+    height: globalcss.screenHeight * 0.8,
   },
   modalCard: {
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
+    borderColor: "white",
+    borderRadius: 20,
     paddingBottom: 40,
   },
   closeButtomArt: {
     paddingVertical: 10,
   },
   specialcard: {
-    flex:1,
-    justifyContent:'flex-end',
+    flex: 1,
+    justifyContent: "flex-end",
     width: globalcss.screenWidth,
-    height: globalcss.screenWidth * 0.8,
+    height: globalcss.screenWidth * 0.80,
     marginTop: 10,
     marginBottom: 10,
   },
