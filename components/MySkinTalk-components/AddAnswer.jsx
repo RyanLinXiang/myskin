@@ -1,9 +1,9 @@
 //* #### IMPORTS #### *//
 
 import React, { useState } from "react";
-import { StyleSheet, Keyboard, KeyboardAvoidingView, Dimensions } from "react-native";
+import { StyleSheet, KeyboardAvoidingView, Dimensions } from "react-native";
 import { Button } from "@ui-kitten/components";
-import { TextInput, ScrollView } from "react-native-gesture-handler";
+import { TextInput } from "react-native-gesture-handler";
 const screenWidth = Dimensions.get("window").width;
 
 const AddAnswer = (props) => {
@@ -35,7 +35,6 @@ const AddAnswer = (props) => {
     >
         {showInput ? (
             <KeyboardAvoidingView  behavior="padding" >
-      <Divider />
           <TextInput
             editable
             multiline
