@@ -1,10 +1,12 @@
+//* #### IMPORTS #### *//
 import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { Text, Divider } from "@ui-kitten/components";
 const screenWidth = Dimensions.get("window").width;
 import { Icon as KittenIcon } from "@ui-kitten/components";
 
-export default function Question(props) {
+const QuestionCard = (props) => {
+  //* #### FINAL RENDER #### *//
   return (
     <View style={styles.questionContainer}>
       <Text style={styles.cardTextQuestion}> {props.query.question}</Text>
@@ -29,6 +31,7 @@ export default function Question(props) {
   );
 }
 
+//* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
   questionContainer: {
     flex: 1,
@@ -70,3 +73,6 @@ const styles = StyleSheet.create({
     height: 20,
   },
 });
+
+//* #### EXPORT #### *//
+export default QuestionCard;

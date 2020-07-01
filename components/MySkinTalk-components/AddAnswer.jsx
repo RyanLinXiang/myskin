@@ -6,6 +6,7 @@ import { Button } from "@ui-kitten/components";
 import { TextInput } from "react-native-gesture-handler";
 
 const AddAnswer = (props) => {
+  //* #### STATES #### *//
   const [showInput, setShowInput] = useState(false);
   const [answer, setAnswer] = useState("");
   const [buttonText, setButtonText] = useState("ANTWORTEN");
@@ -23,6 +24,7 @@ const AddAnswer = (props) => {
     }
   };
 
+  //* #### FINAL RENDER #### *//
   return (
     <KeyboardAvoidingView style={styles.outercontainer} behavior="padding">
       <View style={styles.questionContainer}>
@@ -48,6 +50,7 @@ const AddAnswer = (props) => {
   );
 };
 
+//* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
   questionContainer: {
     flex: 1,
@@ -71,4 +74,5 @@ const styles = StyleSheet.create({
   },
 });
 
+//* #### EXPORT #### *//
 export default AddAnswer;

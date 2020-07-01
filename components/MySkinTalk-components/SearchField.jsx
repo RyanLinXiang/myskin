@@ -1,9 +1,11 @@
+//* #### IMPORTS #### *//
 import React, { useRef } from "react";
 import { StyleSheet, View, TextInput } from "react-native";
 import { Button, Icon as KittenIcon } from "@ui-kitten/components";
 import Form from "react-native-form";
 
 const SearchField = (props) => {
+    //* #### VARIABLES/HANDLERS #### *//
     const FormRef = useRef(null);
 
     const searchHandler = () => { 
@@ -11,7 +13,11 @@ const SearchField = (props) => {
         SearchKeyword.length<1 ?
             alert('Bitte was zum suchen eingeben'):props.onSubmit(SearchKeyword);
     }
+
+    //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
     const SearchIcon = (props) => <KittenIcon {...props} name='search-outline' />
+
+    //* #### FINAL RENDER #### *//
     return (
             <Form ref={FormRef}>
                 <View style={styles.innercontainer}>
@@ -31,7 +37,7 @@ const SearchField = (props) => {
     )  
 }
 
-
+//* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
     outercontainer: {
       flex: 1,
@@ -58,4 +64,5 @@ const styles = StyleSheet.create({
     buttoncontainer: { flex: 1 },
   });
   
+  //* #### EXPORT #### *//
   export default SearchField;

@@ -1,3 +1,4 @@
+//* #### IMPORTS #### *//
 import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { Card, Text, Divider } from "@ui-kitten/components";
@@ -5,7 +6,8 @@ const screenWidth = Dimensions.get("window").width;
 import { Icon } from '@ui-kitten/components';
 
 
-export default function Answer(props) {
+const Answer = (props) => {
+    //* #### FINAL RENDER #### *//
     return (
             <Card style={styles.cardsAnswer}>
                 <Text style={styles.cardTextAnswer}> {props.reply.answer}</Text>
@@ -25,6 +27,7 @@ export default function Answer(props) {
     );
 }
 
+//* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
     cardsAnswer: {
         borderWidth: 0,
@@ -56,5 +59,7 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
     },
-
 });
+
+//* #### EXPORT #### *//
+export default Answer;

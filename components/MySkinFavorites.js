@@ -1,5 +1,4 @@
 //* #### IMPORTS #### *//
-
 import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import { Button, Card, Modal, Text, Icon as KittenIcon } from "@ui-kitten/components";
@@ -8,7 +7,7 @@ import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
 import AddAnswer from "./MySkinTalk-components/AddAnswer";
-import Qcard from "./MySkinTalk-components/Qcard";
+import QuestionCard from "./MySkinTalk-components/QuestionCard";
 import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
 import SearchField from "./MySkinTalk-components/SearchField";
@@ -18,7 +17,6 @@ const MySkinFavorites = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
 
   //* #### STATES #### *//
-
   const [visible, setVisible] = useState(false);
   const [db_fav_questions, set_db_fav_questions] = useState([]);
   const [showData, setShowData] = useState([]);
@@ -27,7 +25,6 @@ const MySkinFavorites = (props) => {
   const [pagination, setPagination] = useState(entriesPerScroll);
 
   //* #### FUNCTIONS/METHODS #### *//
-
   //### Question Functions ###//
   const submitQuestion = (subject, question) => {
     const QUESTION = {
@@ -78,13 +75,14 @@ const MySkinFavorites = (props) => {
         }
         set_db_fav_questions(data)
       });
-  }
+  };
+
   const toggleFav = (targetID) => {
     connectAPI(
       "favorites/" + targetID, "POST", false, token).then((data) => {
         getFavorites('update!');
       });
-  }
+  };
 
   //### Search Functions ###//
   const searchKeyword = (keyword) => {
@@ -94,7 +92,7 @@ const MySkinFavorites = (props) => {
         let favSearch = data.filter(query => db_fav_questions.some(favQuery => favQuery.id === query.id)); //only keep if searched question is a favorite
         setShowData(favSearch)
       });
-  }
+  };
 
   //### Delete Functions ###//
   const deleteQuestion = (targetID) => {
@@ -103,19 +101,17 @@ const MySkinFavorites = (props) => {
         alert('Ihre Frage würde gelöscht')
         setVisible(false)
       });
-  }
+  };
 
   const deleteAnswer = (target) => {
     connectAPI(
       "answers/" + target.id, "DELETE", false, token).then((data) => {
         getAnswers(target.question_id)
       });
-  }
+  };
 
 
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-  // &#9746; => 'x' in a box
-  // &#10005; => just 'x'
   const DelQuestionButton = (targetID) => (
     <TouchableOpacity
       status="danger"
@@ -127,7 +123,6 @@ const MySkinFavorites = (props) => {
         style={styles.delButton}
         name='trash-2-outline'
       />
-      {/* <Text style={styles.delButton}>&#9746;</Text> */}
     </TouchableOpacity>
   );
 
@@ -142,7 +137,6 @@ const MySkinFavorites = (props) => {
         style={styles.delButton}
         name='trash-2-outline'
       />
-      {/* <Text style={styles.delButton}>&#9746;</Text> */}
     </TouchableOpacity>
   );
 
@@ -157,10 +151,8 @@ const MySkinFavorites = (props) => {
       >
         {pagination > showData.length ? 'WENIGER FRAGEN LADEN' : 'MEHR FRAGEN LADEN'}
       </Button>
-    )
+    );
 
-  // &#9734; => NOT fav
-  // &#9733; => IS fav
   const FavButton = (query) => (
     <TouchableOpacity
       status="warning"
@@ -181,8 +173,6 @@ const MySkinFavorites = (props) => {
           style={styles.delButton}
           name='heart-outline'
         />}
-      {/* {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
-        <Text style={styles.button}>&#9734;</Text>} */}
     </TouchableOpacity>
   );
 
@@ -216,6 +206,7 @@ const MySkinFavorites = (props) => {
       />
     </>
   );
+
   const CardPopup = () => {
     return qANDa.question.subject ? (
       <Modal
@@ -225,7 +216,7 @@ const MySkinFavorites = (props) => {
         style={styles.modal}
       >
         <Card disabled={true}>
-          <Qcard
+          <QuestionCard
             query={qANDa.question}
             favButton={FavButton}
             user={user_id}
@@ -252,17 +243,12 @@ const MySkinFavorites = (props) => {
     ) : null;
   };
 
-
   //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
-
   useEffect(() => {
     getFavorites('update!');
   }, [pagination]);
 
-
-
   //* #### FINAL RENDER #### *//
-
   return (
     <SafeAreaView style={styles.container}>
       <InputField />
@@ -290,10 +276,7 @@ const MySkinFavorites = (props) => {
   );
 };
 
-
-
 //* #### STYLESHEET #### *//
-
 const styles = StyleSheet.create({
   container: globalcss.container,
   backdrop: {
@@ -322,7 +305,5 @@ const styles = StyleSheet.create({
   star: { color: 'red' }
 });
 
-
 //* #### EXPORT #### *//
-
 export default MySkinFavorites;

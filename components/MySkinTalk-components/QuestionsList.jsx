@@ -1,22 +1,14 @@
 //* #### IMPORTS #### *//
-
 import React from "react";
 import { StyleSheet } from "react-native";
-import {
-  List,
-  ListItem,
-  Icon as KittenIcon,
-  Divider,
-} from "@ui-kitten/components";
+import { List, ListItem, Icon as KittenIcon, Divider } from "@ui-kitten/components";
 import * as globalcss from "../../styles/globalcss";
 
 const QuestionsList = (props) => {
-  
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### */
   const renderItemIcon = (props) => <KittenIcon {...props} name="person" />;
   const renderItem = ({ item, index }) => {
     let queryText = (item.num > 0) ? `${item.subject} (${item.num})` :item.subject;
-    
     return (
       <React.Fragment>
         <ListItem
@@ -32,11 +24,11 @@ const QuestionsList = (props) => {
     );
   };
 
+  //* #### FINAL RENDER #### *//
   return <List style={styles.list} data={props.data} renderItem={renderItem} />;
 };
 
 //* #### STYLESHEET #### *//
-
 const styles = StyleSheet.create({
   container: globalcss.container,
   backdrop: {
@@ -52,5 +44,4 @@ const styles = StyleSheet.create({
 });
 
 //* #### EXPORT #### *//
-
 export default QuestionsList;

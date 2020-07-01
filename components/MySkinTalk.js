@@ -1,14 +1,13 @@
 //* #### IMPORTS #### *//
-
 import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
-import { Button, Card, Modal, Text, Icon as KittenIcon } from "@ui-kitten/components";
+import { Button, Card, Modal, Icon as KittenIcon } from "@ui-kitten/components";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
 import AddAnswer from "./MySkinTalk-components/AddAnswer";
-import Qcard from "./MySkinTalk-components/Qcard";
+import QuestionCard from "./MySkinTalk-components/QuestionCard";
 import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
 import SearchField from "./MySkinTalk-components/SearchField";
@@ -18,7 +17,6 @@ const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
 
   //* #### STATES #### *//
-
   const [visible, setVisible] = useState(false);
   const [db_questions, set_db_questions] = useState([]);
   const [showData, setShowData] = useState([]);
@@ -27,7 +25,6 @@ const MySkinTalk = (props) => {
   const [pagination, setPagination] = useState(entriesPerScroll);
 
   //* #### FUNCTIONS/METHODS #### *//
-
   //### Question Functions ###//
   const getQuestions = (favList, update) => {
     connectAPI("questions?start=0&numbers=" + pagination, "GET", false, token).then((data) => {
@@ -65,6 +62,7 @@ const MySkinTalk = (props) => {
         setVisible(true);
       });
   };
+
   const submitAnswer = (answer) => {
     const ANSWER = {
       answer: answer,
@@ -101,7 +99,7 @@ const MySkinTalk = (props) => {
       "questions/search/" + encoded + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
         setShowData(data)
       });
-  }
+  };
 
   //### Delete Functions ###//
   const deleteQuestion = (targetID) => {
@@ -110,19 +108,16 @@ const MySkinTalk = (props) => {
         alert('Ihre Frage würde gelöscht')
         setVisible(false)
       });
-  }
+  };
 
   const deleteAnswer = (target) => {
     connectAPI(
       "answers/" + target.id, "DELETE", false, token).then((data) => {
         getAnswers(target.question_id)
       });
-  }
-
+  };
 
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-  // &#9746; => 'x' in a box
-  // &#10005; => just 'x'
   const DelQuestionButton = (targetID) => (
     <TouchableOpacity
       status="danger"
@@ -134,7 +129,6 @@ const MySkinTalk = (props) => {
         style={styles.delButton}
         name='trash-2-outline'
       />
-      {/* <Text style={styles.delButton}>&#9746;</Text> */}
     </TouchableOpacity>
   );
 
@@ -149,12 +143,9 @@ const MySkinTalk = (props) => {
         style={styles.delButton}
         name='trash-2-outline'
       />
-      {/* <Text style={styles.delButton}>&#9746;</Text> */}
     </TouchableOpacity>
   );
 
-  // &#9734; => NOT fav
-  // &#9733; => IS fav
   const FavButton = (query) => {
     return (
       <TouchableOpacity
@@ -176,8 +167,6 @@ const MySkinTalk = (props) => {
             style={styles.delButton}
             name='heart-outline'
           />}
-        {/* {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
-          <Text style={styles.button}>&#9734;</Text>} */}
       </TouchableOpacity>
     );
   };
@@ -219,7 +208,7 @@ const MySkinTalk = (props) => {
         style={styles.modal}
       >
         <Card disabled={true}>
-          <Qcard
+          <QuestionCard
             query={qANDa.question}
             favButton={FavButton}
             user={user_id}
@@ -233,7 +222,9 @@ const MySkinTalk = (props) => {
               DelButton={(replyID) => DelAnswerButton(replyID)}
             />
           ))}
-          <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
+          <AddAnswer
+            onSubmit={(reply) => submitAnswer(reply)}
+          />
           <Button
             size="tiny"
             onPress={() => setVisible(false)}
@@ -247,13 +238,11 @@ const MySkinTalk = (props) => {
   };
 
   // //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
-
   useEffect(() => {
     getFavorites('update!')
   }, [pagination]);
 
   //* #### FINAL RENDER #### *//
-
   return (
     <SafeAreaView style={styles.container}>
       <InputField />
@@ -276,15 +265,12 @@ const MySkinTalk = (props) => {
           num3={entriesPerScroll}
           setPagination={setPagination}
         />}
-
-
       <CardPopup />
     </SafeAreaView>
   );
 };
 
 //* #### STYLESHEET #### *//
-
 const styles = StyleSheet.create({
   container: globalcss.container,
   backdrop: {
@@ -314,5 +300,4 @@ const styles = StyleSheet.create({
 });
 
 //* #### EXPORT #### *//
-
 export default MySkinTalk;

@@ -1,15 +1,11 @@
+//* #### IMPORTS #### *//
 import React, { useRef } from "react";
-import {
-  StyleSheet,
-  TextInput,
-  KeyboardAvoidingView,
-  ScrollView,
-} from "react-native";
-
+import { StyleSheet, TextInput, KeyboardAvoidingView, ScrollView } from "react-native";
 import { Button, Modal, Icon as KittenIcon } from "@ui-kitten/components";
 import Form from "react-native-form";
 
 const AddQuestion = (props) => {
+  //* #### VARIABLES/HANDLERS #### *//
   const FormRef = useRef(null);
 
   const addQuestionHandler = () => {
@@ -26,6 +22,7 @@ const AddQuestion = (props) => {
 
   const PlusIcon = (props) => <KittenIcon {...props} name="plus" />;
 
+  //* #### FINAL RENDER #### *//
   return (
     <Modal
       visible={props.visible}
@@ -55,7 +52,6 @@ const AddQuestion = (props) => {
               name="QuestionInput"
               type="TextInput"
             />
-
             <Button
               onPress={addQuestionHandler}
               type="Submit"
@@ -70,6 +66,7 @@ const AddQuestion = (props) => {
   );
 };
 
+//* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
   alerts: {
     color: "red",
@@ -89,7 +86,6 @@ const styles = StyleSheet.create({
     margin: 2,
     alignSelf: "stretch",
   },
-
   indicator: {
     justifyContent: "center",
     alignItems: "center",
@@ -119,4 +115,5 @@ const styles = StyleSheet.create({
   },
 });
 
+//* #### EXPORT #### *//
 export default AddQuestion;

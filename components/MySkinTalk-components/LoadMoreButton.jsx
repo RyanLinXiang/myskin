@@ -1,9 +1,10 @@
+//* #### IMPORTS #### *//
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Button, Spinner } from "@ui-kitten/components";
 
 const LoadMoreButton = (props) => {
-
+//* #### CONDITIONAL RENDERING #### *//
   if (props.num2 < props.num3) {
     return null
   } else if (props.num1 === props.num2 + 10) {
@@ -27,8 +28,7 @@ const LoadMoreButton = (props) => {
   }
 }
 
-export default LoadMoreButton;
-
+//* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
   button: {
     fontSize: 25,
@@ -38,4 +38,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: 'red',
   },
-})
+});
+
+//* #### EXPORT #### *//
+export default LoadMoreButton;
