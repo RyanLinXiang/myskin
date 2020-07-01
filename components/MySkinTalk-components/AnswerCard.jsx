@@ -6,7 +6,6 @@ import { Icon } from '@ui-kitten/components';
 
 
 export default function Answer(props) {
-
     return (
             <Card style={styles.cardsAnswer}>
                 <Text style={styles.cardTextAnswer}> {props.reply.answer}</Text>

@@ -145,7 +145,7 @@ const MySkinFavorites = (props) => {
       {/* <Text style={styles.delButton}>&#9746;</Text> */}
     </TouchableOpacity>
   );
-  //heart-outline
+
   const LoadMoreButton = () =>
     showData.length < entriesPerScroll ? null : (
       <Button
@@ -172,8 +172,17 @@ const MySkinFavorites = (props) => {
         }
       }}
     >
-      {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
-        <Text style={styles.button}>&#9734;</Text>}
+      {query.isFav ? <KittenIcon
+        fill={'red'}
+        style={styles.delButton}
+        name='heart'
+      /> : <KittenIcon
+          fill={'grey'}
+          style={styles.delButton}
+          name='heart-outline'
+        />}
+      {/* {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
+        <Text style={styles.button}>&#9734;</Text>} */}
     </TouchableOpacity>
   );
 

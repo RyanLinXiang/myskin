@@ -167,8 +167,17 @@ const MySkinTalk = (props) => {
           }
         }}
       >
-        {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
-          <Text style={styles.button}>&#9734;</Text>}
+        {query.isFav ? <KittenIcon
+          fill={'red'}
+          style={styles.delButton}
+          name='heart'
+        /> : <KittenIcon
+            fill={'grey'}
+            style={styles.delButton}
+            name='heart-outline'
+          />}
+        {/* {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
+          <Text style={styles.button}>&#9734;</Text>} */}
       </TouchableOpacity>
     );
   };
@@ -216,7 +225,7 @@ const MySkinTalk = (props) => {
             user={user_id}
             DelButton={(queryID) => DelQuestionButton(queryID)}
           />
-          {qANDa.answer.map((reply) => (
+          {qANDa.answer.map(reply => (
             <AnswerCard
               key={reply.id}
               reply={reply}
@@ -224,9 +233,7 @@ const MySkinTalk = (props) => {
               DelButton={(replyID) => DelAnswerButton(replyID)}
             />
           ))}
-
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
-
           <Button
             size="tiny"
             onPress={() => setVisible(false)}
@@ -290,6 +297,8 @@ const styles = StyleSheet.create({
   delButton: {
     fontSize: 25,
     color: 'red',
+    width: 25,
+    height: 25,
   },
   inputField: {
     height: 120,
