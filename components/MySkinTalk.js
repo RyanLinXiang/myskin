@@ -18,7 +18,6 @@ import Qcard from "./MySkinTalk-components/Qcard";
 import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
 import SearchField from "./MySkinTalk-components/SearchField";
-import LoadMoreButton2, { LoadMoreButton, LoadLessButton } from "./MySkinTalk-components/LoadButtons";
 
 const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -28,7 +27,7 @@ const MySkinTalk = (props) => {
   const [visible, setVisible] = useState(false);
   const [db_questions, set_db_questions] = useState([]);
   const [showData, setShowData] = useState([]);
-  const [qANDa, setQandA] = useState({ question: '', answer: '' });
+  const [qANDa, setQandA] = useState({ question: "", answer: "" });
   const [inputVisible, setInputVisible] = useState(false);
   const [pagination, setPagination] = useState(entriesPerScroll);
 
@@ -36,8 +35,15 @@ const MySkinTalk = (props) => {
 
   //### Question Functions ###//
   const getQuestions = (favList, update) => {
-    connectAPI("questions?start=0&numbers=" + pagination, "GET", false, token).then((data) => {
-      const questionsList = data.map(obj => favList.find(favObj => favObj.id === obj.id) || obj) //if is favorite, replace obj with obj from favList
+    connectAPI(
+      "questions?start=0&numbers=" + pagination,
+      "GET",
+      false,
+      token
+    ).then((data) => {
+      const questionsList = data.map(
+        (obj) => favList.find((favObj) => favObj.id === obj.id) || obj
+      ); //if is favorite, replace obj with obj from favList
       if (data.length > showData.length || update) {
         setShowData(questionsList);
       }
@@ -57,19 +63,28 @@ const MySkinTalk = (props) => {
   };
 
   //### Answer Functions ###//
-  const getAnswers = (queryID) => {
+  const getAnswers = (id) => {
     connectAPI(
-      "questions/" + queryID + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
-        let allAnswers = [];
-        if (data[1].length > 0) {
-          for (const item of data[1]) {
-            allAnswers.push(item);
-          }
+      "questions/" + id + "?start=0&numbers=" + entriesPerScroll,
+      "GET",
+      false,
+      token
+    ).then((data) => {
+      let allAnswers = [];
+      if (data[1].length > 0) {
+        for (const item of data[1]) {
+          allAnswers.push(item);
         }
-        let isFavoriteOrNot = showData.find(isfavObj => isfavObj.id === data[0].id).isFav // find isFav attribute to include in question object
-        setQandA({ question: { ...data[0], isFav: isFavoriteOrNot }, answer: allAnswers });
-        setVisible(true);
+      }
+      let isFavoriteOrNot = showData.find(
+        (isfavObj) => isfavObj.id === data[0].id
+      ).isFav; // find isFav attribute to include in question object
+      setQandA({
+        question: { ...data[0], isFav: isFavoriteOrNot },
+        answer: allAnswers,
       });
+      setVisible(true);
+    });
   };
   const submitAnswer = (answer) => {
     const ANSWER = {
@@ -85,91 +100,63 @@ const MySkinTalk = (props) => {
   //### Favorite Functions ###//
   const getFavorites = (update) => {
     connectAPI(
-      "favorites?start=0&numbers=" + pagination, "GET", false, token).then((data) => {
-        data.forEach((element) => {
-          element.isFav = true;
-        }); // add prop isFav
-        getQuestions(data, update);
-      });
+      "favorites?start=0&numbers=" + pagination,
+      "GET",
+      false,
+      token
+    ).then((data) => {
+      data.forEach((element) => {
+        element.isFav = true;
+      }); // add prop isFav
+      getQuestions(data, update);
+    });
   };
 
   const toggleFav = (targetID) => {
-    connectAPI(
-      "favorites/" + targetID, "POST", false, token).then((data) => {
-        getFavorites('update!');
-      });
+    connectAPI("favorites/" + targetID, "POST", false, token).then((data) => {
+      getFavorites("update!");
+    });
   };
 
   //### Search Functions ###//
   const searchKeyword = (keyword) => {
-    const encoded = encodeURIComponent(keyword)
+    const encoded = encodeURIComponent(keyword);
     connectAPI(
-      "questions/search/" + encoded + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
-        setShowData(data)
-      });
-  }
-
-  //### Delete Functions ###//
-  const deleteQuestion = (targetID) => {
-    connectAPI(
-      "questions/" + targetID, "DELETE", false, token).then((data) => {
-        alert('Ihre Frage würde gelöscht')
-        setVisible(false)
-      });
-  }
-
-  const deleteAnswer = (target) => {
-    connectAPI(
-      "answers/" + target.id, "DELETE", false, token).then((data) => {
-        getAnswers(target.question_id)
-      });
-  }
-
+      "questions/search/" + encoded + "?start=0&numbers=" + entriesPerScroll,
+      "GET",
+      false,
+      token
+    ).then((data) => {
+      setShowData(data);
+    });
+  };
 
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-  // &#9746; => 'x' in a box
-  // &#10005; => just 'x'
-  const DelQuestionButton = (targetID) => (
-    <TouchableOpacity
-      status="danger"
-      size='large'
-      onPress={() => { deleteQuestion(targetID); getFavorites('update!') }}
-    >
-      <Text style={styles.delButton}>&#10005;</Text>
-    </TouchableOpacity>
-  );
-
-  const DelAnswerButton = (targetID) => (
-    <TouchableOpacity
-      status="danger"
-      size='large'
-      onPress={() => deleteAnswer(targetID)}
-    >
-      <Text style={styles.delButton}>&#10005;</Text>
-    </TouchableOpacity>
-  );
-
-  // const LoadMoreButton2 = () => {
-  //   if (showData.length < entriesPerScroll) {
-  //     return null
-  //   } else if (pagination > showData.length) {
-  //     return <Button
-  //       style={styles.button}
-  //       status='warning'
-  //       onPress={() => setPagination(entriesPerScroll)}
-  //     >
-  //       WENIGER FRAGEN LADEN
-  //   </Button>
-  //   } else if (pagination <= showData.length) {
-  //     return <Button
-  //       style={styles.button}
-  //       status='warning'
-  //       onPress={() => setPagination(prev => prev + 10)}
-  //     >
-  //       MEHR FRAGEN LADEN
-  //   </Button>
-  //   }
-  // }
+  const LoadMoreButton = () => {
+    if (showData.length < entriesPerScroll) {
+      return null;
+    } else if (pagination > showData.length) {
+      return (
+        <Button
+          style={styles.button}
+          status="warning"
+          onPress={() => setPagination(entriesPerScroll)}
+        >
+          WENIGER FRAGEN LADEN
+        </Button>
+      );
+    } else if (pagination <= showData.length) {
+      return (
+        <Button
+          style={styles.button}
+          status="warning"
+          onPress={() => setPagination((prev) => prev + 10)}
+        >
+          MEHR FRAGEN LADEN
+        </Button>
+      );
+    }
+  };
 
   // &#9734; => NOT fav
   // &#9733; => IS fav
@@ -177,16 +164,22 @@ const MySkinTalk = (props) => {
     return (
       <TouchableOpacity
         status="warning"
-        size='large'
+        size="large"
         onPress={() => {
           if (query.question !== undefined) {
-            toggleFav(query.id)
-            setQandA(prev => ({ question: { ...query, isFav: !query.isFav }, answer: prev.answer }));
+            toggleFav(query.id);
+            setQandA((prev) => ({
+              question: { ...query, isFav: !query.isFav },
+              answer: prev.answer,
+            }));
           }
         }}
       >
-        {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
-          <Text style={styles.button}>&#9734;</Text>}
+        {query.isFav ? (
+          <Text style={styles.button}>&#9733;</Text>
+        ) : (
+          <Text style={styles.button}>&#9734;</Text>
+        )}
       </TouchableOpacity>
     );
   };
@@ -195,14 +188,16 @@ const MySkinTalk = (props) => {
 
   const InputField = () => (
     <>
-      <SearchField placeholder={'Suche...'} onSubmit={searchKeyword} />
-      {showData.length < db_questions.length ? <Button
-        style={styles.button}
-        status='danger'
-        onPress={() => getFavorites()}
-      >
-        RESET SUCHE
-      </Button> : null}
+      <SearchField placeholder={"Suche..."} onSubmit={searchKeyword} />
+      {showData.length < db_questions.length ? (
+        <Button
+          style={styles.button}
+          status="danger"
+          onPress={() => getFavorites()}
+        >
+          RESET SUCHE
+        </Button>
+      ) : null}
       <Button
         style={styles.button}
         status="warning"
@@ -228,19 +223,9 @@ const MySkinTalk = (props) => {
         style={styles.modal}
       >
         <Card disabled={true}>
-          <Qcard
-            query={qANDa.question}
-            favButton={FavButton}
-            user={user_id}
-            DelButton={(queryID) => DelQuestionButton(queryID)}
-          />
+          <Qcard query={qANDa.question} favButton={FavButton} />
           {qANDa.answer.map((reply) => (
-            <AnswerCard
-              key={reply.id}
-              reply={reply}
-              user={user_id}
-              DelButton={(replyID) => DelAnswerButton(replyID)}
-            />
+            <AnswerCard key={reply.id} reply={reply} />
           ))}
 
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
@@ -260,7 +245,7 @@ const MySkinTalk = (props) => {
   // //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
 
   useEffect(() => {
-    getFavorites('update!')
+    getFavorites("update!");
   }, [pagination]);
 
   //* #### FINAL RENDER #### *//
@@ -276,21 +261,7 @@ const MySkinTalk = (props) => {
         setVisible={setVisible}
         favButton={FavButton}
       />
-      {/* <LoadMoreButton2
-        num1={pagination}
-        num2={showData.length}
-        num3={entriesPerScroll}
-        setPagination={setPagination}
-      /> */}
-      {pagination <= showData.length ? (
-        <LoadMoreButton
-          setPagination={setPagination}
-          entriesPerScroll={entriesPerScroll}
-        />) : (
-          <LoadLessButton
-            setPagination={setPagination}
-            entriesPerScroll={entriesPerScroll}
-          />)}
+      <LoadMoreButton />
       <CardPopup />
     </SafeAreaView>
   );
@@ -305,11 +276,7 @@ const styles = StyleSheet.create({
   },
   button: {
     fontSize: 25,
-    color: 'darkorange',
-  },
-  delButton: {
-    fontSize: 25,
-    color: 'red',
+    color: "darkorange",
   },
   inputField: {
     height: 120,
