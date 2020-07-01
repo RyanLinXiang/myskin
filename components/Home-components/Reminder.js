@@ -76,31 +76,30 @@ const styles = StyleSheet.create({
   listitem: { backgroundColor: globalcss.container.backgroundColor },
   modal: { width: "90%" },
   Reminder: {
-    textAlignVertical:'top',
+    textAlignVertical: "top",
     padding: 20,
     color: "darkorange",
-    fontSize: 60,
-    justifyContent:'flex-end',
+    fontSize: 55,
+    justifyContent: "flex-end",
     textAlign: "right",
     fontWeight: "bold",
     paddingTop: 20,
-     // Android Shadows:
-     textShadowColor: "rgba(0,0,0,0.7)",
-     textShadowOffset: { width: 1, height: -1 },
-     textShadowRadius: 10,
+    // Android Shadows:
+    textShadowColor: "rgba(0,0,0,0.7)",
+    textShadowOffset: { width: 1, height: -1 },
+    textShadowRadius: 10,
   },
   textReminder: {
     color: "white",
     fontSize: 30,
     textAlign: "right",
     fontWeight: "bold",
-     // Android Shadows:
-     textShadowColor: "rgba(0,0,0,0.8)",
-     textShadowOffset: { width: 1, height: -1 },
-     textShadowRadius: 10,
-     paddingVertical:30,
-     paddingRight:10
-     
+    // Android Shadows:
+    textShadowColor: "rgba(0,0,0,0.8)",
+    textShadowOffset: { width: 1, height: -1 },
+    textShadowRadius: 10,
+    paddingVertical: 30,
+    paddingRight: 5,
   },
   emptyReminder: {
     padding: 10,
