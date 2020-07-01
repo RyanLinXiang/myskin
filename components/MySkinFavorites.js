@@ -114,25 +114,19 @@ const MySkinFavorites = (props) => {
 
 
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-  const DelQuestionButton = (targetID) => (
+  const DelButton = (targetID, QorA) => (
     <TouchableOpacity
       status="danger"
       size='large'
-      onPress={() => { deleteQuestion(targetID); getFavorites('update!') }}
-    >
-      <KittenIcon
-        fill={'red'}
-        style={styles.iconButton}
-        name='trash-2-outline'
-      />
-    </TouchableOpacity>
-  );
-
-  const DelAnswerButton = (targetID) => (
-    <TouchableOpacity
-      status="danger"
-      size='large'
-      onPress={() => { deleteAnswer(targetID); getFavorites('update!') }}
+      onPress={() => { 
+        if (QorA === 'Q') {
+          deleteQuestion(targetID); 
+          getFavorites('update!');
+        } else if (QorA === 'A') {
+          deleteAnswer(targetID); 
+          getFavorites('update!');
+        }
+      }}
     >
       <KittenIcon
         fill={'red'}
@@ -215,14 +209,14 @@ const MySkinFavorites = (props) => {
             query={qANDa.question}
             favButton={FavButton}
             user={user_id}
-            DelButton={(queryID) => DelQuestionButton(queryID)}
+            DelButton={(queryID) => DelButton(queryID, 'Q')}
           />
           {qANDa.answer.map(reply => (
             <AnswerCard
               key={reply.id}
               reply={reply}
               user={user_id}
-              DelButton={(replyID) => DelAnswerButton(replyID)}
+              DelButton={(replyID) => DelButton(replyID, 'A')}
             />
           ))}
            <SafeAreaView
