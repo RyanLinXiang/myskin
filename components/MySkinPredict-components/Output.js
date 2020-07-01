@@ -98,7 +98,7 @@ const Output = (props) => {
           style={styles.predictedImage}
           imageStyle={styles.predictedImageExtras}
         >
-          <Text>Bitte versuchen Sie es mit einem anderen Bild</Text>
+          <Text>Bitte versuchen Sie es nochmal.</Text>
         </ImageBackground>
       </React.Fragment>
     );

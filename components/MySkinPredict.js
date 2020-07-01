@@ -89,16 +89,16 @@ class MySkinPredict extends React.Component {
     return expanded_img.toFloat().div(tf.scalar(127)).sub(tf.scalar(1));
   }
 
-  classifyImage = async () => {
+  classifyImage = async (source) => {
     try {
-      const imageAssetPath = Image.resolveAssetSource(this.state.image);
+      const imageAssetPath = Image.resolveAssetSource(source);
       const response = await fetch(imageAssetPath.uri, {}, { isBinary: true });
       const rawImageData = await response.arrayBuffer();
       const imageTensor = this.imageToTensor(rawImageData);
-      const options = { centerCrop: true };
+      //const options = { centerCrop: true };
       const predictions = await this.state.tfjsmodel.predict(
-        imageTensor,
-        options
+        imageTensor
+        //options
       );
       this.setState({ predictions, tooltip: true });
     } catch (error) {
@@ -109,15 +109,16 @@ class MySkinPredict extends React.Component {
   handlerSelectImage = async () => {
     try {
       let response = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
+        quality: 1,
         aspect: [4, 3],
       });
 
       if (!response.cancelled) {
         const source = { uri: response.uri };
         this.setState({ image: source });
-        this.classifyImage();
+        this.classifyImage(source);
       }
     } catch (error) {
       this.setState({ error });
