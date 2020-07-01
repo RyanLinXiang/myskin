@@ -1,10 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-} from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import MySkinPredict from "./MySkinPredict";
 import MySkinTalk from "./MySkinTalk";
 import Home from "./Home";
@@ -149,6 +145,7 @@ const Navigation = (props) => {
           />
         </Drawer.Navigator>
       </NavigationContainer>
+      
     </React.Fragment>
   );
 };

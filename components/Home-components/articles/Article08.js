@@ -1,7 +1,6 @@
 import React from "react";
 import {
   StyleSheet,
-  SafeAreaView,
   View,
   ScrollView,
   Dimensions,
@@ -10,7 +9,6 @@ import {
 } from "react-native";
 import { Divider } from "@ui-kitten/components";
 import * as stylesArticles from "./stylesArticles";
-const screenWidth = Dimensions.get("window").width;
 
 const Article08 = (props) => (
   <ScrollView showsVerticalScrollIndicator={false}>
@@ -74,10 +72,13 @@ const Article08 = (props) => (
         </View>
       </View>
     </View>
-    {/* <Image
+    <Text style={styles.textArticle}>
+      Nach ABCDE-Regel erkennen Sie gefährliche Leberflecken
+    </Text>
+    <Image
       style={styles.imgArticle}
-      source={require("../../../assets/articles-images/warnzeichen.jpg")}
-    /> */}
+      source={require("../../../assets/articles-images/warn1.jpg")}
+    />
   </ScrollView>
 );
 

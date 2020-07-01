@@ -1,15 +1,11 @@
+//* #### IMPORTS #### *//
 import React, { useRef } from "react";
-import {
-  StyleSheet,
-  TextInput,
-  KeyboardAvoidingView,
-  ScrollView,
-} from "react-native";
-
+import { StyleSheet, TextInput, KeyboardAvoidingView, ScrollView } from "react-native";
 import { Button, Modal, Icon as KittenIcon } from "@ui-kitten/components";
 import Form from "react-native-form";
 
 const AddQuestion = (props) => {
+  //* #### VARIABLES/HANDLERS #### *//
   const FormRef = useRef(null);
 
   const addQuestionHandler = () => {
@@ -24,23 +20,22 @@ const AddQuestion = (props) => {
     }
   };
 
-  const PlusIcon = (props) => <KittenIcon {...props} name="plus" />;
-
+  //* #### FINAL RENDER #### *//
   return (
     <Modal
       visible={props.visible}
       backdropStyle={styles.backdrop}
       onBackdropPress={() => props.setVisible(false)}
     >
-      <KeyboardAvoidingView behavior="padding">
-        <ScrollView>
-          <Form ref={FormRef}>
+      <ScrollView>
+        <Form ref={FormRef}>
+          <KeyboardAvoidingView behavior="padding">
             <TextInput
               editable
               multiline
               maxLength={100}
               numberOfLines={10}
-              placeholder="Frage..."
+              placeholder="Betreff..."
               style={styles.inputSubject}
               name="SubjectInput"
               type="TextInput"
@@ -50,29 +45,30 @@ const AddQuestion = (props) => {
               maxLength={1000}
               multiline
               numberOfLines={10}
-              placeholder="Beschreibung..."
+              placeholder="Frage..."
               style={styles.inputQuestion}
               name="QuestionInput"
               type="TextInput"
             />
-
             <Button
               onPress={addQuestionHandler}
               type="Submit"
+              size="small"
               style={styles.button}
+              size="small"
               status="warning"
-              accessoryRight={PlusIcon}
-            />
-          </Form>
-        </ScrollView>
-      </KeyboardAvoidingView>
+            >FRAGE STELLEN</Button>
+          </KeyboardAvoidingView>
+        </Form>
+      </ScrollView>
     </Modal>
   );
 };
 
+//* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
   alerts: {
-    color: "red",
+    color: "darkorange",
     fontSize: 20,
     fontWeight: "bold",
     fontStyle: "italic",
@@ -83,15 +79,16 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   backdrop: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   button: {
-    margin: 2,
+    margin: 10,
     alignSelf: "stretch",
+    marginBottom: 150 // Boxes in Modal TOP-Position :) -> Keyboard
   },
-
   indicator: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   inputSubject: {
@@ -100,6 +97,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: "stretch",
     fontSize: 20,
+    height: 80,
     borderColor: "gray",
     borderWidth: 1,
     backgroundColor: "#FFF",
@@ -109,9 +107,10 @@ const styles = StyleSheet.create({
     width: 300,
     margin: 10,
     padding: 10,
-    height: 400,
+    height: 150,
     alignSelf: "stretch",
-    fontSize: 20,
+    fontSize: 17,
+    height: 150,
     borderColor: "gray",
     borderWidth: 1,
     backgroundColor: "#FFF",
@@ -119,4 +118,5 @@ const styles = StyleSheet.create({
   },
 });
 
+//* #### EXPORT #### *//
 export default AddQuestion;

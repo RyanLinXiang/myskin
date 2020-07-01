@@ -1,6 +1,5 @@
 import { StyleSheet, View, Platform, ScrollView, Alert } from "react-native";
 import { Text, Button, Divider } from "@ui-kitten/components";
-import * as stylesArticles from "./stylesArticles";
 import React, { Component } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -129,15 +128,17 @@ class ArticleReminder extends Component {
       );
     else
       status = (
-        <Text>
-          Ihr eingetragener Termin ist am{" "}
+        <Text style={styles.textArticleRe}>
+          Ihr eingetragener Termin ist am{"\n"}
           <Text style={styles.date}>
             {this.formatDate(screenDate) +
               ", um " +
               this.formatTime(screenDate) +
               " Uhr"}
           </Text>
-          . Sie können diesen Termin nun ändern:
+          <Text style={styles.textArticleRe}>
+            . Sie können diesen Termin nun ändern
+          </Text>
         </Text>
       );
 
@@ -145,15 +146,22 @@ class ArticleReminder extends Component {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.titleArticle}>Hautkrebs-Screening</Text>
         <Divider />
-        <Text style={styles.textArticle}>
+        <Text style={styles.textArticleRe}>
           Regelmäßiges Hautscreening ist ein wichtiger Bestandteil der
-          Hautkrebsvorsorge. {status}
+          Hautkrebsvorsorge.
         </Text>
+        <Text style={styles.textArticleRe}>
+          Tragen Sie hier Ihren nächsten Termin ein, damit mySkin Sie
+          rechtzeitig erinnert:
+        </Text>
+
         <Button
           onPress={() => {
             this.handlerToggleMode("date");
           }}
-          size="tiny"
+          style={{ marginTop: 10, marginVertical: 10 }}
+          status="warning"
+          size="small"
         >
           Datum auswählen
         </Button>
@@ -161,7 +169,9 @@ class ArticleReminder extends Component {
           onPress={() => {
             this.handlerToggleMode("time");
           }}
-          size="tiny"
+          style={{ marginVertical: 5 }}
+          status="warning"
+          size="small"
         >
           Uhrzeit auswählen
         </Button>
@@ -183,19 +193,33 @@ class ArticleReminder extends Component {
           />
         )}
         {selectedDate && selectedTime ? (
-          <Button onPress={this.handlerSetReminder} size="tiny">
+          <Button
+            onPress={this.handlerSetReminder}
+            style={{ padding: 5, marginVertical: 10 }}
+            status="warning"
+            size="small"
+          >
             Erinnerung setzen
           </Button>
         ) : null}
+        <Text style={styles.textArticleRe}>{status}</Text>
       </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  textArticle: stylesArticles.textArticle,
-  titleArticle: stylesArticles.titleArticle,
-  date: { fontWeight: "bold", textDecorationLine: "underline" },
+  textArticleRe: {
+    fontSize: 20,
+    paddingVertical: 10,
+  },
+  titleArticle: {
+    fontSize: 23,
+    paddingVertical: 10,
+    fontWeight: "bold",
+    color: "darkorange",
+  },
+  date: { fontSize: 20, color: "darkorange" },
 });
 
 export default ArticleReminder;
