@@ -113,19 +113,19 @@ const MySkinTalk = (props) => {
 
 
   //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-  const LoadMoreButton = () => 
-  showData.length<entriesPerScroll ? null:(
-  <Button
-  
-    onPress={() => { 
-      pagination > showData.length ? setPagination(entriesPerScroll):setPagination(prev => prev + 10) 
-    }}
-    style={styles.button}
-    status='warning'
-  >
-    {pagination > showData.length ? 'WENIGER FRAGEN LADEN': 'MEHR FRAGEN LADEN'}
-  </Button>
-)
+  const LoadMoreButton = () =>
+    showData.length < entriesPerScroll ? null : (
+      <Button
+
+        onPress={() => {
+          pagination > showData.length ? setPagination(entriesPerScroll) : setPagination(prev => prev + 10)
+        }}
+        style={styles.button}
+        status='warning'
+      >
+        {pagination > showData.length ? 'WENIGER FRAGEN LADEN' : 'MEHR FRAGEN LADEN'}
+      </Button>
+    )
 
   // &#9734; => NOT fav
   // &#9733; => IS fav
@@ -142,18 +142,16 @@ const MySkinTalk = (props) => {
         }}
       >
         {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
-          <Text style={{alignSelf:'stretch'}}>&#9734;</Text>}
+          <Text style={{ alignSelf: 'stretch' }}>&#9734;</Text>}
       </TouchableOpacity>
     );
   };
-
-  const PlusIcon = (props) => <KittenIcon {...props} name="plus" />;
 
   const InputField = () => (
     <>
       <SearchField placeholder={'Suche...'} onSubmit={searchKeyword} />
       {showData.length < db_questions.length ? <Button
-        style={{alignSelf:'stretch', marginHorizontal:30, marginTop:15}}
+        style={{ alignSelf: 'stretch', marginHorizontal: 30, marginTop: 15 }}
         size="small"
         status="warning"
         onPress={() => getFavorites()}
@@ -162,10 +160,9 @@ const MySkinTalk = (props) => {
       </Button> : null}
       <Divider />
       <Button
-      size="small"
-        style={{alignSelf:'stretch', margin:30, marginVertical:15}}
+        size="small"
+        style={{ alignSelf: 'stretch', margin: 30, marginVertical: 15 }}
         status="warning"
-        // accessoryRight={PlusIcon}
         onPress={() => setInputVisible(true)}
       >
         FRAGE STELLEN
@@ -186,33 +183,34 @@ const MySkinTalk = (props) => {
         onBackdropPress={() => setVisible(false)}
         style={styles.modal}
       >
-   
-        <Card  style={styles.modalCard} disabled={true}>
+
+        <Card style={styles.modalCard} disabled={true}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <Qcard
               query={qANDa.question}
               favButton={FavButton}
             />
-        
+
             {qANDa.answer.map((reply) => (
               <AnswerCard key={reply.id} reply={reply} />
             ))}
           </ScrollView>
-          <SafeAreaView keyboardDismissMode={'none'}  style={styles.answerCardButtons}>
-              <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
+          <SafeAreaView keyboardDismissMode={'none'} style={styles.answerCardButtons}>
+            <AddAnswer 
+            setVisible={setVisible} 
+            onSubmit={(reply) => submitAnswer(reply)} />
+            {/* <Button
+              size="small"
+              onPress={() => setVisible(false)}
+              style={{ alignSelf: "stretch" }}
+              status="warning"
 
-              <Button
-                size="small"
-                onPress={() => setVisible(false)}
-                style={{ alignSelf: "stretch" }}
-                status="warning"
-
-              >
-                SCHLIESSEN
-              </Button>
-           </SafeAreaView>
+            >
+              SCHLIESSEN
+              </Button> */}
+          </SafeAreaView>
         </Card>
-        
+
       </Modal>
     ) : null;
   };
@@ -250,12 +248,12 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   button: {
-    alignSelf:'stretch',
+    alignSelf: 'stretch',
   },
   inputField: {
-    
+
     height: 120,
-    padding:10,   
+    padding: 10,
     marginBottom: 10,
   },
   list: {
@@ -263,29 +261,31 @@ const styles = StyleSheet.create({
     backgroundColor: globalcss.container.backgroundColor,
   },
   listitem: {
-     flex:1,
-     backgroundColor: globalcss.container.backgroundColor },
+    flex: 1,
+    backgroundColor: globalcss.container.backgroundColor
+  },
   modal: {
-     flex:1,
-     width: screenWidth * 0.85,
-     height: screenHeight * 0.85,
-     marginBottom:20
-     },
-  modalCard: { flex:1,
-    alignItems:'stretch',
-    backgroundColor:'#FFF',
+    flex: 1,
+    width: screenWidth * 0.85,
+    height: screenHeight * 0.85,
+    marginBottom: 20
+  },
+  modalCard: {
+    flex: 1,
+    alignItems: 'stretch',
+    backgroundColor: '#FFF',
     borderColor: "gray",
     borderRadius: 10,
-   },
-   answerCardButtons:{
-    flex:1,
-    width:'100%',
-    backgroundColor:'#FFF',
-    justifyContent:'space-between',
-    alignItems:'center',
-    paddingVertical:20,
-    marginBottom:20
-   },
+  },
+  answerCardButtons: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: '#FFF',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 20,
+    marginBottom: 20
+  },
 });
 
 //* #### EXPORT #### *//

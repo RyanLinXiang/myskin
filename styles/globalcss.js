@@ -10,12 +10,6 @@ const container = {
   backgroundColor: "#FDF7EC",
 };
 
-const talkStyle = {
-  fontSize: 10,
-  favOn: "yellow",
-  favOff: "grey",
-};
-
 const cards = {
   borderWidth: 0,
   backgroundColor: "transparent",
@@ -29,4 +23,4 @@ const cards = {
   paddingVertical: 30,
 };
 
-export { container, talkStyle, cards, screenWidth, screenHeight };
+export { container, cards, screenWidth, screenHeight };

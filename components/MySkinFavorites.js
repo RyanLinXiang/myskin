@@ -163,12 +163,10 @@ const MySkinFavorites = (props) => {
       {query.isFav ? (
         <Text style={styles.button}>&#9733;</Text>
       ) : (
-        <Text style={styles.button}>&#9734;</Text>
-      )}
+          <Text style={styles.button}>&#9734;</Text>
+        )}
     </TouchableOpacity>
   );
-
-  const PlusIcon = (props) => <KittenIcon {...props} name="plus" />;
 
   const InputField = () => (
     <>
@@ -219,15 +217,17 @@ const MySkinFavorites = (props) => {
             keyboardDismissMode={"none"}
             style={styles.answerCardButtons}
           >
-            <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
-            <Button
+            <AddAnswer
+              setVisible={setVisible}
+              onSubmit={(reply) => submitAnswer(reply)} />
+            {/* <Button
               size="small"
               style={{ alignSelf: "stretch", margin: 10, marginVertical: 15 }}
               status="warning"
               onPress={() => setVisible(false)}
             >
               SCHLIESSEN
-            </Button>
+            </Button> */}
           </SafeAreaView>
         </Card>
       </Modal>

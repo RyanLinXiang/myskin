@@ -13,8 +13,8 @@ const AddAnswer = (props) => {
   const buttonHandler = () => {
     if (buttonText == "ANTWORTEN") {
       setShowInput(true);
-      setButtonText("ABSENDEN"); //"SPEICHERN" ?
-    } else if (answer.length<2) {
+      setButtonText("SPEICHERN");
+    } else if (answer.length < 2) {
       alert("Leere Antworten können nicht geschpeichert werden.")
     } else {
       props.onSubmit(answer);
@@ -25,7 +25,7 @@ const AddAnswer = (props) => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.outercontainer} behavior="padding">
+    <KeyboardAvoidingView behavior="padding">
       <View style={styles.questionContainer}>
         {showInput ? (
           <TextInput
@@ -39,10 +39,18 @@ const AddAnswer = (props) => {
             value={answer}
           />
         ) : (
-          false
-        )}
-        <Button size="small" style={{alignSelf:'stretch', margin:9}} onPress={buttonHandler} status="warning">
+            false
+          )}
+        <Button size="small" style={styles.button} onPress={buttonHandler} status="warning">
           {buttonText}
+        </Button>
+        <Button
+          size="small"
+          onPress={() => props.setVisible(false)}
+          style={styles.button}
+          status="warning"
+        >
+          SCHLIESSEN
         </Button>
       </View>
     </KeyboardAvoidingView>
@@ -50,22 +58,27 @@ const AddAnswer = (props) => {
 };
 
 const styles = StyleSheet.create({
+  button: {
+    alignSelf: 'center',
+    margin: 10,
+  },
   questionContainer: {
     flex: 1,
-    width:'100%',
+    width: '100%',
     backgroundColor: "#fff",
-    borderBottomWidth: 2,
-    borderColor: "lightgrey",
+    // borderBottomWidth: 2,
+    // borderColor: "lightgrey",
     paddingBottom: 10,
     marginBottom: 10,
   },
   inputSubject: {
-    flex:1,
+    flex: 1,
     margin: 10,
     padding: 10,
     alignSelf: "stretch",
     fontSize: 16,
-    height: 100,
+    minHeight: 150,
+    minWidth: 290,
     borderColor: "gray",
     borderWidth: 1,
     backgroundColor: "#FFF",

@@ -6,7 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 
-import { Button, Modal, Icon as KittenIcon } from "@ui-kitten/components";
+import { Button, Modal } from "@ui-kitten/components";
 import Form from "react-native-form";
 
 const AddQuestion = (props) => {
@@ -23,8 +23,6 @@ const AddQuestion = (props) => {
       props.setVisible(false);
     }
   };
-
-  const PlusIcon = (props) => <KittenIcon {...props} name="plus" />;
 
   return (
     <Modal
@@ -62,7 +60,6 @@ const AddQuestion = (props) => {
               style={styles.button}
               size="small"
               status="warning"
-              // accessoryRight={PlusIcon}
               >FRAGE STELLEN</Button>
           </Form>
         </ScrollView>

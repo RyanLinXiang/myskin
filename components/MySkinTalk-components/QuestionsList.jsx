@@ -45,16 +45,15 @@ const styles = StyleSheet.create({
   list: {
     flex:1,
     width: "100%",
-    
-    backgroundColor: 'orange', // oder "#FDF7EC" 
+    backgroundColor: "#FDF7EC" ,
   },
   listitem: { flex:1,
     padding:2,
-    borderTopColor:'darkgray',
-    borderTopWidth:2,
+    // borderTopColor:'darkgray',
+    // borderTopWidth:1,
+    // borderBottomWidth: 2,
     backgroundColor: globalcss.container.backgroundColor },
   modal: { width: "90%" },
-  star: { color: "red" },  // ?
 });
 
 //* #### EXPORT #### *//
