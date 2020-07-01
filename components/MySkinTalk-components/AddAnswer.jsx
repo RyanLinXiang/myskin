@@ -1,9 +1,9 @@
 //* #### IMPORTS #### *//
 
 import React, { useState } from "react";
-import { StyleSheet, View, KeyboardAvoidingView, Dimensions } from "react-native";
+import { StyleSheet, Keyboard, KeyboardAvoidingView, Dimensions } from "react-native";
 import { Button } from "@ui-kitten/components";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, ScrollView } from "react-native-gesture-handler";
 const screenWidth = Dimensions.get("window").width;
 
 const AddAnswer = (props) => {
@@ -25,8 +25,12 @@ const AddAnswer = (props) => {
   };
 
   return (
-    <KeyboardAvoidingView behavior="padding">
-      <View style={styles.questionContainer}>
+
+    <KeyboardAvoidingView
+      style={styles.questionContainer}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      enabled={true}
+    >
         {showInput ? (
           <TextInput
             editable
@@ -52,23 +56,22 @@ const AddAnswer = (props) => {
         >
           SCHLIESSEN
         </Button>
-      </View>
     </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
-    alignSelf: 'center',
+        button: {
+        alignSelf: 'center',
     margin: 10,
   },
   inputSubject: {
-    flex: 1,
+        flex: 1,
     margin: 10,
     padding: 10,
     alignSelf: "stretch",
     fontSize: 16,
-    minHeight: 150,
+    minHeight: 50,
     minWidth: 290,
     borderColor: "gray",
     borderWidth: 1,
@@ -76,13 +79,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   questionContainer: {
-    flex: 1,
+        flex: 1,
     width: '100%',
     backgroundColor: "#fff",
-    // borderBottomWidth: 2,
-    // borderColor: "lightgrey",
     paddingBottom: 10,
-    marginBottom: 10,
+    marginBottom: 220,
   },
 });
 

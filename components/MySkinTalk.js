@@ -1,15 +1,8 @@
 //* #### IMPORTS #### *//
 
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, Dimensions } from "react-native";
-import {
-  Button,
-  Card,
-  Modal,
-  Text,
-  Icon as KittenIcon,
-  Divider,
-} from "@ui-kitten/components";
+import { StyleSheet, SafeAreaView, Dimensions, KeyboardAvoidingView } from "react-native";
+import { Button, Card, Modal, Text, Icon as KittenIcon, Divider } from "@ui-kitten/components";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
@@ -190,7 +183,6 @@ const MySkinTalk = (props) => {
               query={qANDa.question}
               favButton={FavButton}
             />
-
             {qANDa.answer.map((reply) => (
               <AnswerCard key={reply.id} reply={reply} />
             ))}
@@ -199,15 +191,6 @@ const MySkinTalk = (props) => {
             <AddAnswer 
             setVisible={setVisible} 
             onSubmit={(reply) => submitAnswer(reply)} />
-            {/* <Button
-              size="small"
-              onPress={() => setVisible(false)}
-              style={{ alignSelf: "stretch" }}
-              status="warning"
-
-            >
-              SCHLIESSEN
-              </Button> */}
           </SafeAreaView>
           </ScrollView>
         </Card>
