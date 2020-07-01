@@ -30,17 +30,22 @@ const QuestionsList = (props) => {
 
 //* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
-  container: globalcss.container,
+  // container: globalcss.container,
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   list: {
+    flex:1,
     width: "100%",
-    backgroundColor: globalcss.container.backgroundColor,
+    backgroundColor: "#FDF7EC" ,
   },
-  listitem: { backgroundColor: globalcss.container.backgroundColor },
+  listitem: { flex:1,
+    padding:2,
+    // borderTopColor:'darkgray',
+    // borderTopWidth:1,
+    // borderBottomWidth: 2,
+    backgroundColor: globalcss.container.backgroundColor },
   modal: { width: "90%" },
-  star: { color: "red" },
 });
 
 //* #### EXPORT #### *//

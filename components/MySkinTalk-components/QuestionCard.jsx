@@ -9,6 +9,7 @@ const QuestionCard = (props) => {
   //* #### FINAL RENDER #### *//
   return (
     <View style={styles.questionContainer}>
+      <Text style={styles.cardTextSubject}> {props.query.subject}</Text>
       <Text style={styles.cardTextQuestion}> {props.query.question}</Text>
       <Divider />
       <View style={styles.cardText}>
@@ -20,8 +21,8 @@ const QuestionCard = (props) => {
           <KittenIcon style={styles.icon} fill="#8F9BB3" name="clock" />
           <Text>
             {props.query.dayspast > 1
-              ? `vor ${props.query.dayspast} Tagen`
-              : `vor ${props.query.dayspast} Tag`}
+              ? ` vor ${props.query.dayspast} Tagen`
+              : ` vor ${props.query.dayspast} Tag`}
           </Text>
         </View>
         {props.user===props.query.user_id ? props.DelButton(props.query.id):null}
@@ -36,28 +37,28 @@ const styles = StyleSheet.create({
   questionContainer: {
     flex: 1,
     backgroundColor: "#fff",
-    borderBottomWidth: 2,
-    borderColor: "lightgrey",
+    borderBottomWidth: 4,
+    borderColor: "orange",
     paddingBottom: 10,
     marginBottom: 10,
+    paddingHorizontal:10,
   },
   cardsQuestion: {
     borderWidth: 0,
     backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems:'center',
+    justifyContent:'center',
     width: screenWidth * 0.9,
-    borderRadius: 10,
-    shadowOpacity: 0.75,
-    shadowRadius: 10,
-    shadowColor: "black",
-    marginBottom: 20,
-    elevation: 5, //shadow for android
   },
   cardTextQuestion: {
-    paddingBottom: 10,
-    fontWeight: "bold",
-    fontSize: 20,
+    paddingVertical: 5,
+    fontSize: 17,
+  },
+  cardTextSubject:{
+    paddingBottom: 5,
+    fontWeight:'bold',
+    color:'orange',
+    fontSize:18,
   },
   cardText: {
     flexDirection: "row",

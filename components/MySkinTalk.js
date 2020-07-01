@@ -1,10 +1,10 @@
 //* #### IMPORTS #### *//
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
-import { Button, Card, Modal, Icon as KittenIcon } from "@ui-kitten/components";
+import { StyleSheet, SafeAreaView, Dimensions, KeyboardAvoidingView } from "react-native";
+import { Button, Card, Modal, Text, Icon as KittenIcon, Divider } from "@ui-kitten/components";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
 import AddAnswer from "./MySkinTalk-components/AddAnswer";
 import QuestionCard from "./MySkinTalk-components/QuestionCard";
@@ -12,6 +12,8 @@ import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
 import SearchField from "./MySkinTalk-components/SearchField";
 import LoadMoreButton from "./MySkinTalk-components/LoadMoreButton";
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
 
 const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -150,7 +152,7 @@ const MySkinTalk = (props) => {
     return (
       <TouchableOpacity
         status="warning"
-        size='large'
+        size='small'
         onPress={() => {
           if (query.question !== undefined) {
             toggleFav(query.id)
@@ -171,22 +173,22 @@ const MySkinTalk = (props) => {
     );
   };
 
-  const PlusIcon = (props) => <KittenIcon {...props} name="plus" />;
-
   const InputField = () => (
     <>
       <SearchField placeholder={'Suche...'} onSubmit={searchKeyword} />
       {showData.length < db_questions.length ? <Button
-        style={styles.button}
-        status='danger'
+        style={{ alignSelf: 'stretch', marginHorizontal: 30, marginTop: 15 }}
+        size="small"
+        status="warning"
         onPress={() => getFavorites()}
       >
         RESET SUCHE
       </Button> : null}
+      <Divider />
       <Button
-        style={styles.button}
+        size="small"
+        style={{ alignSelf: 'stretch', margin: 30, marginVertical: 15 }}
         status="warning"
-        accessoryRight={PlusIcon}
         onPress={() => setInputVisible(true)}
       >
         FRAGE STELLEN
@@ -207,7 +209,8 @@ const MySkinTalk = (props) => {
         onBackdropPress={() => setVisible(false)}
         style={styles.modal}
       >
-        <Card disabled={true}>
+         <Card style={styles.modalCard} disabled={true}>
+         <ScrollView showsVerticalScrollIndicator={false}>
           <QuestionCard
             query={qANDa.question}
             favButton={FavButton}
@@ -222,17 +225,22 @@ const MySkinTalk = (props) => {
               DelButton={(replyID) => DelAnswerButton(replyID)}
             />
           ))}
+          <SafeAreaView keyboardDismissMode={'none'} style={styles.answerCardButtons}>
           <AddAnswer
+          setVisible={setVisible} 
             onSubmit={(reply) => submitAnswer(reply)}
           />
-          <Button
+          {/* <Button
             size="tiny"
             onPress={() => setVisible(false)}
             style={{ alignSelf: "center" }}
           >
             SCHLIESSEN
-          </Button>
+          </Button> */}
+          </SafeAreaView>
+          </ScrollView>
         </Card>
+
       </Modal>
     ) : null;
   };
@@ -277,8 +285,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   button: {
-    fontSize: 25,
-    color: 'darkorange',
+    alignSelf: 'stretch',
   },
   delButton: {
     fontSize: 25,
@@ -287,16 +294,41 @@ const styles = StyleSheet.create({
     height: 25,
   },
   inputField: {
+
     height: 120,
+    padding: 10,
     marginBottom: 10,
   },
   list: {
     width: "100%",
     backgroundColor: globalcss.container.backgroundColor,
   },
-  listitem: { backgroundColor: globalcss.container.backgroundColor },
-  modal: { width: "90%" },
-  star: { color: "red" },
+  listitem: {
+    flex: 1,
+    backgroundColor: globalcss.container.backgroundColor
+  },
+  modal: {
+    flex: 1,
+    width: screenWidth * 0.85,
+    height: screenHeight * 0.85,
+    marginBottom: 20
+  },
+  modalCard: {
+    flex: 1,
+    alignItems: 'stretch',
+    backgroundColor: '#FFF',
+    borderColor: "gray",
+    borderRadius: 10,
+  },
+  answerCardButtons: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: '#FFF',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 20,
+    marginBottom: 20
+  },
 });
 
 //* #### EXPORT #### *//

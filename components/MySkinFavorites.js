@@ -1,7 +1,13 @@
 //* #### IMPORTS #### *//
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
-import { Button, Card, Modal, Text, Icon as KittenIcon } from "@ui-kitten/components";
+import { StyleSheet, SafeAreaView, ScrollView, Dimensions } from "react-native";
+import {
+  Button,
+  Card,
+  Modal,
+  Text,
+  Icon as KittenIcon,
+} from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
@@ -12,6 +18,8 @@ import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
 import SearchField from "./MySkinTalk-components/SearchField";
 import LoadMoreButton from "./MySkinTalk-components/LoadMoreButton";
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
 
 const MySkinFavorites = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -143,8 +151,14 @@ const MySkinFavorites = (props) => {
   const LoadMoreButton = () =>
     showData.length < entriesPerScroll ? null : (
       <Button
-        style={styles.button}
-        status='warning'
+        // style={styles.button}
+        style={{
+          alignSelf: "stretch",
+          margin: 30,
+          marginVertical: 15,
+          paddingVertical: 10,
+        }}
+        status="warning"
         onPress={() => {
           pagination > showData.length ? setPagination(entriesPerScroll) : setPagination(prev => prev + 10)
         }}
@@ -156,7 +170,7 @@ const MySkinFavorites = (props) => {
   const FavButton = (query) => (
     <TouchableOpacity
       status="warning"
-      size='large'
+      size="large"
       onPress={() => {
         if (query.question !== undefined) {
           toggleFav(query.id);
@@ -176,25 +190,27 @@ const MySkinFavorites = (props) => {
     </TouchableOpacity>
   );
 
-  const PlusIcon = (props) => <KittenIcon {...props} name='plus' />;
+  // const PlusIcon = (props) => <KittenIcon {...props} name='plus' />;
 
   const InputField = () => (
     <>
       <SearchField
-        placeholder={'Favoriten-Suche...'}
+        placeholder={"Favoriten-Suche..."}
         onSubmit={searchKeyword}
       />
       {showData.length < db_fav_questions.length ? <Button
-        style={styles.button}
-        status='danger'
+        // style={styles.button}
+        style={{ alignSelf: "stretch", marginHorizontal: 30, marginTop: 15 }}
+        status="warning"
         onPress={() => getFavorites()}
       >
         RESET SUCHE
             </Button> : null}
       <Button
-        style={styles.button}
-        status='warning'
-        accessoryRight={PlusIcon}
+        // style={styles.button}
+        style={{ alignSelf: "stretch", margin: 30, marginVertical: 15 }}
+        status="warning"
+        // accessoryRight={PlusIcon}
         onPress={() => setInputVisible(true)}
       >
         FRAGE STELLEN
@@ -215,7 +231,11 @@ const MySkinFavorites = (props) => {
         onBackdropPress={() => setVisible(false)}
         style={styles.modal}
       >
-        <Card disabled={true}>
+        <Card 
+        style={styles.modalCard} 
+        disabled={true} 
+        >
+           <ScrollView showsVerticalScrollIndicator={false}>
           <QuestionCard
             query={qANDa.question}
             favButton={FavButton}
@@ -230,14 +250,20 @@ const MySkinFavorites = (props) => {
               DelButton={(replyID) => DelAnswerButton(replyID)}
             />
           ))}
+           <SafeAreaView
+            keyboardDismissMode={"none"}
+            style={styles.answerCardButtons}
+          >
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
-          <Button
+          {/* <Button
             size="tiny"
             onPress={() => setVisible(false)}
             style={{ alignSelf: "center" }}
           >
             SCHLIESSEN
-          </Button>
+          </Button> */}
+          </SafeAreaView>
+          </ScrollView>
         </Card>
       </Modal>
     ) : null;
@@ -245,7 +271,7 @@ const MySkinFavorites = (props) => {
 
   //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
   useEffect(() => {
-    getFavorites('update!');
+    getFavorites("update!");
   }, [pagination]);
 
   //* #### FINAL RENDER #### *//
@@ -283,26 +309,45 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   button: {
-    fontSize: 25,
-    color: 'darkorange',
-  },
-  delButton: {
-    fontSize: 25,
-    color: 'red',
-    width: 25,
-    height: 25,
+    // fontSize: 20,
+    alignSelf: "stretch",
+    color: "darkorange",
   },
   inputField: {
     height: 120,
+    padding: 10,
     marginBottom: 10,
   },
   list: {
     width: "100%",
     backgroundColor: globalcss.container.backgroundColor,
   },
-  listitem: { backgroundColor: globalcss.container.backgroundColor },
+  listitem: { flex: 1, backgroundColor: globalcss.container.backgroundColor },
   modal: { width: "90%" },
-  star: { color: 'red' }
+  star: { color: "red" },
+
+  modal: {
+    flex: 1,
+    width: screenWidth * 0.85,
+    height: screenHeight * 0.85,
+    marginBottom: 20,
+  },
+  modalCard: {
+    flex: 1,
+    alignItems: "stretch",
+    backgroundColor: "#FFF",
+    borderColor: "gray",
+    borderRadius: 10,
+  },
+  answerCardButtons: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "#FFF",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 20,
+    marginBottom: 20,
+  },
 });
 
 //* #### EXPORT #### *//
