@@ -23,11 +23,11 @@ const ViewBuilder = (props) => {
         />
         <TopNavigationAction
           icon={HomeIcon}
-          onPress={() => navigation.navigate("mySkin: Home")}
+          onPress={() => navigation.navigate("Home")}
         />
         <TopNavigationAction
           icon={FavoritesIcon}
-          onPress={() => navigation.navigate("mySkin: Favorites")}
+          onPress={() => navigation.navigate("Lieblingsfragen")}
         />
       </React.Fragment>
     );
