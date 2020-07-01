@@ -90,15 +90,35 @@ const Connect = (props) => {
               textContentType="emailAddress"
               maxLength={50}
             />
-            <Button title="Register" type="Submit" onPress={handlerRegister} />
-            <Button title="Login" type="Submit" onPress={handlerToggleMode} />
+            <Button
+              title="Register"
+              style={styles.button}
+              status="warning"
+              type="Submit"
+              onPress={handlerRegister}
+            />
+            <Button
+              title="Login"
+              style={styles.button}
+              status="warning"
+              type="Submit"
+              onPress={handlerToggleMode}
+            />
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Button title="Login" type="Submit" onPress={handlerLogin} />
+            <Button
+              title="Login"
+              style={styles.button}
+              status="warning"
+              type="Submit"
+              onPress={handlerLogin}
+            />
             <Button
               title="Register"
               type="Submit"
+              status="warning"
+              style={styles.button}
               onPress={handlerToggleMode}
             />
           </React.Fragment>
@@ -116,6 +136,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
     margin: 10,
+  },
+  button: {
+    padding: 10,
+    marginVertical: 10,
   },
 });
 

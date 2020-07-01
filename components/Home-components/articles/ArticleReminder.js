@@ -192,7 +192,7 @@ class ArticleReminder extends Component {
         {selectedDate && selectedTime ? (
           <Button
             onPress={this.handlerSetReminder}
-            style={{ padding: 5 }}
+            style={{ padding: 5, marginVertical:10 }}
             status="warninig"
             size="small"
           >
