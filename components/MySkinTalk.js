@@ -278,7 +278,12 @@ const MySkinTalk = (props) => {
           num2={showData.length}
           num3={entriesPerScroll}
           setPagination={setPagination}
-        />}
+        />):( <LoadMoreButton
+          num1={pagination}
+          num2={showData.length}
+          num3={entriesPerScroll}
+          setPagination={setPagination}
+        />)}
       <CardPopup />
     </SafeAreaView>
   );
