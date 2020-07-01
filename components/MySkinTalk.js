@@ -18,6 +18,7 @@ import Qcard from "./MySkinTalk-components/Qcard";
 import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
 import SearchField from "./MySkinTalk-components/SearchField";
+import LoadMoreButton2, { LoadMoreButton, LoadLessButton } from "./MySkinTalk-components/LoadButtons";
 
 const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -148,28 +149,27 @@ const MySkinTalk = (props) => {
     </TouchableOpacity>
   );
 
-  const LoadMoreButton = () => {
-    if (showData.length < entriesPerScroll) {
-      return null
-    } else if (pagination > showData.length) {
-      return <Button
-        style={styles.button}
-        status='warning'
-        onPress={() => setPagination(entriesPerScroll)}
-      >
-        WENIGER FRAGEN LADEN
-    </Button>
-    } else if (pagination <= showData.length) {
-      return <Button
-        style={styles.button}
-        status='warning'
-        onPress={() => setPagination(prev => prev + 10)}
-      >
-        MEHR FRAGEN LADEN
-    </Button>
-    }
-
-  }
+  // const LoadMoreButton2 = () => {
+  //   if (showData.length < entriesPerScroll) {
+  //     return null
+  //   } else if (pagination > showData.length) {
+  //     return <Button
+  //       style={styles.button}
+  //       status='warning'
+  //       onPress={() => setPagination(entriesPerScroll)}
+  //     >
+  //       WENIGER FRAGEN LADEN
+  //   </Button>
+  //   } else if (pagination <= showData.length) {
+  //     return <Button
+  //       style={styles.button}
+  //       status='warning'
+  //       onPress={() => setPagination(prev => prev + 10)}
+  //     >
+  //       MEHR FRAGEN LADEN
+  //   </Button>
+  //   }
+  // }
 
   // &#9734; => NOT fav
   // &#9733; => IS fav
@@ -276,7 +276,21 @@ const MySkinTalk = (props) => {
         setVisible={setVisible}
         favButton={FavButton}
       />
-      <LoadMoreButton />
+      {/* <LoadMoreButton2
+        num1={pagination}
+        num2={showData.length}
+        num3={entriesPerScroll}
+        setPagination={setPagination}
+      /> */}
+      {pagination <= showData.length ? (
+        <LoadMoreButton
+          setPagination={setPagination}
+          entriesPerScroll={entriesPerScroll}
+        />) : (
+          <LoadLessButton
+            setPagination={setPagination}
+            entriesPerScroll={entriesPerScroll}
+          />)}
       <CardPopup />
     </SafeAreaView>
   );
