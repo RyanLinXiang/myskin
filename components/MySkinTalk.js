@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import {
   Button,
-  Spinner,
   Card,
   Modal,
   Text,
@@ -19,9 +18,7 @@ import Qcard from "./MySkinTalk-components/Qcard";
 import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
 import SearchField from "./MySkinTalk-components/SearchField";
-import LoadMoreButton, {
-  LoadLessButton,
-} from "./MySkinTalk-components/LoadMoreButton";
+import LoadMoreButton from "./MySkinTalk-components/LoadMoreButton";
 
 const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -34,8 +31,6 @@ const MySkinTalk = (props) => {
   const [qANDa, setQandA] = useState({ question: "", answer: "" });
   const [inputVisible, setInputVisible] = useState(false);
   const [pagination, setPagination] = useState(entriesPerScroll);
-  // const [loading, setLoading] = useState(true);
-  // let loading = true;
 
   //* #### FUNCTIONS/METHODS #### *//
 
@@ -194,10 +189,16 @@ const MySkinTalk = (props) => {
         }}
       >
         {query.isFav ? (
-          <Text style={styles.button}>&#9733;</Text>
+          <KittenIcon fill={"red"} style={styles.delButton} name="heart" />
         ) : (
-          <Text style={styles.button}>&#9734;</Text>
+          <KittenIcon
+            fill={"grey"}
+            style={styles.delButton}
+            name="heart-outline"
+          />
         )}
+        {/* {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
+          <Text style={styles.button}>&#9734;</Text>} */}
       </TouchableOpacity>
     );
   };
@@ -241,13 +242,21 @@ const MySkinTalk = (props) => {
         style={styles.modal}
       >
         <Card disabled={true}>
-          <Qcard query={qANDa.question} favButton={FavButton} />
+          <Qcard
+            query={qANDa.question}
+            favButton={FavButton}
+            user={user_id}
+            DelButton={(queryID) => DelQuestionButton(queryID)}
+          />
           {qANDa.answer.map((reply) => (
-            <AnswerCard key={reply.id} reply={reply} />
+            <AnswerCard
+              key={reply.id}
+              reply={reply}
+              user={user_id}
+              DelButton={(replyID) => DelAnswerButton(replyID)}
+            />
           ))}
-
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
-
           <Button
             size="tiny"
             onPress={() => setVisible(false)}
@@ -310,6 +319,12 @@ const styles = StyleSheet.create({
   button: {
     fontSize: 25,
     color: "darkorange",
+  },
+  delButton: {
+    fontSize: 25,
+    color: "red",
+    width: 25,
+    height: 25,
   },
   inputField: {
     height: 120,
