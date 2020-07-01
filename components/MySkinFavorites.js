@@ -2,211 +2,292 @@
 
 import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
-import {
-    Button,
-    Card,
-    Modal,
-    Text,
-    List,
-    ListItem,
-    Icon as KittenIcon,
-    Divider,
-} from "@ui-kitten/components";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Button, Card, Modal, Text, Icon as KittenIcon } from "@ui-kitten/components";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
-import { ScrollView } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
 import AddAnswer from "./MySkinTalk-components/AddAnswer";
-import Qcard from './MySkinTalk-components/Qcard';
-import AnswerCard from './MySkinTalk-components/AnswerCard';
+import Qcard from "./MySkinTalk-components/Qcard";
+import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
+import SearchField from "./MySkinTalk-components/SearchField";
+import LoadMoreButton from "./MySkinTalk-components/LoadMoreButton";
 
 const MySkinFavorites = (props) => {
-    const { token, user_id, user_name, entriesPerScroll } = props;
+  const { token, user_id, user_name, entriesPerScroll } = props;
 
+  //* #### STATES #### *//
 
+  const [visible, setVisible] = useState(false);
+  const [db_fav_questions, set_db_fav_questions] = useState([]);
+  const [showData, setShowData] = useState([]);
+  const [qANDa, setQandA] = useState({ question: '', answer: '' });
+  const [inputVisible, setInputVisible] = useState(false);
+  const [pagination, setPagination] = useState(entriesPerScroll);
 
-    //* #### STATES #### *//
+  //* #### FUNCTIONS/METHODS #### *//
 
-    const [visible, setVisible] = useState(false);
-    const [question, setQuestion] = useState('question')
-    const [answer, setAnswer] = useState([])
-    const [favQuestionsList, setFavQuestionsList] = useState([])
-    const [fav, setFav] = useState(false)
-    const [inputVisible, setInputVisible] = useState(false);
-    const alertMessages = {
-        newQuestion: 'Ihre Frage wurde erfolgreich gespeichert!',
-        newAnswer: 'Ihre Antwort wurde erfolgreich gespeichert!',
-        newFavorite: 'Die Frage wurde erfolgreich als Favorit gespeichert!',
-        delFavorite: 'Die Frage wurde von Ihre Favoriten gelöscht',
-    }
+  //### Question Functions ###//
+  const submitQuestion = (subject, question) => {
+    const QUESTION = {
+      subject: subject,
+      question: question,
+    };
+    connectAPI("questions", "POST", QUESTION, token).then((data) => {
+      getFavorites();
+      toggleFav(data.insertId);
+    });
+  };
 
-
-
-    //* #### FUNCTIONS/METHODS #### *//
-
-    //### Question Functions ###//
-    const findQuestion = (question) => {
-        for (const query of favQuestionsList) {
-            if (question === query.subject) {
-                return query.id
-            }
+  //### Answer Functions ###//
+  const getAnswers = (queryID) => {
+    connectAPI(
+      "questions/" + queryID + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
+        let allAnswers = [];
+        if (data[1].length > 0) {
+          for (const item of data[1]) {
+            allAnswers.push(item);
+          }
         }
-    }
-    const submitQuestion = (subject, question) => {
-        const QUESTION = {
-            "subject": subject,
-            "question": question
+        let isFavoriteOrNot = showData.find(isfavObj => isfavObj.id === data[0].id).isFav // find isFav attribute to include in question object
+        setQandA({ question: { ...data[0], isFav: isFavoriteOrNot }, answer: allAnswers });
+        setVisible(true);
+      });
+  };
+  const submitAnswer = (answer) => {
+    const ANSWER = {
+      answer: answer,
+      question_id: qANDa.question.id,
+    };
+    connectAPI("answers", "POST", ANSWER, token).then((data) => {
+      getFavorites();
+      getAnswers(qANDa.question.id);
+    });
+  };
+
+  //### Favorite Functions ###//
+  const getFavorites = (update) => {
+    connectAPI(
+      "favorites?start=0&numbers=" + pagination, "GET", false, token).then((data) => {
+        data.forEach((element) => {
+          element.isFav = true;
+        }); // add prop isFav
+        if (data.length > showData.length || update) {
+          setShowData(data);
         }
-        connectAPI(
-            "questions",
-            "POST",
-            QUESTION,
-            token
-        ).then((data) => {
-            getFavorites();
-            // console.log(data);
-            toggleFav(data.insertId, alertMessages.newQuestion)
-        });
-    }
+        set_db_fav_questions(data)
+      });
+  }
+  const toggleFav = (targetID) => {
+    connectAPI(
+      "favorites/" + targetID, "POST", false, token).then((data) => {
+        getFavorites('update!');
+      });
+  }
 
-    //### Answer Functions ###//
-    const getAnswers = (id) => {
-        connectAPI(
-            "questions/" + id + "?start=0&numbers=" + entriesPerScroll,
-            "GET",
-            false,
-            token
-        ).then((data) => {
-            for (const answerArray of data) {
-                if (answerArray.length < 1) {
-                    setAnswer([])
-                    continue
-                }
-                for (const answer of answerArray) {
-                    if (answer.question) {
-                        setQuestion(answer)
-                    } else if (answer.answer) {
-                        setAnswer(prev => {
-                            let noDuplicates = [...prev, answer].filter((item, i, self) => i === self.findIndex((replyObj) => (replyObj.id === item.id)));
-                            return [...noDuplicates]
-                        })
-                    }
-                }
-            }
-        });
-    }
-    const submitAnswer = (answer) => {
-        const ANSWER = {
-            "answer": answer,
-            "question_id": question.id
+  //### Search Functions ###//
+  const searchKeyword = (keyword) => {
+    const encoded = encodeURIComponent(keyword)
+    connectAPI(
+      "questions/search/" + encoded + "?start=0&numbers=" + entriesPerScroll, "GET", false, token).then((data) => {
+        let favSearch = data.filter(query => db_fav_questions.some(favQuery => favQuery.id === query.id)); //only keep if searched question is a favorite
+        setShowData(favSearch)
+      });
+  }
+
+  //### Delete Functions ###//
+  const deleteQuestion = (targetID) => {
+    connectAPI(
+      "questions/" + targetID, "DELETE", false, token).then((data) => {
+        alert('Ihre Frage würde gelöscht')
+        setVisible(false)
+      });
+  }
+
+  const deleteAnswer = (target) => {
+    connectAPI(
+      "answers/" + target.id, "DELETE", false, token).then((data) => {
+        getAnswers(target.question_id)
+      });
+  }
+
+
+  //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
+  // &#9746; => 'x' in a box
+  // &#10005; => just 'x'
+  const DelQuestionButton = (targetID) => (
+    <TouchableOpacity
+      status="danger"
+      size='large'
+      onPress={() => { deleteQuestion(targetID); getFavorites('update!') }}
+    >
+      <KittenIcon
+        fill={'red'}
+        style={styles.delButton}
+        name='trash-2-outline'
+      />
+      {/* <Text style={styles.delButton}>&#9746;</Text> */}
+    </TouchableOpacity>
+  );
+
+  const DelAnswerButton = (targetID) => (
+    <TouchableOpacity
+      status="danger"
+      size='large'
+      onPress={() => { deleteAnswer(targetID); getFavorites('update!') }}
+    >
+      <KittenIcon
+        fill={'red'}
+        style={styles.delButton}
+        name='trash-2-outline'
+      />
+      {/* <Text style={styles.delButton}>&#9746;</Text> */}
+    </TouchableOpacity>
+  );
+
+  const LoadMoreButton = () =>
+    showData.length < entriesPerScroll ? null : (
+      <Button
+        style={styles.button}
+        status='warning'
+        onPress={() => {
+          pagination > showData.length ? setPagination(entriesPerScroll) : setPagination(prev => prev + 10)
+        }}
+      >
+        {pagination > showData.length ? 'WENIGER FRAGEN LADEN' : 'MEHR FRAGEN LADEN'}
+      </Button>
+    )
+
+  // &#9734; => NOT fav
+  // &#9733; => IS fav
+  const FavButton = (query) => (
+    <TouchableOpacity
+      status="warning"
+      size='large'
+      onPress={() => {
+        if (query.question !== undefined) {
+          toggleFav(query.id);
+          setQandA(prev => ({ question: { ...query, isFav: !query.isFav }, answer: prev.answer }));
         }
-        connectAPI(
-            "answers",
-            "POST",
-            ANSWER,
-            token
-        ).then((data) => {
-            getQuestions();
-            getAnswers(question.id)
-            // console.log(data);
-            alert(alertMessages.newAnswer);
-        });
-    }
+      }}
+    >
+      {query.isFav ? <KittenIcon
+        fill={'red'}
+        style={styles.delButton}
+        name='heart'
+      /> : <KittenIcon
+          fill={'grey'}
+          style={styles.delButton}
+          name='heart-outline'
+        />}
+      {/* {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
+        <Text style={styles.button}>&#9734;</Text>} */}
+    </TouchableOpacity>
+  );
 
-    //### Favorite Functions ###//
-    const getFavorites = () => {
-        connectAPI(
-            "favorites?start=0&numbers=" + entriesPerScroll,
-            "GET",
-            false,
-            token
-        ).then((data) => {
-            setFavQuestionsList(data)
-        });
-    }
-    const FavIcon = (toggleMe) => {
-        return <Icon onPress={toggleMe} size={20} color={'yellow'} name="star" />
-    }
-    const toggleFav = (targetID, message) => {
-        connectAPI(
-            "favorites/" + targetID,
-            "POST",
-            false,
-            token
-        ).then((data) => {
-            // console.log(data)
-            let msg_log = (data.insertId == 0) ? 'UN-favorited' : 'favorited'
-            console.log(msg_log)
-            let msg = (data.insertId == 0) ? alertMessages.delFavorite : message
-            alert(msg);
-            getFavorites();
-            setVisible(false)
-        });
-    }
-    const PlusIcon = (props) => (
-        <KittenIcon {...props} name='plus' />
-    );
+  const PlusIcon = (props) => <KittenIcon {...props} name='plus' />;
 
-
-    //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-    const InputField = React.memo(() => <>
-        <Button style={styles.button} status='warning' accessoryRight={PlusIcon} onPress={() => setInputVisible(true)}>FRAGE STELLEN</Button>
-        <AddQuestion visible={inputVisible} setVisible={setInputVisible} onSubmit={(subject, question) => submitQuestion(subject, question)} />
-    </>)
-    const CardPopup = React.memo(() => <Modal
+  const InputField = () => (
+    <>
+      <SearchField
+        placeholder={'Favoriten-Suche...'}
+        onSubmit={searchKeyword}
+      />
+      {showData.length < db_fav_questions.length ? <Button
+        style={styles.button}
+        status='danger'
+        onPress={() => getFavorites()}
+      >
+        RESET SUCHE
+            </Button> : null}
+      <Button
+        style={styles.button}
+        status='warning'
+        accessoryRight={PlusIcon}
+        onPress={() => setInputVisible(true)}
+      >
+        FRAGE STELLEN
+            </Button>
+      <AddQuestion
+        visible={inputVisible}
+        setVisible={setInputVisible}
+        onSubmit={(subject, question) => submitQuestion(subject, question)}
+      />
+    </>
+  );
+  const CardPopup = () => {
+    return qANDa.question.subject ? (
+      <Modal
         visible={visible}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setVisible(false)}
         style={styles.modal}
-    >
+      >
         <Card disabled={true}>
-            <ScrollView>
-                <Qcard
-                    query={question}
-                    favIcon={() => FavIcon(() => toggleFav(question.id))} />
-                {answer.map(reply => <AnswerCard key={reply.id}
-                    reply={reply} />)}
-            </ScrollView>
-            <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
-            <Button
-                size="tiny"
-                onPress={() => setVisible(false)}
-                style={{ alignSelf: "center" }}
-            >SCHLIESSEN</Button>
-        </Card>
-
-    </Modal>
-    )
-
-
-    //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
-
-    useEffect(() => {
-        getFavorites();
-        console.log('favorites screen updated');
-    }, []);
-
-
-
-    //* #### FINAL RENDER #### *//
-
-    return (
-        <SafeAreaView style={styles.container}>
-            <InputField />
-            <QuestionsList
-                style={styles.list}
-                data={favQuestionsList}
-                findQuestion={findQuestion}
-                getAnswers={getAnswers}
-                visible={visible}
-                setVisible={setVisible}
-                favIcon={() => FavIcon(console.log(''))}
+          <Qcard
+            query={qANDa.question}
+            favButton={FavButton}
+            user={user_id}
+            DelButton={(queryID) => DelQuestionButton(queryID)}
+          />
+          {qANDa.answer.map(reply => (
+            <AnswerCard
+              key={reply.id}
+              reply={reply}
+              user={user_id}
+              DelButton={(replyID) => DelAnswerButton(replyID)}
             />
-            <CardPopup />
-        </SafeAreaView>
-    );
+          ))}
+          <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
+          <Button
+            size="tiny"
+            onPress={() => setVisible(false)}
+            style={{ alignSelf: "center" }}
+          >
+            SCHLIESSEN
+          </Button>
+        </Card>
+      </Modal>
+    ) : null;
+  };
+
+
+  //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
+
+  useEffect(() => {
+    getFavorites('update!');
+  }, [pagination]);
+
+
+
+  //* #### FINAL RENDER #### *//
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <InputField />
+      <QuestionsList
+        style={styles.list}
+        data={showData}
+        getAnswers={getAnswers}
+        visible={visible}
+        setVisible={setVisible}
+        favButton={FavButton}
+      />
+      {showData.length == pagination ? <LoadMoreButton
+        num1={pagination}
+        num2={showData.length}
+        num3={entriesPerScroll}
+        setPagination={setPagination}
+      /> : <LoadMoreButton
+          num1={pagination}
+          num2={showData.length}
+          num3={entriesPerScroll}
+          setPagination={setPagination}
+        />}
+      <CardPopup />
+    </SafeAreaView>
+  );
 };
 
 
@@ -214,19 +295,32 @@ const MySkinFavorites = (props) => {
 //* #### STYLESHEET #### *//
 
 const styles = StyleSheet.create({
-    container: globalcss.container,
-    backdrop: {
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-    },
-    list: {
-        width: "100%",
-        backgroundColor: globalcss.container.backgroundColor,
-    },
-    listitem: { backgroundColor: globalcss.container.backgroundColor },
-    modal: { width: "90%" },
-    star: { color: 'red' }
+  container: globalcss.container,
+  backdrop: {
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+  },
+  button: {
+    fontSize: 25,
+    color: 'darkorange',
+  },
+  delButton: {
+    fontSize: 25,
+    color: 'red',
+    width: 25,
+    height: 25,
+  },
+  inputField: {
+    height: 120,
+    marginBottom: 10,
+  },
+  list: {
+    width: "100%",
+    backgroundColor: globalcss.container.backgroundColor,
+  },
+  listitem: { backgroundColor: globalcss.container.backgroundColor },
+  modal: { width: "90%" },
+  star: { color: 'red' }
 });
-
 
 
 //* #### EXPORT #### *//

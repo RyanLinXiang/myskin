@@ -20,7 +20,13 @@ export default class UVIndex extends Component {
     this.setState({ geocode });
   };
 
+  componentWillUnmount() {
+    console.log("Unmount");
+    this.mount = false;
+  }
+
   componentDidMount = async () => {
+    this.mount = true;
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       this.setState({

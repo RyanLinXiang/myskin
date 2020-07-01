@@ -7,20 +7,18 @@ import {
   Card,
   Modal,
   Text,
-  List,
-  ListItem,
   Icon as KittenIcon,
-  Divider,
 } from "@ui-kitten/components";
-import Icon from "react-native-vector-icons/FontAwesome";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
-import { ScrollView } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import AddQuestion from "./MySkinTalk-components/AddQuestion";
 import AddAnswer from "./MySkinTalk-components/AddAnswer";
 import Qcard from "./MySkinTalk-components/Qcard";
 import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
+import SearchField from "./MySkinTalk-components/SearchField";
+import LoadMoreButton from "./MySkinTalk-components/LoadMoreButton";
 
 const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -29,50 +27,39 @@ const MySkinTalk = (props) => {
 
   const [visible, setVisible] = useState(false);
   const [db_questions, set_db_questions] = useState([]);
-  // const [db_answers, set_db_answers] = useState([]);
-  const [question, setQuestion] = useState("question");
-  const [answer, setAnswer] = useState([]);
-  const [favQuestionsList, setFavQuestionsList] = useState([]);
-  const [fav, setFav] = useState(false);
-  let favCol = fav ? "yellow" : "grey";
-  const alertMessages = {
-    newQuestion: "Ihre Frage wurde erfolgreich gespeichert!",
-    newAnswer: "Ihre Antwort wurde erfolgreich gespeichert!",
-    newFavorite: "Die Frage wurde erfolgreich als Favorit gespeichert!",
-    delFavorite: "Die Frage wurde von Ihre Favoriten gelöscht",
-  };
-
+  const [showData, setShowData] = useState([]);
+  const [qANDa, setQandA] = useState({ question: "", answer: "" });
   const [inputVisible, setInputVisible] = useState(false);
+  const [pagination, setPagination] = useState(entriesPerScroll);
 
   //* #### FUNCTIONS/METHODS #### *//
 
   //### Question Functions ###//
-  const getQuestions = () => {
+  const getQuestions = (favList, update) => {
     connectAPI(
-      "questions?start=0&numbers=" + entriesPerScroll,
+      "questions?start=0&numbers=" + pagination,
       "GET",
       false,
       token
     ).then((data) => {
-      set_db_questions(data);
+      const questionsList = data.map(
+        (obj) => favList.find((favObj) => favObj.id === obj.id) || obj
+      ); //if is favorite, replace obj with obj from favList
+      if (data.length > showData.length || update) {
+        setShowData(questionsList);
+      }
+      set_db_questions(questionsList);
     });
   };
-  /*  LinX: const findQuestion = (question) => {
-    for (const query of db_questions) {
-      if (question === query.subject) {
-        return query.id;
-      }
-    }
-  }; */
+
   const submitQuestion = (subject, question) => {
     const QUESTION = {
       subject: subject,
       question: question,
     };
     connectAPI("questions", "POST", QUESTION, token).then((data) => {
-      getQuestions();
-      // console.log(data);
-      toggleFav(data.insertId, alertMessages.newQuestion);
+      getFavorites();
+      toggleFav(data.insertId);
     });
   };
 
@@ -84,97 +71,152 @@ const MySkinTalk = (props) => {
       false,
       token
     ).then((data) => {
-      let qAnda = [];
+      let allAnswers = [];
       if (data[1].length > 0) {
         for (const item of data[1]) {
-          /* else if (answer.answer) {
-            setAnswer((prev) => {
-              let noDuplicates = [...prev, answer].filter(
-                (item, i, self) =>
-                  i === self.findIndex((replyObj) => replyObj.id === item.id)
-              ); 
-              return [...prev, answer];
-            });
-          } */
-
-          qAnda.push(item);
+          allAnswers.push(item);
         }
       }
-      setQuestion(data[0]);
-      setAnswer(qAnda);
+      let isFavoriteOrNot = showData.find(
+        (isfavObj) => isfavObj.id === data[0].id
+      ).isFav; // find isFav attribute to include in question object
+      setQandA({
+        question: { ...data[0], isFav: isFavoriteOrNot },
+        answer: allAnswers,
+      });
       setVisible(true);
     });
   };
   const submitAnswer = (answer) => {
     const ANSWER = {
       answer: answer,
-      question_id: question.id,
+      question_id: qANDa.question.id,
     };
     connectAPI("answers", "POST", ANSWER, token).then((data) => {
-      getQuestions();
-      getAnswers(question.id);
-      // console.log(data);
-      alert(alertMessages.newAnswer);
+      getFavorites();
+      getAnswers(qANDa.question.id);
     });
   };
 
   //### Favorite Functions ###//
-  const getFavorites = () => {
+  const getFavorites = (update) => {
     connectAPI(
-      "favorites?start=0&numbers=" + entriesPerScroll, //entriesPerScroll,
+      "favorites?start=0&numbers=" + pagination,
       "GET",
       false,
       token
     ).then((data) => {
-      setFavQuestionsList(data);
+      data.forEach((element) => {
+        element.isFav = true;
+      }); // add prop isFav
+      getQuestions(data, update);
     });
   };
-  const isFavorite = (targetID /* LinX: = question.id */) => {
-    getFavorites();
-    for (const favQuestion of favQuestionsList) {
-      if (favQuestion.id == targetID) {
-        console.log("listed");
-        setFav(true);
-      } else {
-        console.log("not listed");
-        setFav(false);
-      }
-    }
+
+  const toggleFav = (targetID) => {
+    connectAPI("favorites/" + targetID, "POST", false, token).then((data) => {
+      getFavorites("update!");
+    });
   };
 
-  //const FavIcon = (toggleMe) => {
-  //  return <Icon onPress={toggleMe} size={20} color={favCol} name="star" />;
-  //};
-
-  const toggleFav = (targetID, message) => {
-    //toggle fav
+  //### Search Functions ###//
+  const searchKeyword = (keyword) => {
+    const encoded = encodeURIComponent(keyword);
     connectAPI(
-      "favorites/" + targetID, //entriesPerScroll,
-      "POST",
+      "questions/search/" + encoded + "?start=0&numbers=" + entriesPerScroll,
+      "GET",
       false,
       token
     ).then((data) => {
-      // console.log(data)
-      let msg_log = data.insertId == 0 ? "UN-favorited" : "favorited";
-      console.log(msg_log);
-      let msg = data.insertId == 0 ? alertMessages.delFavorite : message;
-      alert(msg);
+      setShowData(data);
     });
   };
-  // const toggleStarCol = () => {
-  //   //set favIcon color
-  //   // const isFav = isFavorite()
-  //   // console.log(isFav, 'isFav?')
 
-  //   // setFav(prev => !prev)
-  // }
+  //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
+  // &#9746; => 'x' in a box
+  // &#10005; => just 'x'
+  const DelQuestionButton = (targetID) => (
+    <TouchableOpacity
+      status="danger"
+      size="large"
+      onPress={() => {
+        deleteQuestion(targetID);
+        getFavorites("update!");
+      }}
+    >
+      <KittenIcon
+        fill={"red"}
+        style={styles.delButton}
+        name="trash-2-outline"
+      />
+      {/* <Text style={styles.delButton}>&#9746;</Text> */}
+    </TouchableOpacity>
+  );
+
+  const DelAnswerButton = (targetID) => (
+    <TouchableOpacity
+      status="danger"
+      size="large"
+      onPress={() => {
+        deleteAnswer(targetID);
+        getFavorites("update!");
+      }}
+    >
+      <KittenIcon
+        fill={"red"}
+        style={styles.delButton}
+        name="trash-2-outline"
+      />
+      {/* <Text style={styles.delButton}>&#9746;</Text> */}
+    </TouchableOpacity>
+  );
+
+  // &#9734; => NOT fav
+  // &#9733; => IS fav
+  const FavButton = (query) => {
+    return (
+      <TouchableOpacity
+        status="warning"
+        size="large"
+        onPress={() => {
+          if (query.question !== undefined) {
+            toggleFav(query.id);
+            setQandA((prev) => ({
+              question: { ...query, isFav: !query.isFav },
+              answer: prev.answer,
+            }));
+          }
+        }}
+      >
+        {query.isFav ? (
+          <KittenIcon fill={"red"} style={styles.delButton} name="heart" />
+        ) : (
+          <KittenIcon
+            fill={"grey"}
+            style={styles.delButton}
+            name="heart-outline"
+          />
+        )}
+        {/* {query.isFav ? <Text style={styles.button}>&#9733;</Text> :
+          <Text style={styles.button}>&#9734;</Text>} */}
+      </TouchableOpacity>
+    );
+  };
 
   const PlusIcon = (props) => <KittenIcon {...props} name="plus" />;
 
-  //* #### ACCESSORY COMPONENTS TO BE RENDERED #### *//
-  //LinX: Removed React.memo as it does not make sense
   const InputField = () => (
     <>
+      <SearchField placeholder={"Suche..."} onSubmit={searchKeyword} />
+      {showData.length < db_questions.length ? (
+        <Button
+          style={styles.button}
+          status="danger"
+          onPress={() => getFavorites()}
+        >
+          RESET SUCHE
+        </Button>
+      ) : null}
       <Button
         style={styles.button}
         status="warning"
@@ -190,32 +232,31 @@ const MySkinTalk = (props) => {
       />
     </>
   );
-  //LinX: Removed React.memo as it does not make sense
+
   const CardPopup = () => {
-    return question.subject ? (
+    return qANDa.question.subject ? (
       <Modal
         visible={visible}
         backdropStyle={styles.backdrop}
-        onBackdropPress={() => {
-          setVisible(false);
-        }}
+        onBackdropPress={() => setVisible(false)}
         style={styles.modal}
       >
         <Card disabled={true}>
           <Qcard
-            query={question}
-            /*favIcon={() =>
-                  FavIcon(() =>
-                    toggleFav(question.id, alertMessages.newFavorite)
-                  )
-                }*/
+            query={qANDa.question}
+            favButton={FavButton}
+            user={user_id}
+            DelButton={(queryID) => DelQuestionButton(queryID)}
           />
-          {answer.map((reply) => (
-            <AnswerCard key={reply.id} reply={reply} />
+          {qANDa.answer.map((reply) => (
+            <AnswerCard
+              key={reply.id}
+              reply={reply}
+              user={user_id}
+              DelButton={(replyID) => DelAnswerButton(replyID)}
+            />
           ))}
-
           <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
-
           <Button
             size="tiny"
             onPress={() => setVisible(false)}
@@ -231,9 +272,8 @@ const MySkinTalk = (props) => {
   // //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
 
   useEffect(() => {
-    getQuestions();
-    getFavorites();
-  }, []);
+    getFavorites("update!");
+  }, [pagination]);
 
   //* #### FINAL RENDER #### *//
 
@@ -242,13 +282,28 @@ const MySkinTalk = (props) => {
       <InputField />
       <QuestionsList
         style={styles.list}
-        data={db_questions}
-        //LinX:   findQuestion={findQuestion}
+        data={showData}
         getAnswers={getAnswers}
         visible={visible}
         setVisible={setVisible}
-        /*favIcon={() => FavIcon(console.log(""))}*/
+        favButton={FavButton}
       />
+      {showData.length == pagination ? (
+        <LoadMoreButton
+          num1={pagination}
+          num2={showData.length}
+          num3={entriesPerScroll}
+          setPagination={setPagination}
+        />
+      ) : (
+        <LoadMoreButton
+          num1={pagination}
+          num2={showData.length}
+          num3={entriesPerScroll}
+          setPagination={setPagination}
+        />
+      )}
+
       <CardPopup />
     </SafeAreaView>
   );
@@ -261,12 +316,26 @@ const styles = StyleSheet.create({
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
+  button: {
+    fontSize: 25,
+    color: "darkorange",
+  },
+  delButton: {
+    fontSize: 25,
+    color: "red",
+    width: 25,
+    height: 25,
+  },
+  inputField: {
+    height: 120,
+    marginBottom: 10,
+  },
   list: {
     width: "100%",
     backgroundColor: globalcss.container.backgroundColor,
   },
   listitem: { backgroundColor: globalcss.container.backgroundColor },
-  modal: { width: "90%", zIndex: 500 },
+  modal: { width: "90%" },
   star: { color: "red" },
 });
 

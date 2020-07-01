@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
 import { Button } from "@ui-kitten/components";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { TextInput } from "react-native-gesture-handler";
 
 const AddAnswer = (props) => {
   const [showInput, setShowInput] = useState(false);
@@ -13,6 +13,8 @@ const AddAnswer = (props) => {
     if (buttonText == "ANTWORTEN") {
       setShowInput(true);
       setButtonText("ABSENDEN");
+    } else if (answer.length<2) {
+      alert("Leere Antworten können nicht geschpeichert werden.")
     } else {
       props.onSubmit(answer);
       setShowInput(false);

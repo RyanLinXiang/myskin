@@ -14,7 +14,6 @@ const AddQuestion = (props) => {
 
   const addQuestionHandler = () => {
     const { QuestionInput, SubjectInput } = FormRef.current.getValues();
-    // console.log(QuestionInput, SubjectInput)
     if (SubjectInput.length < 2) {
       alert("Es fehlt ein Titel");
     } else if (QuestionInput.length < 2 && SubjectInput.length > 2) {
@@ -117,13 +116,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: "#FFF",
     borderRadius: 10,
-  },
-  outercontainer: {
-    // flex: 1,
-    // width: "100%",
-    // alignItems: "center",
-    // justifyContent: "center",
-    // marginBottom: 0,
   },
 });
 
