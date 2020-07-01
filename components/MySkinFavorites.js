@@ -12,6 +12,7 @@ import Qcard from "./MySkinTalk-components/Qcard";
 import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
 import SearchField from "./MySkinTalk-components/SearchField";
+import LoadMoreButton from "./MySkinTalk-components/LoadMoreButton";
 
 const MySkinFavorites = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -24,6 +25,7 @@ const MySkinFavorites = (props) => {
   const [qANDa, setQandA] = useState({ question: '', answer: '' });
   const [inputVisible, setInputVisible] = useState(false);
   const [pagination, setPagination] = useState(entriesPerScroll);
+  const [loading, setLoading] = useState(false);
 
   //* #### FUNCTIONS/METHODS #### *//
 
@@ -126,7 +128,7 @@ const MySkinFavorites = (props) => {
         style={styles.delButton}
         name='trash-2-outline'
       />
-      {/* <Text style={styles.delButton}>&#10005;</Text> */}
+      {/* <Text style={styles.delButton}>&#9746;</Text> */}
     </TouchableOpacity>
   );
 
@@ -134,17 +136,17 @@ const MySkinFavorites = (props) => {
     <TouchableOpacity
       status="danger"
       size='large'
-      onPress={() => { deleteQuestion(targetID); getFavorites('update!') }}
+      onPress={() => { deleteAnswer(targetID); getFavorites('update!') }}
     >
       <KittenIcon
         fill={'red'}
         style={styles.delButton}
         name='trash-2-outline'
       />
-      {/* <Text style={styles.delButton}>&#10005;</Text> */}
+      {/* <Text style={styles.delButton}>&#9746;</Text> */}
     </TouchableOpacity>
   );
-
+  //heart-outline
   const LoadMoreButton = () =>
     showData.length < entriesPerScroll ? null : (
       <Button
@@ -236,7 +238,7 @@ const MySkinFavorites = (props) => {
             style={{ alignSelf: "center" }}
           >
             SCHLIESSEN
-                    </Button>
+          </Button>
         </Card>
       </Modal>
     ) : null;
@@ -264,7 +266,17 @@ const MySkinFavorites = (props) => {
         setVisible={setVisible}
         favButton={FavButton}
       />
-      <LoadMoreButton />
+      {showData.length == pagination ? <LoadMoreButton
+        num1={pagination}
+        num2={showData.length}
+        num3={entriesPerScroll}
+        setPagination={setPagination}
+      /> : <LoadMoreButton
+          num1={pagination}
+          num2={showData.length}
+          num3={entriesPerScroll}
+          setPagination={setPagination}
+        />}
       <CardPopup />
     </SafeAreaView>
   );

@@ -2,13 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
-import {
-  Button,
-  Card,
-  Modal,
-  Text,
-  Icon as KittenIcon,
-} from "@ui-kitten/components";
+import { Button, Spinner, Card, Modal, Text, Icon as KittenIcon } from "@ui-kitten/components";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -18,7 +12,7 @@ import Qcard from "./MySkinTalk-components/Qcard";
 import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
 import SearchField from "./MySkinTalk-components/SearchField";
-import LoadMoreButton2, { LoadMoreButton, LoadLessButton } from "./MySkinTalk-components/LoadButtons";
+import LoadMoreButton, { LoadLessButton } from "./MySkinTalk-components/LoadMoreButton";
 
 const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -31,6 +25,8 @@ const MySkinTalk = (props) => {
   const [qANDa, setQandA] = useState({ question: '', answer: '' });
   const [inputVisible, setInputVisible] = useState(false);
   const [pagination, setPagination] = useState(entriesPerScroll);
+  // const [loading, setLoading] = useState(true);
+  // let loading = true;
 
   //* #### FUNCTIONS/METHODS #### *//
 
@@ -135,7 +131,12 @@ const MySkinTalk = (props) => {
       size='large'
       onPress={() => { deleteQuestion(targetID); getFavorites('update!') }}
     >
-      <Text style={styles.delButton}>&#10005;</Text>
+      <KittenIcon
+        fill={'red'}
+        style={styles.delButton}
+        name='trash-2-outline'
+      />
+      {/* <Text style={styles.delButton}>&#9746;</Text> */}
     </TouchableOpacity>
   );
 
@@ -143,33 +144,16 @@ const MySkinTalk = (props) => {
     <TouchableOpacity
       status="danger"
       size='large'
-      onPress={() => deleteAnswer(targetID)}
+      onPress={() => { deleteAnswer(targetID); getFavorites('update!') }}
     >
-      <Text style={styles.delButton}>&#10005;</Text>
+      <KittenIcon
+        fill={'red'}
+        style={styles.delButton}
+        name='trash-2-outline'
+      />
+      {/* <Text style={styles.delButton}>&#9746;</Text> */}
     </TouchableOpacity>
   );
-
-  // const LoadMoreButton2 = () => {
-  //   if (showData.length < entriesPerScroll) {
-  //     return null
-  //   } else if (pagination > showData.length) {
-  //     return <Button
-  //       style={styles.button}
-  //       status='warning'
-  //       onPress={() => setPagination(entriesPerScroll)}
-  //     >
-  //       WENIGER FRAGEN LADEN
-  //   </Button>
-  //   } else if (pagination <= showData.length) {
-  //     return <Button
-  //       style={styles.button}
-  //       status='warning'
-  //       onPress={() => setPagination(prev => prev + 10)}
-  //     >
-  //       MEHR FRAGEN LADEN
-  //   </Button>
-  //   }
-  // }
 
   // &#9734; => NOT fav
   // &#9733; => IS fav
@@ -276,21 +260,19 @@ const MySkinTalk = (props) => {
         setVisible={setVisible}
         favButton={FavButton}
       />
-      {/* <LoadMoreButton2
+      {showData.length == pagination ? <LoadMoreButton
         num1={pagination}
         num2={showData.length}
         num3={entriesPerScroll}
         setPagination={setPagination}
-      /> */}
-      {pagination <= showData.length ? (
-        <LoadMoreButton
+      /> : <LoadMoreButton
+          num1={pagination}
+          num2={showData.length}
+          num3={entriesPerScroll}
           setPagination={setPagination}
-          entriesPerScroll={entriesPerScroll}
-        />) : (
-          <LoadLessButton
-            setPagination={setPagination}
-            entriesPerScroll={entriesPerScroll}
-          />)}
+        />}
+
+
       <CardPopup />
     </SafeAreaView>
   );
