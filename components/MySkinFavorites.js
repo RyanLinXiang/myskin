@@ -25,7 +25,6 @@ const MySkinFavorites = (props) => {
   const [qANDa, setQandA] = useState({ question: '', answer: '' });
   const [inputVisible, setInputVisible] = useState(false);
   const [pagination, setPagination] = useState(entriesPerScroll);
-  const [loading, setLoading] = useState(false);
 
   //* #### FUNCTIONS/METHODS #### *//
 

@@ -14,7 +14,7 @@ const LoadMoreButton = (props) => {
       status='warning'
       onPress={() => props.setPagination(props.num3)}
     >
-      WENIGER FRAGEN LADEN
+      RESET FRAGEN
     </Button>
   } else if (props.num1 <= props.num2) {
     return <Button
@@ -26,16 +26,6 @@ const LoadMoreButton = (props) => {
     </Button>
   }
 }
-
-export const LoadLessButton = (props) => (
-  <Button
-    style={styles.button}
-    status='warning'
-    onPress={() => props.setPagination(props.num3)}
-  >
-    WENIGER FRAGEN LADEN
-  </Button>
-)
 
 export default LoadMoreButton;
 

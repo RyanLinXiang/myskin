@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
-import { Button, Spinner, Card, Modal, Text, Icon as KittenIcon } from "@ui-kitten/components";
+import { Button, Card, Modal, Text, Icon as KittenIcon } from "@ui-kitten/components";
 import connectAPI from "../helpers/api";
 import * as globalcss from "../styles/globalcss";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -12,7 +12,7 @@ import Qcard from "./MySkinTalk-components/Qcard";
 import AnswerCard from "./MySkinTalk-components/AnswerCard";
 import QuestionsList from "./MySkinTalk-components/QuestionsList";
 import SearchField from "./MySkinTalk-components/SearchField";
-import LoadMoreButton, { LoadLessButton } from "./MySkinTalk-components/LoadMoreButton";
+import LoadMoreButton from "./MySkinTalk-components/LoadMoreButton";
 
 const MySkinTalk = (props) => {
   const { token, user_id, user_name, entriesPerScroll } = props;
@@ -25,8 +25,6 @@ const MySkinTalk = (props) => {
   const [qANDa, setQandA] = useState({ question: '', answer: '' });
   const [inputVisible, setInputVisible] = useState(false);
   const [pagination, setPagination] = useState(entriesPerScroll);
-  // const [loading, setLoading] = useState(true);
-  // let loading = true;
 
   //* #### FUNCTIONS/METHODS #### *//
 
