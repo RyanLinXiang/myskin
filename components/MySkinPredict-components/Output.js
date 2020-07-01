@@ -1,9 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, Image, ImageBackground, View } from "react-native";
 import { BarIndicator, WaveIndicator } from "react-native-indicators";
-import { Button, Icon } from "@ui-kitten/components";
+import { Icon } from "@ui-kitten/components";
 import * as Animatable from "react-native-animatable";
-import FlashMessage from "react-native-flash-message";
+import { StyleSheet, Text, Image, ImageBackground, View } from "react-native";
 
 const Output = (props) => {
   const { loading, image, predictions, isModelReady, error } = props;

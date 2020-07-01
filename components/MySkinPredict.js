@@ -228,7 +228,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   innercontainer: {
-    flex: 1,
     marginTop: -50,
     alignItems: "center",
     justifyContent: "center",
@@ -259,13 +258,12 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: "space-evenly",
     backgroundColor: "white",
-    height: globalcss.screenHeight * 0.80,
+    height: globalcss.screenHeight * 0.8,
   },
   modalCard: {
     paddingBottom: 40,
-    borderColor:'white',
+    borderColor: "white",
     borderRadius: 20,
-   
   },
   closeButtomArt: {
     paddingVertical: 10,
