@@ -21,7 +21,6 @@ export default class UVIndex extends Component {
   };
 
   componentWillUnmount() {
-    console.log("Unmount");
     this.mount = false;
   }
 
