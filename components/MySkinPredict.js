@@ -1,22 +1,16 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  ActivityIndicator,
-  TouchableOpacity,
-  Image,
-  ImageBackground,
-} from "react-native";
-import { Button } from "@ui-kitten/components";
+import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import * as tf from "@tensorflow/tfjs";
 import { fetch, bundleResourceIO } from "@tensorflow/tfjs-react-native";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as jpeg from "jpeg-js";
+import Output from "./MySkinPredict-components/Output";
+import Status from "./MySkinPredict-components/Status";
+import { Button, Text, Modal, Card } from "@ui-kitten/components";
 import * as globalcss from "../styles/globalcss";
+import ArticlePredict from "./Home-components/articles/ArticlePredict";
 
 class MySkinPredict extends React.Component {
   state = {
@@ -25,6 +19,9 @@ class MySkinPredict extends React.Component {
     predictions: null,
     image: null,
     tfjsmodel: null,
+    error: false,
+
+    showModal: false,
   };
 
   async componentDidMount() {
@@ -42,7 +39,6 @@ class MySkinPredict extends React.Component {
 
       this.setState({ isModelReady: true, tfjsmodel });
       this.getPermissionAsync();
-      console.log("Success");
     } catch (e) {
       console.log(e);
     }
@@ -104,9 +100,9 @@ class MySkinPredict extends React.Component {
         imageTensor,
         options
       );
-      this.setState({ predictions });
+      this.setState({ predictions, tooltip: true });
     } catch (error) {
-      console.log(error);
+      this.setState({ error });
     }
   };
 
@@ -124,7 +120,7 @@ class MySkinPredict extends React.Component {
         this.classifyImage();
       }
     } catch (error) {
-      console.log(error);
+      this.setState({ error });
     }
   };
 
@@ -132,93 +128,92 @@ class MySkinPredict extends React.Component {
     this.setState({
       predictions: null,
       image: null,
+      error: false,
     });
   };
 
+  handlerToggleModal = () => {
+    this.setState({ showModal: !this.state.showModal });
+  };
+
   render() {
-    const { isTfReady, isModelReady, predictions, image } = this.state;
+    const {
+      isTfReady,
+      isModelReady,
+      predictions,
+      image,
+      error,
+      showModal,
+    } = this.state;
 
-    let status;
+    let loading;
 
-    if (isTfReady && isModelReady && !image && !predictions)
-      status = (
-        <Text style={styles.statusText}>mySkin: Predict ist bereit.</Text>
-      );
-    else if (isModelReady && image && predictions)
-      status = <Text style={styles.statusText}>Analyse abgeschlossen.</Text>;
-    else if (isModelReady && image && !predictions)
-      status = (
-        <React.Fragment>
-          <Text style={styles.statusText}>Analyse läuft ... bitte warten.</Text>
-          <ActivityIndicator size="small" />
-        </React.Fragment>
-      );
-    else
-      status = (
-        <React.Fragment>
-          <Text style={styles.statusText}>
-            Modell wird geladen ... bitte kurz warten.
-          </Text>
-          <ActivityIndicator size="small" />
-        </React.Fragment>
-      );
-
-    let output;
-
-    if (image && !predictions)
-      output = <Image source={image} style={styles.uploadedImage} />;
-    else if (image && predictions)
-      output = (
-        <React.Fragment>
-          <ImageBackground
-            source={image}
-            blurRadius={50}
-            style={styles.predictedImage}
-          >
-            <Text style={styles.predictedNumberHeader}>
-              Wahrscheinlichkeit für Melanom:
-            </Text>
-            <Text style={styles.predictedNumber}>
-              {Math.round(predictions.dataSync()[0] * 100)}
-              <Text style={styles.predictedNumberPercentage}> %</Text>
-            </Text>
-          </ImageBackground>
-        </React.Fragment>
-      );
-    else if (isModelReady && !image)
-      output = <Text>Bitte ein Bild auswählen</Text>;
+    if (isTfReady && isModelReady && !image && !predictions) loading = false;
+    else if (isModelReady && image && predictions) loading = false;
+    else if (isModelReady && image && !predictions) loading = "predict";
+    else loading = "model";
 
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <Text style={styles.status}>{status}</Text>
-        <TouchableOpacity
-          style={styles.imageContainer}
-          onPress={
-            isModelReady && this.state.tfjsmodel.predict && !predictions
-              ? this.handlerSelectImage
-              : undefined
-          }
-        >
-          {output}
-        </TouchableOpacity>
-        {isModelReady && image && predictions ? (
-          <React.Fragment>
-            <Button onPress={this.handlerReset} size="tiny" status="warning">
-              Neu starten
-            </Button>
-            <Text style={styles.warning}>
-              Die oben dargestellte Zahl ist die Wahrscheinlichkeit, dass Ihr
-              Muttermal ein Melanom sein könnte. Dabei beruht die Berechnung auf
-              einem Modell der Künstlichen Intelligenz. Dieses Modell basiert
-              auf 10.000 Bildern von Melanomen und von Nicht-Melanomen. Je
-              kleiner die Wahrscheinlichkeit, desto unwahrscheinlicher ist es,
-              dass Ihr Muttermal ein Melanom ist. Die Berechnung ist ohne
-              Gewähr. Bitte konsultieren Sie auf jeden Fall Ihren Hautarzt für
-              eine gesicherte Diagnose.
-            </Text>
-          </React.Fragment>
-        ) : null}
+        <View style={styles.innercontainer}>
+          <View style={styles.status}>
+            <Status
+              isTfReady={isTfReady}
+              isModelReady={isModelReady}
+              predictions={predictions}
+              image={image}
+              error={error}
+              handlerReset={this.handlerReset}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.imageContainer}
+            onPress={
+              isModelReady && this.state.tfjsmodel.predict && !predictions
+                ? this.handlerSelectImage
+                : undefined
+            }
+          >
+            <Output
+              loading={loading}
+              image={image}
+              predictions={predictions}
+              isModelReady={isModelReady}
+              error={error}
+            />
+          </TouchableOpacity>
+
+          <Text
+            style={styles.hints}
+            appearance="hint"
+            onPress={this.handlerToggleModal}
+          >
+            Hinweise und Erläuterungen
+          </Text>
+
+          {showModal ? (
+            <Modal
+              visible={true}
+              backdropStyle={styles.backdrop}
+              onBackdropPress={this.handlerToggleModal}
+              style={styles.modal}
+            >
+              <Card style={styles.modalCard} disabled={true}>
+                <ArticlePredict />
+                <View style={styles.closeButtomArt}>
+                  <Button
+                    size="small"
+                    onPress={this.handlerToggleModal}
+                    style={{ paddingVertical: 10, alignSelf: "stretch" }}
+                    status="warning"
+                  >
+                    SCHLIESSEN
+                  </Button>
+                </View>
+              </Card>
+            </Modal>
+          ) : null}
+        </View>
       </View>
     );
   }
@@ -231,46 +226,42 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
   },
-  statusText: {
-    fontSize: 16,
+  innercontainer: {
+    flex: 1,
+    marginTop: -50,
+    alignItems: "center",
+    justifyContent: "center",
   },
   status: { marginBottom: 20 },
   imageContainer: {
     width: 300,
     height: 300,
     padding: 5,
-    backgroundColor: "lightgrey",
-    borderRadius: 5,
-    borderColor: "darkgrey",
-    borderWidth: 1,
-    borderStyle: "solid",
+    borderRadius: 150,
     opacity: 0.7,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "lightgrey",
+    borderColor: "white",
+    borderWidth: 5,
+    borderStyle: "dotted",
   },
 
-  warning: {
+  hints: {
     marginTop: 20,
-    fontSize: 10,
-    width: "90%",
   },
-
-  predictedImage: {
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+  backdrop: {
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
-  predictedNumberHeader: { fontSize: 12, color: "white" },
-  predictedNumberPercentage: { fontSize: 22, color: "white" },
-  predictedNumber: {
-    fontSize: 58,
-    fontWeight: "bold",
-    color: "white",
-    shadowOpacity: 0.75,
-    shadowRadius: 5,
-    shadowColor: "darkgrey",
-    shadowOffset: { height: 10, width: 10 },
+  modal: {
+    backgroundColor: "white",
+    height: globalcss.screenHeight * 0.75,
+  },
+  modalCard: {
+    paddingBottom: 40,
+  },
+  closeButtomArt: {
+    paddingVertical: 10,
   },
 });
 

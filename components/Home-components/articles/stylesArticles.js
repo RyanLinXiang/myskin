@@ -8,7 +8,6 @@ const screenWidth = Dimensions.get("window").width;
 
   const textArticle = {
     paddingVertical: 10,
-    fontStyle: 'italic'
   };
 
   const titleArticle = {

@@ -34,8 +34,13 @@ class Cards extends Component {
     this.setState({ pressedCard: chapter });
   };
 
-  handlerResetView = () =>
-    this.setState({ showFullArticle: false, pressedCard: false });
+  handlerResetView = () => {
+    this.setState({
+      showFullArticle: false,
+      pressedCard: false,
+      modalVisibility: false,
+    });
+  };
 
   render() {
     return (
@@ -65,7 +70,12 @@ class Cards extends Component {
           >
             <TouchableOpacity
               onPress={() => {
-                this.handlerShowFullArticle(<Reminder api={false} />);
+                this.handlerShowFullArticle(
+                  <Reminder
+                    api={false}
+                    handlerResetView={this.handlerResetView}
+                  />
+                );
               }}
               style={styles.titleItem}
             >
@@ -183,7 +193,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: "space-evenly",
     backgroundColor: "white",
-    height: globalcss.screenHeight * 0.75,
+    height: globalcss.screenHeight * 0.80,
   },
   modalCard: {
     borderBottomLeftRadius: 10,
@@ -196,6 +206,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   specialcard: {
+    flex:1,
+    justifyContent:'flex-end',
     width: globalcss.screenWidth,
     height: globalcss.screenWidth * 0.8,
     marginTop: 10,
