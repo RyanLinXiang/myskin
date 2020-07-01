@@ -12,7 +12,7 @@ const ViewBuilder = (props) => {
 
   const MenuIcon = (props) => <Icon {...props} name="menu-outline" />;
   const HomeIcon = (props) => <Icon {...props} name="home-outline" />;
-  const FavoritesIcon = (props) => <Icon {...props} name="star-outline" />; //Dan added this
+  const FavoritesIcon = (props) => <Icon {...props} name="heart-outline" />; //Dan added this
 
   const toggleAction = (handlerToggleDrawer, handlerNavigate) => {
     return (
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     width: "100%",
+    paddingTop:10,
   },
   titleContainer: {
     flexDirection: "row",

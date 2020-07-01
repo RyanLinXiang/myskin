@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, SafeAreaView, View, ScrollView, Dimensions, Text } from "react-native";
+import { StyleSheet, View, ScrollView, Text } from "react-native";
 import { Divider } from "@ui-kitten/components";
 import * as stylesArticles from "./stylesArticles";
 

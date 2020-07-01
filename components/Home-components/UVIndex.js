@@ -5,6 +5,7 @@ import * as Permissions from "expo-permissions";
 import { Card, Text } from "@ui-kitten/components";
 import ArticleUVIndex from "./articles/ArticleUVIndex";
 import * as globalcss from "../../styles/globalcss";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default class UVIndex extends Component {
   state = {
@@ -80,10 +81,12 @@ export default class UVIndex extends Component {
       <Card style={styles.cards}>
         {location && geocode && uvLoaded ? (
           <React.Fragment>
-            <Text style={styles.titleUVIndex}>UV-Index</Text>
-            <Text style={styles.UVIndex}>{uvi}</Text>
-            <Text style={styles.textUVIndex}> {geocode[0].city} </Text>
-            <Text style={styles.dateUVIndex}> {this.getCurrentDate()} </Text>
+       
+              <Text style={styles.titleUVIndex}>UV-Index</Text>
+              <Text style={styles.UVIndex}>{uvi}</Text>
+              <Text style={styles.textUVIndex}> {geocode[0].city} </Text>
+              <Text style={styles.dateUVIndex}> {this.getCurrentDate()} </Text>
+         
           </React.Fragment>
         ) : (
           <ActivityIndicator size="large" color="#CCCCCC" />
@@ -100,6 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     marginBottom: 40,
   },
+
   loading: {
     flex: 1,
     backgroundColor: "#FDF6AA",
@@ -111,27 +115,65 @@ const styles = StyleSheet.create({
     marginBottom: 90,
   },
   textUVIndex: {
-    color: "white",
-    fontSize: 20,
-    textAlign: "right",
-    fontWeight: "bold",
-  },
-  titleUVIndex: {
+    padding: 5,
     color: "white",
     fontSize: 30,
     textAlign: "right",
     fontWeight: "bold",
+    
+    // Android Shadows:
+    textShadowColor: "rgba(0,0,0,0.8)",
+    textShadowOffset: { width: 1, height: -1 },
+    textShadowRadius: 10,
+  },
+  titleUVIndex: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    color: "white",
+    fontSize: 40,
+    alignItems: "flex-end",
+    fontWeight: "bold",
+    marginTop: 10,
+    paddingTop: 20,
+     // Android Shadows:
+    textShadowColor: "rgba(0,0,0,0.7)",
+    textShadowOffset: { width: 3, height: -1 },
+    textShadowRadius: 10,
+   
   },
   UVIndex: {
     color: "darkorange",
-    fontSize: 90,
+    fontSize: 100,
     textAlign: "right",
     fontWeight: "bold",
+    paddingRight: 10,
+    marginRight: 10,
+     // Android Shadows:
+    textShadowColor: "#696969",
+    textShadowOffset: { width: 3, height: -3 },
+    textShadowRadius: 9,
+   
   },
   dateUVIndex: {
     color: "darkorange",
+    borderEndWidth: 1,
+    borderColor: "black",
     fontSize: 20,
     textAlign: "right",
     fontWeight: "bold",
+    paddingBottom: 50,
+    paddingRight: 5,
+    marginBottom: 20,
+    marginRight: 5,
+     // Android Shadows:
+     textShadowColor: "black",
+     textShadowOffset: { width: 3, height: -1 },
+     textShadowRadius: 9,
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    marginBottom: 10,
   },
 });

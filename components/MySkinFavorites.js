@@ -159,8 +159,6 @@ const MySkinFavorites = (props) => {
     </TouchableOpacity>
   );
 
-  // const PlusIcon = (props) => <KittenIcon {...props} name='plus' />;
-
   const InputField = () => (
     <>
       <SearchField
@@ -273,7 +271,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   button: {
-    // fontSize: 20,
     alignSelf: "stretch",
     color: "darkorange",
   },

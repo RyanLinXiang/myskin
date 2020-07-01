@@ -5,7 +5,7 @@ import {
   TouchableWithoutFeedback,
   ImageBackground,
 } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import cardsData from "./cardsData";
 import UVIndex from "./UVIndex";
 import Reminder from "./Reminder";
@@ -49,14 +49,14 @@ class Cards extends Component {
             style={styles.bgimagesStd}
             imageStyle={styles.bgimages}
           >
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 this.handlerShowFullArticle(<UVIndex api={false} />);
               }}
               style={styles.titleItem}
             >
               <UVIndex api={true} />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </ImageBackground>
 
           {/* <Remainder /> */}
@@ -65,7 +65,7 @@ class Cards extends Component {
             style={styles.bgimagesStd}
             imageStyle={styles.bgimages}
           >
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 this.handlerShowFullArticle(
                   <Reminder
@@ -77,7 +77,7 @@ class Cards extends Component {
               style={styles.titleItem}
             >
               <Reminder api={true} />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </ImageBackground>
 
           {this.state.cards.map((e, i) => {
@@ -87,7 +87,7 @@ class Cards extends Component {
             if (e.chapter === this.state.pressedCard) {
               cardContent = e.articles.map((e, i, a) => (
                 <React.Fragment key={e.title}>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       requestAnimationFrame(() => {
                         this.handlerShowFullArticle(e.component);
@@ -97,7 +97,7 @@ class Cards extends Component {
                     style={styles.titleItem}
                   >
                     <Text style={styles.titles}>{e.title}</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                   {i < a.length - 1 ? <Divider /> : null}
                 </React.Fragment>
               ));
@@ -167,35 +167,46 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     shadowOpacity: 0.75,
     shadowRadius: 5,
-    shadowColor: "darkgrey",
+    shadowColor: "darkgray",
     shadowOffset: { height: 10, width: 10 },
-    elevation: 5,
   },
   bgimages: { borderRadius: 20, opacity: 0.7 },
   text: {
     color: "white",
     fontSize: 36,
     fontWeight: "bold",
+    // Android Shadows:
+    textShadowColor: "rgba(0,0,0,0.7)",
+    textShadowOffset: { width: 1, height: -1 },
+    textShadowRadius: 10,
+    padding: 10,
   },
 
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   modal: {
+    marginRight: 50,
+    borderRadius: 30,
+    justifyContent: "space-evenly",
     backgroundColor: "white",
-    height: globalcss.screenHeight * 0.75,
+    height: globalcss.screenHeight * 0.8,
   },
   modalCard: {
+    borderColor: "white",
+    borderRadius: 20,
     paddingBottom: 40,
   },
   closeButtomArt: {
     paddingVertical: 10,
   },
   specialcard: {
-    width: globalcss.screenWidth * 0.8,
-    height: globalcss.screenWidth * 0.8,
-    marginTop: 20,
-    marginBottom: 20,
+    flex: 1,
+    justifyContent: "flex-end",
+    width: globalcss.screenWidth,
+    height: globalcss.screenWidth * 0.80,
+    marginTop: 10,
+    marginBottom: 10,
   },
   titles: {
     fontSize: 20,

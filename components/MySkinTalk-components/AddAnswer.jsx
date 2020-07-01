@@ -34,6 +34,8 @@ const AddAnswer = (props) => {
       enabled={true}
     >
         {showInput ? (
+            <KeyboardAvoidingView  behavior="padding" >
+      <Divider />
           <TextInput
             editable
             multiline
@@ -44,6 +46,7 @@ const AddAnswer = (props) => {
             onChangeText={(nextValue) => setAnswer(nextValue)}
             value={answer}
           />
+           </KeyboardAvoidingView>
         ) : (
             false
           )}

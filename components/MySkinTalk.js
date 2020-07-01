@@ -124,12 +124,12 @@ const MySkinTalk = (props) => {
     <TouchableOpacity
       status="danger"
       size='large'
-      onPress={() => { 
+      onPress={() => {
         if (QorA === 'Q') {
-          deleteQuestion(targetID); 
+          deleteQuestion(targetID);
           getFavorites('update!');
         } else if (QorA === 'A') {
-          deleteAnswer(targetID); 
+          deleteAnswer(targetID);
           getFavorites('update!');
         }
       }}
@@ -203,39 +203,40 @@ const MySkinTalk = (props) => {
         onBackdropPress={() => setVisible(false)}
         style={styles.modal}
       >
-         <Card style={styles.modalCard} disabled={true}>
-         <ScrollView showsVerticalScrollIndicator={false}>
-          <QuestionCard
-            query={qANDa.question}
-            favButton={FavButton}
-            user={user_id}
-            DelButton={(queryID) => DelButton(queryID, 'Q')}
-          />
-          {qANDa.answer.map(reply => (
-            <AnswerCard
-              key={reply.id}
-              reply={reply}
+        <Card style={styles.modalCard} disabled={true}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <QuestionCard
+              query={qANDa.question}
+              favButton={FavButton}
               user={user_id}
-              DelButton={(replyID) => DelButton(replyID, 'A')}
+              DelButton={(queryID) => DelButton(queryID, 'Q')}
             />
-          ))}
-          <SafeAreaView keyboardDismissMode={'none'} style={styles.answerCardButtons}>
-          <AddAnswer
-          setVisible={setVisible} 
-            onSubmit={(reply) => submitAnswer(reply)}
-          />
-          </SafeAreaView>
+            {qANDa.answer.map(reply => (
+              <AnswerCard
+                key={reply.id}
+                reply={reply}
+                user={user_id}
+                DelButton={(replyID) => DelButton(replyID, 'A')}
+              />
+            ))}
+            <SafeAreaView keyboardDismissMode={'none'} style={styles.answerCardButtons}>
+              <AddAnswer
+                setVisible={setVisible}
+                onSubmit={(reply) => submitAnswer(reply)}
+              />
+            </SafeAreaView>
           </ScrollView>
         </Card>
-
       </Modal>
-    ) : null;
+    ):null;
   };
 
   // //* #### USE-EFFECT/COMPONENT-DID-MOUNT #### *//
   useEffect(() => {
     getFavorites('update!')
   }, [pagination]);
+
+  const textTest = (where) => console.log(Math.random(), where); //
 
   //* #### FINAL RENDER #### *//
   return (

@@ -30,7 +30,6 @@ const QuestionsList = (props) => {
 
 //* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
-  // container: globalcss.container,
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
@@ -41,9 +40,6 @@ const styles = StyleSheet.create({
   },
   listitem: { flex:1,
     padding:2,
-    // borderTopColor:'darkgray',
-    // borderTopWidth:1,
-    // borderBottomWidth: 2,
     backgroundColor: globalcss.container.backgroundColor },
   modal: { width: "90%" },
 });

@@ -27,9 +27,9 @@ const AddQuestion = (props) => {
       backdropStyle={styles.backdrop}
       onBackdropPress={() => props.setVisible(false)}
     >
-      <KeyboardAvoidingView behavior="padding">
-        <ScrollView>
-          <Form ref={FormRef}>
+      <ScrollView>
+        <Form ref={FormRef}>
+          <KeyboardAvoidingView behavior="padding">
             <TextInput
               editable
               multiline
@@ -53,13 +53,14 @@ const AddQuestion = (props) => {
             <Button
               onPress={addQuestionHandler}
               type="Submit"
+              size="small"
               style={styles.button}
               size="small"
               status="warning"
-              >FRAGE STELLEN</Button>
-          </Form>
-        </ScrollView>
-      </KeyboardAvoidingView>
+            >FRAGE STELLEN</Button>
+          </KeyboardAvoidingView>
+        </Form>
+      </ScrollView>
     </Modal>
   );
 };
@@ -67,7 +68,7 @@ const AddQuestion = (props) => {
 //* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
   alerts: {
-    color: "red",
+    color: "darkorange",
     fontSize: 20,
     fontWeight: "bold",
     fontStyle: "italic",
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   backdrop: {
-    flex:1,
+    flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   button: {
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     marginBottom: 150 // Boxes in Modal TOP-Position :) -> Keyboard
   },
   indicator: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   inputSubject: {
@@ -108,7 +109,8 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 150,
     alignSelf: "stretch",
-    fontSize: 20,
+    fontSize: 17,
+    height: 150,
     borderColor: "gray",
     borderWidth: 1,
     backgroundColor: "#FFF",
