@@ -254,14 +254,9 @@ const MySkinFavorites = (props) => {
             keyboardDismissMode={"none"}
             style={styles.answerCardButtons}
           >
-          <AddAnswer onSubmit={(reply) => submitAnswer(reply)} />
-          {/* <Button
-            size="tiny"
-            onPress={() => setVisible(false)}
-            style={{ alignSelf: "center" }}
-          >
-            SCHLIESSEN
-          </Button> */}
+          <AddAnswer 
+          setVisible={setVisible} 
+          onSubmit={(reply) => submitAnswer(reply)} />
           </SafeAreaView>
           </ScrollView>
         </Card>
