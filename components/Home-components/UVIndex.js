@@ -79,19 +79,17 @@ export default class UVIndex extends Component {
 
   render() {
     const { location, geocode, uvi, uvLoaded, errorMessage } = this.state;
-
+    console.log(location, geocode);
     return !this.props.api ? (
       <ArticleUVIndex />
     ) : (
       <Card style={styles.cards}>
-        {location && geocode && uvLoaded ? (
+        {location && geocode !== null && uvLoaded ? (
           <React.Fragment>
-       
-              <Text style={styles.titleUVIndex}>UV-Index</Text>
-              <Text style={styles.UVIndex}>{uvi}</Text>
-              <Text style={styles.textUVIndex}> {geocode[0].city} </Text>
-              <Text style={styles.dateUVIndex}> {this.getCurrentDate()} </Text>
-         
+            <Text style={styles.titleUVIndex}>UV-Index</Text>
+            <Text style={styles.UVIndex}>{uvi}</Text>
+            <Text style={styles.textUVIndex}> {geocode[0].city} </Text>
+            <Text style={styles.dateUVIndex}> {this.getCurrentDate()} </Text>
           </React.Fragment>
         ) : (
           <ActivityIndicator size="large" color="#CCCCCC" />
@@ -125,7 +123,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "right",
     fontWeight: "bold",
-    
+
     // Android Shadows:
     textShadowColor: "rgba(0,0,0,0.8)",
     textShadowOffset: { width: 1, height: -1 },
@@ -140,11 +138,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 10,
     paddingTop: 20,
-     // Android Shadows:
+    // Android Shadows:
     textShadowColor: "rgba(0,0,0,0.7)",
     textShadowOffset: { width: 3, height: -1 },
     textShadowRadius: 10,
-   
   },
   UVIndex: {
     color: "darkorange",
@@ -153,11 +150,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingRight: 10,
     marginRight: 10,
-     // Android Shadows:
+    // Android Shadows:
     textShadowColor: "#696969",
     textShadowOffset: { width: 3, height: -3 },
     textShadowRadius: 9,
-   
   },
   dateUVIndex: {
     color: "darkorange",
@@ -170,10 +166,10 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     marginBottom: 20,
     marginRight: 5,
-     // Android Shadows:
-     textShadowColor: "black",
-     textShadowOffset: { width: 3, height: -1 },
-     textShadowRadius: 9,
+    // Android Shadows:
+    textShadowColor: "black",
+    textShadowOffset: { width: 3, height: -1 },
+    textShadowRadius: 9,
   },
   textContainer: {
     flex: 1,
