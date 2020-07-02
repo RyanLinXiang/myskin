@@ -39,14 +39,6 @@ const SearchField = (props) => {
 
 //* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
-    outercontainer: { //  <==================== DELETE THIS
-      flex: 1,
-      width: "100%",
-      maxHeight: 85,
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor:'orange' 
-    },
     innercontainer: {  
       flexDirection: "row",
       width: "90%",

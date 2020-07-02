@@ -258,8 +258,6 @@ const MySkinTalk = (props) => {
     getFavorites("update!");
   }, [pagination]);
 
-  const textTest = (where) => console.log(Math.random(), where); //
-
   //* #### FINAL RENDER #### *//
   return (
     <SafeAreaView style={styles.container}>

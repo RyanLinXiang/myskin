@@ -2,7 +2,6 @@
 import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { Card, Text, Divider } from "@ui-kitten/components";
-const screenWidth = Dimensions.get("window").width;
 import { Icon } from '@ui-kitten/components';
 
 
@@ -44,7 +43,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.75,
         shadowRadius: 10,
         shadowColor: "black",
-      
         elevation: 5, //shadow for android
     },
     cardTextAnswer: {

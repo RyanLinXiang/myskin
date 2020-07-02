@@ -12,7 +12,6 @@ const QuestionCard = (props) => {
       <Text style={styles.cardTextSubject}> {props.query.subject}</Text>
       <Text style={styles.cardTextQuestion}> {props.query.question}</Text>
       <Divider />
-     
       <View style={styles.cardText}>
         <View style={styles.cardButtom}>
           <KittenIcon style={styles.icon} fill="#8F9BB3" name="person" />

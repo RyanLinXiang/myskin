@@ -11,6 +11,8 @@ const AddAnswer = (props) => {
   const [showInput, setShowInput] = useState(false);
   const [answer, setAnswer] = useState("");
   const [buttonText, setButtonText] = useState("ANTWORTEN");
+
+  //* #### HANDLER #### *//
   const buttonHandler = () => {
     if (buttonText == "ANTWORTEN") {
       setShowInput(true);
@@ -27,7 +29,6 @@ const AddAnswer = (props) => {
 
   //* #### FINAL RENDER #### *//
   return (
-
     <KeyboardAvoidingView
       style={styles.questionContainer}
       behavior={Platform.OS == "ios" ? "padding" : "height"}

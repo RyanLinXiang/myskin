@@ -1,7 +1,7 @@
 //* #### IMPORTS #### *//
 import React, { useRef } from "react";
 import { StyleSheet, TextInput, KeyboardAvoidingView, ScrollView } from "react-native";
-import { Button, Modal, Icon as KittenIcon } from "@ui-kitten/components";
+import { Button, Modal } from "@ui-kitten/components";
 import Form from "react-native-form";
 
 const AddQuestion = (props) => {

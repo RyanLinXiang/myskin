@@ -162,11 +162,10 @@ const MySkinFavorites = (props) => {
   const InputField = () => (
     <>
       <SearchField
-        placeholder={"Favoriten-Suche..."}
+        placeholder={"Lieblings-Suche..."}
         onSubmit={searchKeyword}
       />
       {showData.length < db_fav_questions.length ? <Button
-        // style={styles.button}
         style={{ alignSelf: "stretch", marginHorizontal: 30, marginTop: 15 }}
         status="warning"
         onPress={() => getFavorites()}
@@ -174,10 +173,8 @@ const MySkinFavorites = (props) => {
         RESET SUCHE
             </Button> : null}
       <Button
-        // style={styles.button}
         style={{ alignSelf: "stretch", margin: 30, marginVertical: 15 }}
         status="warning"
-        // accessoryRight={PlusIcon}
         onPress={() => setInputVisible(true)}
       >
         FRAGE STELLEN
