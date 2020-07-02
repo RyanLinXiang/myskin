@@ -1,14 +1,13 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import MySkinPredict from "./MySkinPredict";
 import MySkinTalk from "./MySkinTalk";
 import Home from "./Home";
-import Playground from "./Playground";
-import Reminder from "./Home-components/Reminder";
-
 import ViewBuilder from "./ViewBuilder";
 import MySkinFavorites from "./MySkinFavorites";
+import { Icon } from "@ui-kitten/components";
+import { SafeAreaView, Image, StyleSheet } from "react-native";
 
 const Navigation = (props) => {
   function predict({ navigation }) {
@@ -47,50 +46,124 @@ const Navigation = (props) => {
     return <React.Fragment></React.Fragment>;
   }
 
-  function playground() {
-    return <Playground {...props} />;
-  }
-
   const Drawer = createDrawerNavigator();
+
+  const CustomDrawerContent = (props) => {
+    return (
+      <React.Fragment>
+        <SafeAreaView style={styles.headerContainer}>
+          <Image
+            source={require("../assets/logoavatar.png")}
+            style={styles.headerLogo}
+          />
+        </SafeAreaView>
+
+        <DrawerContentScrollView {...props} style={styles.navItemsList}>
+          <DrawerItemList {...props} />
+        </DrawerContentScrollView>
+      </React.Fragment>
+    );
+  };
 
   return (
     <React.Fragment>
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Navigator
+          initialRouteName="Home"
+          drawerContent={(props) => <CustomDrawerContent {...props} />}
+          drawerContentOptions={navListItems}
+        >
           <Drawer.Screen
-            name="mySkin: Home"
+            name="Home"
             component={home}
-            options={{ title: "Home" }}
+            options={{
+              title: "Home",
+              drawerIcon: ({ color }) => (
+                <Icon
+                  style={{ width: 25, height: 25 }}
+                  fill={color}
+                  name="home-outline"
+                />
+              ),
+            }}
           />
           <Drawer.Screen
             name="mySkin: Predict"
             component={predict}
-            options={{ title: "MySkin: Predict" }}
+            options={{
+              title: "mySkin: Predict",
+              drawerIcon: ({ color }) => (
+                <Icon
+                  style={{ width: 25, height: 25 }}
+                  fill={color}
+                  name="bar-chart-outline"
+                />
+              ),
+            }}
           />
           <Drawer.Screen
             name="mySkin: Talk"
             component={talk}
-            options={{ title: "MySkin: Talk" }}
+            options={{
+              title: "mySkin: Talk",
+              drawerIcon: ({ color }) => (
+                <Icon
+                  style={{ width: 25, height: 25 }}
+                  fill={color}
+                  name="message-circle-outline"
+                />
+              ),
+            }}
           />
           <Drawer.Screen
-            name="mySkin: Favorites"
+            name="Lieblingsfragen"
             component={favorites}
-            options={{ title: "MySkin: Favorites" }}
+            options={{
+              title: "Lieblingsfragen",
+              drawerIcon: ({ color }) => (
+                <Icon
+                  style={{ width: 25, height: 25 }}
+                  fill={color}
+                  name="heart-outline"
+                />
+              ),
+            }}
           />
           <Drawer.Screen
             name="Logout"
             component={logout}
-            options={{ title: "Logout" }}
-          />
-          <Drawer.Screen
-            name="Playground"
-            component={playground}
-            options={{ title: "Playground" }}
+            options={{
+              title: "Logout",
+              drawerIcon: ({ color }) => (
+                <Icon
+                  style={{ width: 25, height: 25 }}
+                  fill={color}
+                  name="log-out-outline"
+                />
+              ),
+            }}
           />
         </Drawer.Navigator>
       </NavigationContainer>
+      
     </React.Fragment>
   );
 };
 
 export default Navigation;
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    width: "100%",
+    alignItems: "center",
+  },
+  headerLogo: { width: 250, height: 250 },
+  navItemsList: { marginTop: -50 },
+});
+
+const navListItems = {
+  activeTintColor: "white",
+  inactiveTintColor: "darkgrey",
+  activeBackgroundColor: "darkorange",
+  inactiveBackgroundColor: "white",
+};

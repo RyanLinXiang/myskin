@@ -1,19 +1,21 @@
 //* #### IMPORTS #### *//
 
 import React, { useState } from "react";
-import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, KeyboardAvoidingView, Dimensions } from "react-native";
 import { Button } from "@ui-kitten/components";
 import { TextInput } from "react-native-gesture-handler";
+const screenWidth = Dimensions.get("window").width;
 
 const AddAnswer = (props) => {
+  //* #### STATES #### *//
   const [showInput, setShowInput] = useState(false);
   const [answer, setAnswer] = useState("");
   const [buttonText, setButtonText] = useState("ANTWORTEN");
   const buttonHandler = () => {
     if (buttonText == "ANTWORTEN") {
       setShowInput(true);
-      setButtonText("ABSENDEN");
-    } else if (answer.length<2) {
+      setButtonText("SPEICHERN");
+    } else if (answer.length < 2) {
       alert("Leere Antworten können nicht geschpeichert werden.")
     } else {
       props.onSubmit(answer);
@@ -23,10 +25,16 @@ const AddAnswer = (props) => {
     }
   };
 
+  //* #### FINAL RENDER #### *//
   return (
-    <KeyboardAvoidingView style={styles.outercontainer} behavior="padding">
-      <View style={styles.questionContainer}>
+
+    <KeyboardAvoidingView
+      style={styles.questionContainer}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      enabled={true}
+    >
         {showInput ? (
+            <KeyboardAvoidingView  behavior="padding" >
           <TextInput
             editable
             multiline
@@ -37,38 +45,52 @@ const AddAnswer = (props) => {
             onChangeText={(nextValue) => setAnswer(nextValue)}
             value={answer}
           />
+           </KeyboardAvoidingView>
         ) : (
-          false
-        )}
-        <Button size="tiny" onPress={buttonHandler}>
+            false
+          )}
+        <Button size="small" style={styles.button} onPress={buttonHandler} status="warning">
           {buttonText}
         </Button>
-      </View>
+        <Button
+          size="small"
+          onPress={() => props.setVisible(false)}
+          style={styles.button}
+          status="warning"
+        >
+          SCHLIESSEN
+        </Button>
     </KeyboardAvoidingView>
   );
 };
 
+//* #### STYLESHEET #### *//
 const styles = StyleSheet.create({
-  questionContainer: {
-    flex: 1,
-    backgroundColor: "#fff",
-    borderBottomWidth: 2,
-    borderColor: "lightgrey",
-    paddingBottom: 10,
-    marginBottom: 10,
+        button: {
+        alignSelf: 'center',
+    margin: 10,
   },
   inputSubject: {
-    width: 300,
+        flex: 1,
     margin: 10,
     padding: 10,
     alignSelf: "stretch",
-    fontSize: 20,
-    height: 100,
+    fontSize: 16,
+    minHeight: 50,
+    minWidth: 290,
     borderColor: "gray",
     borderWidth: 1,
     backgroundColor: "#FFF",
     borderRadius: 10,
   },
+  questionContainer: {
+        flex: 1,
+    width: '100%',
+    backgroundColor: "#fff",
+    paddingBottom: 10,
+    marginBottom: 220,
+  },
 });
 
+//* #### EXPORT #### *//
 export default AddAnswer;

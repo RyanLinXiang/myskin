@@ -74,12 +74,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   selection: {
-    fontFamily: "Avenir",
+    // fontFamily: "Avenir",
     fontSize: 16,
     height: 40,
   },
   textinput: {
-    fontFamily: "Avenir",
+    // fontFamily: "Avenir",
     fontSize: 16,
     height: 38,
     borderTopColor: "#E4E4E4",

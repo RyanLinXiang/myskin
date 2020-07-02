@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleSheet, Dimensions, Image, ScrollView } from "react-native";
+import { StyleSheet, Image, ScrollView } from "react-native";
 import { Text, Divider } from "@ui-kitten/components";
-const screenWidth = Dimensions.get("window").width;
 import * as stylesArticles from "./stylesArticles";
 
 const Article05 = (props) => (
