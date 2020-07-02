@@ -9,15 +9,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default class UVIndex extends Component {
   state = {
-    location: null,
-    geocode: null,
-    uvi: null,
+    location: false,
+    geocode: false,
+    uvi: false,
     uvLoaded: false,
     errorMessage: "",
   };
 
   getGeocodeAsync = async (location) => {
     let geocode = await Location.reverseGeocodeAsync(location);
+
     this.setState({ geocode });
   };
 
@@ -79,12 +80,14 @@ export default class UVIndex extends Component {
 
   render() {
     const { location, geocode, uvi, uvLoaded, errorMessage } = this.state;
-    console.log(location, geocode);
+
+    console.log(geocode);
+
     return !this.props.api ? (
       <ArticleUVIndex />
     ) : (
       <Card style={styles.cards}>
-        {location && geocode !== null && uvLoaded ? (
+        {location && geocode && uvLoaded ? (
           <React.Fragment>
             <Text style={styles.titleUVIndex}>UV-Index</Text>
             <Text style={styles.UVIndex}>{uvi}</Text>
