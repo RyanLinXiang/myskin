@@ -99,7 +99,7 @@ export default class UVIndex extends Component {
         uvLoaded ? (
           <React.Fragment>
             <Text style={styles.titleUVIndex}>UV-Index</Text>
-            <Text style={styles.UVIndex}>{uvi}</Text>
+            <Text style={styles.UVIndex}>{Math.round(uvi)}</Text>
             <Text style={styles.textUVIndex}> {geocode[0].city} </Text>
             <Text style={styles.dateUVIndex}> {this.getCurrentDate()} </Text>
           </React.Fragment>
