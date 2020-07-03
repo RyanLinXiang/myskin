@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { StyleSheet, ActivityIndicator } from "react-native";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { Card, Text } from "@ui-kitten/components";
 import ArticleUVIndex from "./articles/ArticleUVIndex";
 import * as globalcss from "../../styles/globalcss";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default class UVIndex extends Component {
   state = {
@@ -18,7 +17,7 @@ export default class UVIndex extends Component {
 
   getGeocodeAsync = async (location) => {
     let geocode = await Location.reverseGeocodeAsync(location);
-
+    geocode ? geocode : false;
     this.setState({ geocode });
   };
 
@@ -81,13 +80,19 @@ export default class UVIndex extends Component {
   render() {
     const { location, geocode, uvi, uvLoaded, errorMessage } = this.state;
 
-    console.log(geocode);
-
+    /*     console.log(
+      Boolean(location && geocode && uvLoaded),
+      "->",
+      location,
+      geocode,
+      uvLoaded
+    );
+ */
     return !this.props.api ? (
       <ArticleUVIndex />
     ) : (
       <Card style={styles.cards}>
-        {location && geocode && uvLoaded ? (
+        {location && geocode[0].city && uvLoaded ? (
           <React.Fragment>
             <Text style={styles.titleUVIndex}>UV-Index</Text>
             <Text style={styles.UVIndex}>{uvi}</Text>

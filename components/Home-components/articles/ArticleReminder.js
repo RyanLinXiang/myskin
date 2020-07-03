@@ -1,4 +1,4 @@
-import { StyleSheet, View, Platform, ScrollView, Alert } from "react-native";
+import { StyleSheet, Platform, ScrollView, Alert } from "react-native";
 import { Text, Button, Divider } from "@ui-kitten/components";
 import React, { Component } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -24,15 +24,28 @@ class ArticleReminder extends Component {
   };
 
   convertDate = (date, type) => {
-    switch (type) {
-      case "year":
-        return date.toLocaleString("de-DE").split(",")[0].split(".")[2];
-      case "month":
-        return date.toLocaleString("de-DE").split(",")[0].split(".")[1];
-      case "day":
-        return date.toLocaleString("de-DE").split(",")[0].split(".")[0];
-      default:
-        break;
+    if (Platform.OS === "ios") {
+      switch (type) {
+        case "year":
+          return date.toLocaleString("de-DE").split(",")[0].split(".")[2];
+        case "month":
+          return date.toLocaleString("de-DE").split(",")[0].split(".")[1];
+        case "day":
+          return date.toLocaleString("de-DE").split(",")[0].split(".")[0];
+        default:
+          break;
+      }
+    } else {
+      switch (type) {
+        case "year":
+          return date.toISOString("de-DE").split("-")[0];
+        case "month":
+          return date.toISOString("de-DE").split("-")[1];
+        case "day":
+          return date.toISOString("de-DE").split("-")[2].split("T")[0];
+        default:
+          break;
+      }
     }
   };
 
@@ -51,8 +64,12 @@ class ArticleReminder extends Component {
     const dateYear = this.convertDate(date, "year");
     let dateMonth = this.convertDate(date, "month");
     let dateDay = this.convertDate(date, "day");
-    dateMonth = dateMonth < 10 ? "0" + dateMonth : dateMonth;
-    dateDay = dateDay < 10 ? "0" + dateDay : dateDay;
+
+    if (Platform.OS === "ios") {
+      dateMonth = dateMonth < 10 ? "0" + dateMonth : dateMonth;
+      dateDay = dateDay < 10 ? "0" + dateDay : dateDay;
+    }
+
     return dateDay + "." + dateMonth + "." + dateYear;
   };
 
@@ -210,12 +227,12 @@ class ArticleReminder extends Component {
 
 const styles = StyleSheet.create({
   textArticleRe: {
-    fontSize: 20,
-    paddingVertical: 10,
+    fontSize: 16,
+    paddingVertical: 7,
   },
   titleArticle: {
-    fontSize: 23,
-    paddingVertical: 10,
+    fontSize: 20,
+    paddingVertical: 7,
     fontWeight: "bold",
     color: "darkorange",
   },

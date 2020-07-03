@@ -5,7 +5,7 @@ import * as eva from "@eva-design/eva";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import AsyncStorage from "@react-native-community/async-storage";
-//console.disableYellowBox = true;
+console.disableYellowBox = true;
 
 export default class App extends Component {
   state = {

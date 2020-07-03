@@ -11,11 +11,10 @@ const Reminder = (props) => {
   const getTimeUntil = async () => {
     try {
       let screenDate = await AsyncStorage.getItem("@storage_screenDate");
-
       let daysLeft;
-      screenDate = new Date(screenDate);
 
       if (screenDate) {
+        screenDate = new Date(screenDate);
         const time = Date.parse(screenDate) - Date.parse(new Date());
         daysLeft = Math.floor(time / (1000 * 60 * 60 * 24));
       } else {
