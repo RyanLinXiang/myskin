@@ -80,6 +80,7 @@ export default class UVIndex extends Component {
   render() {
     const { location, geocode, uvi, uvLoaded, errorMessage } = this.state;
 
+    //if (Array.isArray(geocode)) console.log(typeof geocode[0]);
     /*     console.log(
       Boolean(location && geocode && uvLoaded),
       "->",
@@ -92,7 +93,10 @@ export default class UVIndex extends Component {
       <ArticleUVIndex />
     ) : (
       <Card style={styles.cards}>
-        {location && geocode[0].city && uvLoaded ? (
+        {location &&
+        Array.isArray(geocode) &&
+        "city" in geocode[0] &&
+        uvLoaded ? (
           <React.Fragment>
             <Text style={styles.titleUVIndex}>UV-Index</Text>
             <Text style={styles.UVIndex}>{uvi}</Text>
