@@ -14,7 +14,7 @@ The skin cancer prediction part is easy-to-use and analyzes the mole image withi
 
 ## Getting Started
 
-The front-end part of "mySkin" was created with Expo. In the back-end there is a server hosted on Heroku with database connection to AWS. In order to run the app you have to install Expo and all the dependencies (see package.json). After running the app please login with username "guest" and password "guest".
+The front-end part of "mySkin" was created with Expo. In the back-end there is a server hosted on Heroku with database connection to AWS. In order to run the app you have to install Expo and all the dependencies (see package.json). After running the app please register or just login with username "guest" and password "guest".
 
 ### Dependencies
 
