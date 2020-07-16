@@ -7,11 +7,11 @@ const Article06 = (props) => <ScrollView showsVerticalScrollIndicator={false}>
 <Text style={styles.titleArticle}>Wie Sie sich und Ihre Haut schützen können</Text>
 <Divider />
 
-<Text style={styles.textArticle}>Sonnenschutz ist das ganze Jahr über wichtig, besonders aber von Spätfrühling bis Frühherbst. Denken Sie daran, dass reflektierende Oberflächen wie Wasser, Schnee, Sand, Beton und Eis die Sonnenbestrahlung verstärken und auch hier Maßnahmen zum Sonnenschutz erforderlich sind.</Text>
+<Text style={styles.textArticle}>Sonnenschutz ist ipsum dolor sit amet consectetur adipisicing elit. Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. Facilis amet autem, quasi doloremque dignissimos.</Text>
 
-<Text style={styles.textArticle}>Sich schützen bedeutet aber nicht, drinnen zu bleiben: Genießen Sie Aktivitäten im Freien und ergreifen Sie Maßnahmen zum Schutz vor der Sonne.</Text>
+<Text style={styles.textArticle}>Sich dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. Facilis amet autem, quasi doloremque.</Text>
 
-<Text style={styles.textArticle}>Es ist wichtig, sich daran zu erinnern, dass eine „Grundbräune“ bereits ein Anzeichen für einen Sonnenschaden ist. Sie schützt Sie nicht vor der schädigenden Wirkung der Sonneneinstrahlung.</Text>
+<Text style={styles.textArticle}>Es ist Lorem, ipsum dolor sit amet consectetur adipisicing elit.</Text>
 
 <Text style={styles.subtitleArticle}>Wie Sie Ihre Haut vor UV-Strahlung schützen können</Text>
 
@@ -21,7 +21,7 @@ const Article06 = (props) => <ScrollView showsVerticalScrollIndicator={false}>
             <Text>{'\u2022' + " "}</Text>
         </View>
         <View style={ styles.bulletText }>
-            <Text style={ styles.listText }>Bleiben Sie im Schatten</Text>
+            <Text style={ styles.listText }>Blabli khie imp Scjkskven</Text>
         </View>
     </View>
 </View>
@@ -32,7 +32,7 @@ const Article06 = (props) => <ScrollView showsVerticalScrollIndicator={false}>
             <Text>{'\u2022' + " "}</Text>
         </View>
         <View style={ styles.bulletText }>
-            <Text style={ styles.listText }>Sorgen Sie selbst für Schatten mithilfe von Sonnenschirmen, Bäumen, Vordächern, Markisen, Pavillons oder tragbaren Zelten.</Text>
+            <Text style={ styles.listText }>Sorijhen kije seldicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. Facilis amet autem, quasi doloremque.</Text>
         </View>
     </View>
 </View>
@@ -43,7 +43,7 @@ const Article06 = (props) => <ScrollView showsVerticalScrollIndicator={false}>
             <Text>{'\u2022' + " "}</Text>
         </View>
         <View style={ styles.bulletText }>
-            <Text style={ styles.listText }>Tragen Sie lockere Kleidung aus dichtem Gewebe, um Ihre Arme und Beine zu bedecken. Wenn Sie das Kleidungsstück gegen das Licht halten, sollte man nicht hindurchsehen können.</Text>
+            <Text style={ styles.listText }>Trilala mie logdkgre Mleing ipsum dolor sit amet consectetur adipisicing elit.</Text>
         </View>
     </View>
 </View>
@@ -54,7 +54,7 @@ const Article06 = (props) => <ScrollView showsVerticalScrollIndicator={false}>
             <Text>{'\u2022' + " "}</Text>
         </View>
         <View style={ styles.bulletText }>
-            <Text style={ styles.listText }>Tragen Sie, wenn Sie in der Sonne sind, stets Sonnencreme und Lippenschutz mit einem Breitbandschutz und einem Sonnenschutzfaktor von mindestens 30 auf. Vergessen Sie nicht, den Sonnenschutz nach dem Schwimmen, Abtrocknen oder Schwitzen und gemäß den Produktanweisungen erneut aufzutragen.</Text>
+            <Text style={ styles.listText }>Miran placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. Blacilis omit autem, quasi doloremque bignissimos quid.</Text>
         </View>
     </View>
 </View>
@@ -65,7 +65,7 @@ const Article06 = (props) => <ScrollView showsVerticalScrollIndicator={false}>
             <Text>{'\u2022' + " "}</Text>
         </View>
         <View style={ styles.bulletText }>
-            <Text style={ styles.listText }>Mit einem T-Shirt oder spezieller UV-Schutz-Kleidung, z.B. beim Baden, können Sie Haut vor Sonne schützen und brauchen damit insgesamt weniger Sonnenschutz aufzutragen.</Text>
+            <Text style={ styles.listText }>Mot reitzilne T-Shozrt obir ipsum dolor sit amet consectetur adipisicing elit. Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus.</Text>
         </View>
     </View>
 </View>

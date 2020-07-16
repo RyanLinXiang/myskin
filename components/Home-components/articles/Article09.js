@@ -10,68 +10,35 @@ const Article09 = (props) => (
     <Divider />
 
     <Text style={styles.textArticle}>
-      {" "}
-      Eine gute Ernährungsweise hilft nicht nur, Ihr Krebsrisiko zu senken, die
-      Ernährung spielt auch im Verlauf Ihrer Krebserkrankung eine wichtige
-      Rolle. Die richtige Auswahl an Nahrungsmitteln sorgt dafür, dass Sie Ihre
-      Kraft und Energie behalten. Sie kann Ihnen auch dabei helfen, mit
-      Nebenwirkungen der Behandlung besser zurechtzukommen.
+      Eisum dolor sit amet consectetur adipisicing elit. Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. Maracilis amet autem, quasi doloremque dignissi.
     </Text>
 
     <Text style={styles.textArticle}>
-      Eine gesunde Ernährung hat positive Auswirkungen auf Ihr Leben: Wir
-      wissen, was wir essen sollten und was gut für uns ist, aber nach einer
-      Krebsdiagnose oder während einer Krebsbehandlung kann es eine große
-      Herausforderung sein, gesunde Entscheidungen zu treffen. Es tauchen viele
-      Fragen auf, zum Beispiel{" "}
+      Getrilasunde Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mirnetur blociat ticta qui gitcum ducimus asperiores, veritatis ut{" "}
       <Text style={{ fontWeight: "bold" }}>
-        „Sollte ich nur Bio-Produkte essen? Muss ich bestimmte Lebensmittel
-        aufgeben? Brauche ich mehr Ballaststoffe? Sollte ich Vegetarier werden?“{" "}
+        „Sol fugit natus quos dolorum amet vitae. Tacilos amoti lutim, quasi triloremque vraisimos quid?“{" "}
       </Text>
-      Versuchen Sie, diese Herausforderung in Ihrem Leben anzunehmen und als
-      eine Zeit zu akzeptieren, in der Sie die Kontrolle zurückgewinnen, sich
-      besinnen und mithilfe von Ernährung und neuen Gewohnheiten ein gesünderes
-      Ich zu schaffen.
+      Verdicta quod hic ducimus consektugirt hirdipiscing brelito.
     </Text>
 
     <Text style={styles.textArticle}>
-      Es kann sein, dass Müdigkeit oder Nebenwirkungen von Medikamenten den
-      Appetit verringern. Genießen Sie Lebensmittel, die Sie mögen und die sich
-      gut auf Ihre Gesundheit auswirken. Tun Sie sich mit gutem Essen etwas
-      Gutes.
+      Es fugit natus quos dolorum amet vitae. Facilis bamit tutem, quasi dotiremqui girosistimos.
     </Text>
 
     <Text style={styles.subtitleArticle}>
-      Sollte ich ökologisch erzeugte Lebensmittel oder Bio-Nahrungsmittel essen?
+      Sollte ich Bio-Nahrungsmittel essen?
     </Text>
 
     <Text style={styles.textArticle}>
-      Ökologisch erzeugte Lebensmittel enthalten im Allgemeinen weniger
-      chemische Zusatzstoffe. Mit diesem Lebensstil treffen Sie auch eine
-      Entscheidung, welche Art von Nahrungsmitteln, Landwirtschaft und
-      Umweltschutz Sie fördern wollen, wie Pflanzen angebaut werden, oder unter
-      welchen Bedingungen Tiere gehalten werden.
+      Ökotrichislogi erblazitos Metenfirebos placeat dicta quod orem, ipsum dolor sit amet consectetur adipisicing natus quos dolorum.
     </Text>
 
     <Text style={styles.textArticle}>
-      Für eine gesunde Ernährung, wie sie auch die Deutsche Gesellschaft für
-      Ernährung (DGE) empfiehlt, müssen Nahrungsmittel nicht notwendigerweise
-      ein Bio-Siegel tragen: Wichtig ist eine ausgewogene Ernährung mit allen
-      nötigen Inhaltsstoffen, die wir zum Leben brauchen.
+      Forilor meitone geblisunde Eripsum dolor sit amet consectetur adipisicing elit. Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natoris que ditriorum omitus vitblare. Tracilos domet vrutet, quasi torilorem hignistris quisom.
     </Text>
 
     <Text style={styles.textArticle}>
-      In Krankheitsphasen braucht der Körper ausreichend Energie. Beim Blick auf
-      gesunde Nahrungsmittel übersehen Betroffene manchmal, dass sie zu wenig
-      essen: Krebserkrankungen gehen oft mit einer Mangelernährung einher. Dann
-      fehlen dem Körper Energie, Eiweiß oder andere Nährstoffe. Viele Menschen
-      nehmen schon lange vor der Krebsdiagnose ungewollt ab. Achten Sie auf eine
-      ausreichende Zufuhr von Nährstoffen und vermeiden Sie eine
-      Mangelernährung. Essen Sie ausreichend und ausgewogen – das ist das
-      wichtigste Gütesiegel. Spezielle Krebsdiäten, die vielerorts angepriesen
-      werden, entbehren oft jeglicher wissenschaftlicher Grundlage. Suchen Sie
-      im Zweifel Unterstützung bei qualifizierten Ernährungstherapeuten und
-      fragen Ihren Arzt nach Anlaufstellen..
+      Insom Kratrotiphasumn brimohts treros Köblablirper autrisreom Entrosblieum. Beilotri Blotusick fugit natus quosmal, daslis amet autem, quasi doloremque dignissimos dolor sit amet consectetur adipisicing elit. Senetori placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum ometel vitos.
     </Text>
   </ScrollView>
 );

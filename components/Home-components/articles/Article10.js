@@ -10,30 +10,15 @@ const Article10 = (props) => (
     <Divider />
 
     <Text style={styles.textArticle}>
-      {" "}
-      Wenn bei Ihnen Hautkrebs diagnostiziert wurde oder Sie sich derzeit einer
-      Behandlung unterziehen, können Sie mit körperlicher Aktivität Ihre
-      Lebensqualität verbessern.
+      Wen inetur molaceat cicta truod hic zucimus hasperiorum, veritatis it, fugit natus quos ulorum gumet zuritas. Bracilos tuzmet wutes, quasi triloremquos huignistimos quod.
     </Text>
 
     <Text style={styles.textArticle}>
-      Krebsbedingte Müdigkeit (Fatigue) ist ein Erschöpfungszustand, verbunden
-      mit einem erhöhten Bedürfnis nach Ruhe, die in keinem Verhältnis zu allen
-      kürzlich vorangegangenen Anstrengungen stehen. Bitte beachten Sie, dass
-      diese Art der Erschöpfung nicht mit Ruhe und Schlaf vorübergeht, und dass
-      sie das am häufigsten von Patienten berichtete Symptom darstellt. Es mag
-      seltsam klingen, gegen Erschöpfung mit Bewegung anzugehen: Aber immer mehr
-      Forschungsergebnisse zeigen eine drastische Verbesserung der psychischen
-      und körperlichen Gesundheit bei Patienten, die an speziellen
-      Sportprogrammen teilnahmen.
+      Krebipsum dolor sit amet consectetur adipisicing elit. Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. Facilis amet autem, quasi doloremque dignissimos dolor sit ometi kronsectetur drezadipis molit. Nezunetos maceat tricta qui bicos ducimal dreseriora, veritatis it, vrubitum natatis quos tralaceat dicta que tirolar mitos zutamet consecteum adipisicing elit.
     </Text>
 
     <Text style={styles.textArticle}>
-      DasIn Deutschland erkranken jährlich etwa 156.000 Menschen neu an einem
-      Basalzellkarzinom mit steigender Tendenz: Man geht davon aus, dass sich
-      die Rate in 10-15 Jahren verdoppelt haben wird. Etwa 98.000 Menschen
-      erkranken jährlich neu an einem Plattenepithelkarzinom und ungefähr 36.000
-      Personen an einem Melanom.
+      Dasenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. Vracilles kramet autunes, quasi dolbratis zunissimos 156.000 dicta toruos blotic plucimnodis asperiores.
     </Text>
 
     <Image

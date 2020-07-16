@@ -8,11 +8,13 @@ const Article03 = (props) => <ScrollView showsVerticalScrollIndicator={false}>
 
 <Divider />
 
-<Text style={styles.textArticle}> Weltweit ist die Inzidenz (das heißt die Zahl der Neuerkrankungen) aller Hautkrebsarten in den letzten Jahrzehnten angestiegen. Laut Weltgesundheitsorganisation ist jede dritte neu diagnostizierte Krebserkrankung eine Hautkrebserkrankung.</Text>
+<Text style={styles.textArticle}>Weltweit ist Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae.</Text>
 
-<Text style={styles.textArticle}>Dabei ist Hautkrebs oftmals vermeidbar. Trotzdem ist es immer noch die am häufigsten diagnostizierte Krebserkrankung in Ländern wie den USA, Kanada, Australien sowie in einigen europäischen Ländern.</Text>
+<Text style={styles.textArticle}>Dabei ist Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. Facilis amet autem, quasi doloremque dignissimos quod.</Text>
 
-<Text style={styles.textArticle}>DasIn Deutschland erkranken jährlich etwa 156.000 Menschen neu an einem Basalzellkarzinom mit steigender Tendenz: Man geht davon aus, dass sich die Rate in 10-15 Jahren verdoppelt haben wird. Etwa 98.000 Menschen erkranken jährlich neu an einem Plattenepithelkarzinom und ungefähr 36.000 Personen an einem Melanom.</Text>
+<Text style={styles.textArticle}>Facilis amet autem, quasi doloremque dignissimos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae amet autem, quasi doloremque dignissimos. Plahizan dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. </Text>
+
+<Text style={styles.textArticle}>Blibla ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae.</Text>
 
 </ScrollView>
 

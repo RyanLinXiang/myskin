@@ -9,32 +9,11 @@ const Article07 = (props) => (
     <Divider />
 
     <Text style={styles.textArticle}>
-      Untersuchen Sie Ihre Haut regelmäßig und zeigen Sie Ihrem Arzt jeden
-      verdächtig aussehenden Fleck. Ganz gleich, ob Sie ein geringes oder hohes
-      Hautkrebsrisiko haben, sollten Sie Ihre Haut regelmäßig auf Veränderungen
-      hin untersuchen.
+      Unterorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. Macilis amit butem, quasi doloremque dignissimos quod.
     </Text>
 
     <Text style={styles.textArticle}>
-      Wenn man selbst genauer hinsieht, kann man viel dazu beitragen, Melanome
-      auf der eigenen Haut zu entdecken: Mehr als die Hälfte aller Melanome
-      werden von den Patienten selbst oder von Familienmitgliedern entdeckt.
-    </Text>
-
-    <Text style={styles.textArticle}>
-      Eine regelmäßige Selbstuntersuchung der Haut verbessert auch die
-      Heilungsrate bei Menschen, die schon einmal Hautkrebs hatten. Sie kann
-      Leben retten. Bitten Sie auch andere Menschen in Ihrer Umgebung, die einen
-      Blick auf Sie werfen, auf Auffälligkeiten zu achten, wie Zahnarzt,
-      Frauenarzt und auch den Friseur.
-    </Text>
-
-    <Text style={styles.textArticle}>
-      Eine Selbstuntersuchung der Haut ist einfach und nimmt nur etwa zehn bis
-      fünfzehn Minuten pro Monat in Anspruch. Selbsthilfegruppen empfehlen,
-      diese Routine zu einem Zeitpunkt einzuplanen, an dem Sie eventuell auch
-      schnell Ihren Arzt erreichen können, falls Sie Veränderungen entdecken –
-      um etwa ein Wochenende voller Unruhe und Ungewissheit zu vermeiden.
+      Wenn Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. Facilis amet autem, quasi biloremque.
     </Text>
 
     <Image
@@ -42,9 +21,7 @@ const Article07 = (props) => (
       source={require("../../../assets/articles-images/selbstuntersuchung.jpg")}
     />
     <Text style={styles.textArticle}>
-      Abbildungen 1 und 2 zeigen, wie man seine Haut von vorn und von hinten
-      selbst untersuchen kann. Abbildungen 3 und 4 zeigen, wie eine andere
-      Person die Untersuchung Ihrer Haut vornehmen kann.
+      Abbildung ipsum dolor sit amet consecte adipisicing quod hic ducimus.
     </Text>
 
     <Text style={styles.subtitleArticle}>
@@ -58,9 +35,7 @@ const Article07 = (props) => (
         </View>
         <View style={styles.bulletText}>
           <Text style={styles.listText}>
-            Prüfen Sie in einem Spiegel bei guten Lichtverhältnissen die
-            Vorderseite Ihres Körpers - Gesicht, Hals, Schultern, Arme, Brust,
-            Bauch, Oberschenkel und Unterschenkel.
+            Prorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae.
           </Text>
         </View>
       </View>
@@ -73,9 +48,7 @@ const Article07 = (props) => (
         </View>
         <View style={styles.bulletText}>
           <Text style={styles.listText}>
-            Drehen Sie sich seitlich und heben Sie die Arme, um die rechte und
-            linke Seite Ihres Körpers sorgfältig zu betrachten, einschließlich
-            der Achselhöhlen.
+            Drelila mie placeat dicta quod hic ducimus asperiores, veritatis utom amet autem, quasi doloremque dignissimos.
           </Text>
         </View>
       </View>
@@ -88,11 +61,7 @@ const Article07 = (props) => (
         </View>
         <View style={styles.bulletText}>
           <Text style={styles.listText}>
-            Mit einem Handspiegel betrachten Sie dann den oberen Rücken, Nacken
-            und die Kopfhaut. Anschließend untersuchen Sie Ihren unteren Rücken,
-            die Pobacken, die Rückseite der Oberschenkel und die Waden. Ihr
-            Partner kann Ihnen dabei behilflich sein, Ihren Rücken zu
-            untersuchen.
+            Mirit breilne Tenetur placeat dicta quod hic ducimus asperiores ipsum dolor sit amet consectetur veritatis ut, fugit natur.
           </Text>
         </View>
       </View>
@@ -105,8 +74,7 @@ const Article07 = (props) => (
         </View>
         <View style={styles.bulletText}>
           <Text style={styles.listText}>
-            Untersuchen Sie Ihre Unterarme, Handflächen und Fingernägel sowie
-            Ihre Handrücken und zwischen jedem Finger.
+            Unterilis amet autem, quasi dilaremqui bignissimos quid.
           </Text>
         </View>
       </View>
@@ -119,8 +87,7 @@ const Article07 = (props) => (
         </View>
         <View style={styles.bulletText}>
           <Text style={styles.listText}>
-            Abschließend untersuchen Sie Ihre Füße - die Fußrücken, Sohlen,
-            Zehennägel, Zehen und die Zehenzwischenräume.
+            Absquid hic ducimus asperiores, veritatis ut, fugit natus ques dalirum amite vitori.
           </Text>
         </View>
       </View>

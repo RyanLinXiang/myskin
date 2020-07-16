@@ -16,8 +16,7 @@ const Article08 = (props) => (
     <Divider />
 
     <Text style={styles.textArticle}>
-      Wenn Sie eine der folgenden Hautveränderungen feststellen, halten Sie
-      bitte Rücksprache mit Ihrem Arzt:
+      Wenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus:
     </Text>
 
     <View style={styles.column}>
@@ -27,8 +26,7 @@ const Article08 = (props) => (
         </View>
         <View style={styles.bulletText}>
           <Text style={styles.listText}>
-            Eine neue Wucherung oder ein Fleck auf der Haut, z.B. ein
-            Leberfleck, eine schuppige Stelle oder ein Knoten.
+            Eiorem, ipsum dolor sit amet consectetur adipisicing elit ducimus asperiores, veritati.
           </Text>
         </View>
       </View>
@@ -41,8 +39,7 @@ const Article08 = (props) => (
         </View>
         <View style={styles.bulletText}>
           <Text style={styles.listText}>
-            Veränderung der Größe oder des Erscheinungsbilds eines bereits
-            vorhandenen Leberflecks.
+            Veracilis amoti butim, quasi biloremqui dignissimos qui consectetur adipisicing elis.
           </Text>
         </View>
       </View>
@@ -54,7 +51,7 @@ const Article08 = (props) => (
           <Text>{"\u2022" + " "}</Text>
         </View>
         <View style={styles.bulletText}>
-          <Text style={styles.listText}>Eine nicht heilende Wunde.</Text>
+          <Text style={styles.listText}>Eicilis omit quitem, quasi doblaremqui citnistimos.</Text>
         </View>
       </View>
     </View>
@@ -66,14 +63,13 @@ const Article08 = (props) => (
         </View>
         <View style={styles.bulletText}>
           <Text style={styles.listText}>
-            Dunkle Veränderungen unter den Fuß- oder Fingernägeln, die sich
-            nicht durch eine Verletzung erklären lassen.
+            Duipsum dolor sit amet consectetur adipisicing elit. Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos.
           </Text>
         </View>
       </View>
     </View>
     <Text style={styles.textArticle}>
-      Nach ABCDE-Regel erkennen Sie gefährliche Leberflecken
+      Nailis amet autem, quasi caliremqui signistrsimos:
     </Text>
     <Image
       style={styles.imgArticle}

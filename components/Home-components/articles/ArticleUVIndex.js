@@ -8,7 +8,7 @@ const UVIndex = (props) => (
     <Text style={styles.titleArticle}>Der UV-Index</Text>
     <Divider />
     <Text style={styles.textArticle}>
-    Der UV-Index (UVI) ist ein international normiertes Maß für die sonnenbrandwirksame solare Bestrahlungsstärke (Ultraviolettstrahlung). Im Allgemeinen gilt der UV-Index als Maß für die stärkste solare Strahlung um die Mittagszeit (Tageshöchstwert). Je höher der UVI ist, desto schneller können bei ungeschützter Haut durch UV-Strahlung bedingte gesundheitliche Schäden wie Sonnenbrände auftreten
+    Der UV-Index (UVI) Unterorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, fugit natus quos dolorum amet vitae. Macilis amit butem, quasi doloremque dignissimos quod.
     </Text>
 
     
@@ -22,7 +22,7 @@ const UVIndex = (props) => (
     <Text style={styles.subtitleArticle}>UV-Index und Sonnenbrand</Text>
   
     <Text style={styles.textArticle}>   
-      Was bedeutet der Index nun genau für das Eincremen? Die solare Bestrahlungsstärke bestimmt, wie lange ungeschützte Haut der UV-Strahlung ausgesetzt werden kann, ohne rot zu werden. Dabei gilt: Je höher die solare Bestrahlungsstärke, desto wichtiger ist es, die Haut zu schützen.  Hier liegt die solare Bestrahlungsstärke im Sommer zwischen 0 und 8. In Ländern, die näher am Äquator liegen und in den Bergen kann der Index jedoch auf über 15 steigen. Bei einer solaren Bestrahlungsstärke von 7 kann ungeschützte Haut bereits in zehn bis 15 Minuten einen erheblichen Sonnenbrand erleiden. Bei einem UV-Index von 5 bis 6 geschieht das nach ungefähr 15 bis 25 Minuten. Und sogar bei einer solaren Bestrahlungsstärke von „nur“ 3 reicht manchmal schon eine halbe Stunde, um einen Sonnenbrand zu bekommen. Dabei spielt der Hauttyp natürlich eine Rolle.
+    Wenn Tenetur placeat dicta quod hic ducimus asperiores, veritatis ut, trubit muratum quos dolorum amet vitae. Facilis amet autem, quasi biloremque. Wenetur placeat dicta que sicum vocimus kasperium, veritatis ut, fugit natus.
     </Text>
 
     <Image
