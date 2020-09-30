@@ -44,3 +44,8 @@ npm start
 ## Acknowledgments
 
 * [HAM10000 dataset](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DBW86T)
+
+## Further Reading
+
+
+* [How to run AI models locally in a mobile device with React Native and Tensorflow.js](https://medium.com/javascript-in-plain-english/how-to-run-ai-models-locally-in-the-smartphone-with-react-native-and-tensorflow-js-666f52fd15ca)
